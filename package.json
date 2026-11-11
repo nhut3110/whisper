@@ -7,7 +7,8 @@
     "test:edge": "node --test --experimental-test-coverage tests/edge/*.test.ts",
     "test": "node --test --experimental-test-coverage tests/*.test.js",
     "test:browser": "playwright test && node scripts/browser-coverage.mjs",
-    "vendor:rich": "esbuild node_modules/dompurify/dist/purify.es.mjs --minify --format=esm --legal-comments=inline --outfile=web/vendor/purify.js"
+    "vendor:rich": "esbuild node_modules/dompurify/dist/purify.es.mjs --minify --format=esm --legal-comments=inline --outfile=web/vendor/purify.js",
+    "vendor:markdown": "esbuild node_modules/marked/lib/marked.esm.js --minify --format=esm --legal-comments=inline --outfile=web/vendor/marked.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.65.0",
@@ -15,6 +16,7 @@
     "dompurify": "^3.4.17",
     "esbuild": "^0.28.2",
     "istanbul-lib-coverage": "^3.2.2",
+    "marked": "^18.2.0",
     "pg": "^8.23.1",
     "supabase": "^3.1.0",
     "typescript": "^7.0.2",

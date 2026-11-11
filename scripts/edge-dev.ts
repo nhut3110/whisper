@@ -7,8 +7,8 @@ const origin='http://localhost:8788';
 if(!process.env.TEST_DATABASE_URL)throw new Error('Use a disposable TEST_DATABASE_URL');
 const pool=new pg.Pool({connectionString:process.env.TEST_DATABASE_URL});
 const api=handler({origin,pepper:'local-test-pepper-01234567890123456789',rpc:async(action,payload)=>(await pool.query('SELECT public.hush_api($1,$2::jsonb) AS result',[action,JSON.stringify(payload)])).rows[0].result});
-const files=new Map(['index.html','app.js','crypto.js','style.css','rich.js','theme.js','interactions.js','i18n.js','audio.js'].map(f=>['/'+f,f]));
-files.set('/purify.js','vendor/purify.js');files.set('/favicon.svg','whisper-mark.svg');
+const files=new Map(['format.js','index.html','app.js','crypto.js','style.css','rich.js','theme.js','interactions.js','i18n.js','audio.js'].map(f=>['/'+f,f]));
+files.set('/marked.js','vendor/marked.js');files.set('/purify.js','vendor/purify.js');files.set('/favicon.svg','whisper-mark.svg');
 http.createServer(async(req,res)=>{
  try{
   const path=new URL(req.url!,origin).pathname;

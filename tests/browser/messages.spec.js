@@ -141,10 +141,10 @@ test('thought bubbles appear, pause and rotate without blocking the editor',asyn
  await page.goto('/');await expect(page.locator('#watcher-line')).toHaveAttribute('data-on','');const line=await page.locator('#watcher-line').textContent();await page.waitForTimeout(5400);await expect(page.locator('#watcher-line')).not.toHaveAttribute('data-on','');await expect.poll(()=>page.locator('#watcher-line').textContent(),{timeout:6500}).not.toBe(line);await expect(page.locator('#watcher-line')).toHaveAttribute('data-on','');
 });
 test('locale selection uses browser locale and falls back to English; all 16 languages work',async({page,context})=>{
- await page.addInitScript(()=>{Object.defineProperty(navigator,'languages',{get:()=>['xx-ZZ']});});await page.goto('/');await expect(page.locator('html')).toHaveAttribute('lang','en');await expect(page.locator('#message')).toHaveAttribute('placeholder','Write or paste something…');await page.locator('#create').click();
+ await page.addInitScript(()=>{Object.defineProperty(navigator,'languages',{get:()=>['xx-ZZ']});});await page.goto('/');await expect(page.locator('html')).toHaveAttribute('lang','en');await expect(page.locator('#message')).toHaveAttribute('placeholder','Write or paste something…');
  const languages=await page.locator('#language option').evaluateAll(options=>options.map(o=>o.value).filter(v=>v!=='auto'));expect(languages).toHaveLength(16);
  for(const lang of languages){await page.locator('#language').selectOption(lang);await expect(page.locator('html')).toHaveAttribute('lang',lang);await expect(page.locator('#settings-title')).not.toBeEmpty();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);}
- await page.locator('#language').selectOption('ar');await expect(page.locator('html')).toHaveAttribute('dir','rtl');await page.locator('#settings-close').click();await page.reload();await expect(page.locator('html')).toHaveAttribute('lang','ar');
+ await page.locator('#language').selectOption('ar');await expect(page.locator('html')).toHaveAttribute('dir','rtl');await page.reload();await expect(page.locator('html')).toHaveAttribute('lang','ar');
  expect(await page.evaluate(()=>Object.keys(localStorage))).toEqual(['whisper-language']);
 });
 async function recordVoice(page){
@@ -186,6 +186,7 @@ test('rapid consecutive holds do not mix recordings and leaving the page stops t
 test('whole face stays inside the body at extreme cursor positions and takes a blink break',async({page})=>{
  await page.goto('/');await page.locator('#audio-mode').click();
  const bot=page.locator('#create');
+ await bot.evaluate(el=>{window.frontBlinked=false;new MutationObserver(()=>{if(el.dataset.attention==='front'&&Number(el.querySelector('.eyt-eye').getAttribute('height'))<3.9)window.frontBlinked=true;}).observe(el.querySelector('.eyt-eye'),{attributes:true,attributeFilter:['height']});});
  for(const [x,y] of [[0,0],[1279,0],[1279,719],[0,719]]){
   await page.mouse.move(x,y);await page.waitForTimeout(450);
   const clearance=await bot.evaluate(el=>{const body=el.querySelector('.eyt-body').getBoundingClientRect();return [...el.querySelectorAll('.eye,.bot-mouth')].map(n=>{const r=n.getBoundingClientRect();return Math.min(r.left-body.left,body.right-r.right,r.top-body.top,body.bottom-r.bottom);});});
@@ -193,7 +194,7 @@ test('whole face stays inside the body at extreme cursor positions and takes a b
  }
  await expect(bot).toHaveAttribute('data-attention','front',{timeout:5500});
  await expect.poll(()=>bot.locator('.face-rig').getAttribute('transform')).toMatch(/translate\(-?0\.00\d -?0\.00\d\)/);
- await expect.poll(()=>bot.locator('.eyt-eye').first().getAttribute('height'),{intervals:[20],timeout:2500}).toMatch(/^(0|1|2|3)\./);
+ await expect.poll(()=>page.evaluate(()=>window.frontBlinked),{timeout:2500}).toBe(true);
  await expect(bot).toHaveAttribute('data-attention','follow',{timeout:3500});
 });
 
@@ -207,4 +208,69 @@ test('voice text and recording bubbles stay centered on the bot at narrow sizes'
   const wave=await aligned('#recording-wave');expect(wave.offset).toBeLessThan(1);expect(wave.bottom).toBeLessThan(wave.botTop);expect(wave.top).toBeGreaterThan(60);
   await page.waitForTimeout(800);await page.screenshot({path:`test-results/face-recording-${width}.png`});await page.keyboard.up('Space');await expect(page.locator('#voice-preview')).toBeVisible();await page.screenshot({path:`test-results/face-${width}.png`});
  }
+});
+
+test('header keeps theme copy language modes in order, and touch slider uses the full sheet',async({page,browser})=>{
+ for(const width of [320,390,820]){
+  await page.setViewportSize({width,height:850});await page.goto('/');
+  const positions=await page.locator('#theme-toggle,#copy-draft,.language-control,#compose-actions').evaluateAll(nodes=>nodes.map(n=>n.getBoundingClientRect().left));
+  expect(positions).toEqual([...positions].sort((a,b)=>a-b));
+  await page.locator('#language').selectOption('en');await expect(page.locator('html')).toHaveAttribute('lang','en');
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ }
+ const context=await browser.newContext({viewport:{width:820,height:1000},hasTouch:true,locale:'en-US'}),touchPage=await context.newPage();
+ await touchPage.goto(process.env.EDGE_TEST_BASE||'http://localhost:8787/');await touchPage.locator('#message').fill('Touch tablet');await touchPage.locator('#create').click();
+ await expect(touchPage.locator('#mobile-challenge')).toBeVisible();
+ const widths=await touchPage.locator('#slide-track').evaluate(el=>({track:el.getBoundingClientRect().width,available:document.querySelector('#verification').getBoundingClientRect().width}));
+ expect(Math.abs(widths.track-widths.available)).toBeLessThan(1);
+ await touchPage.screenshot({path:'test-results/full-width-touch-slider.png'});await context.close();
+});
+
+test('creation automatically copies only the share link and explains its single appearance',async({page,context})=>{
+ await context.grantPermissions(['clipboard-read','clipboard-write']);const v=await create(page,{pin:true});
+ await expect.poll(()=>page.evaluate(()=>navigator.clipboard.readText())).toBe(v.link);
+ await expect(page.locator('#link-reminder')).toContainText('sao chép');
+ expect(await page.evaluate(()=>navigator.clipboard.readText())).not.toContain(v.pin);
+});
+
+test('automatic clipboard refusal retains selectable link and manual copy fallback',async({page})=>{
+ await page.addInitScript(()=>{navigator.clipboard.writeText=async()=>{throw new Error('blocked');};});
+ const v=await create(page);await expect(page.locator('#status')).toContainText('thủ công');
+ await expect(page.locator('#share-link')).toHaveValue(v.link);await expect(page.locator('#copy-link')).toBeEnabled();await expect(page.locator('#link-reminder')).toBeVisible();
+});
+
+test('Markdown is automatically rendered, sanitized and copied as readable formatted content',async({page,context})=>{
+ await context.grantPermissions(['clipboard-read','clipboard-write']);
+ const v=await create(page,{text:'# Ocean\n\n**Bold** and *gentle*\n\n- Fish\n- Coral\n\n```js\nconst sea = "quiet";\n```\n\n| Item | Count |\n| --- | --- |\n| Pearl | 2 |\n\n[Sea guide](https://example.com/sea)\n\n<img src="https://tracker.invalid/x" onerror="window.pwned=true">\n[unsafe](javascript:alert(1))'});
+ await open(page,v.link);await expect(page.locator('#plaintext h1')).toHaveText('Ocean');await expect(page.locator('#plaintext strong')).toHaveText('Bold');await expect(page.locator('#plaintext li')).toHaveCount(2);await expect(page.locator('#plaintext pre code')).toContainText('const sea');await expect(page.locator('#plaintext table')).toHaveCount(1);
+ await expect(page.locator('#plaintext img,#plaintext script,#plaintext a:not([href^="https://"])')).toHaveCount(0);await expect(page.locator('#plaintext a')).toHaveAttribute('rel','noopener noreferrer');expect(await page.evaluate(()=>window.pwned)).toBeUndefined();
+ await page.locator('#copy-all').click();await expect.poll(()=>page.evaluate(()=>navigator.clipboard.readText())).toContain('Bold and gentle');
+ await page.screenshot({path:'test-results/automatic-markdown.png'});
+});
+
+test('pasting rich HTML automatically enables safe formatting and roundtrips without setup',async({page})=>{
+ await page.goto('/');await page.locator('#message').fill('Before ');
+ await page.locator('#message').evaluate(el=>{el.focus();el.setSelectionRange(el.value.length,el.value.length);const data=new DataTransfer();data.setData('text/plain','Hello coral');data.setData('text/html','<p><strong>Hello</strong> <em>coral</em><img src=x onerror="window.pwned=true"></p>');el.dispatchEvent(new ClipboardEvent('paste',{clipboardData:data,bubbles:true,cancelable:true}));});
+ await expect(page.locator('#rich-editor')).toBeVisible();await expect(page.locator('#rich-editor strong')).toHaveText('Hello');await expect(page.locator('#rich-editor img')).toHaveCount(0);
+ await share(page);await expect(page.locator('#created')).toBeVisible();const link=await page.locator('#share-link').inputValue();await open(page,link);await expect(page.locator('#plaintext strong')).toHaveText('Hello');await expect(page.locator('#plaintext')).toContainText('Before');
+});
+
+test('mode animation stays continuous when reversed and retains text and accessibility state',async({page})=>{
+ await page.goto('/');await page.locator('#message').fill('Keep my draft');await page.locator('#audio-mode').click();await expect(page.locator('#audio-mode')).toHaveAttribute('aria-pressed','true');await page.waitForTimeout(150);
+ const before=await page.locator('#create').boundingBox();await page.locator('#text-mode').click();await page.waitForTimeout(130);const after=await page.locator('#create').boundingBox();
+ // Reversal starts at the currently displayed position, not the old destination.
+ expect(Math.hypot(before.x-after.x,before.y-after.y)).toBeLessThan(150);
+ await expect(page.locator('#message')).toBeVisible();await expect(page.locator('#message')).toHaveValue('Keep my draft');await expect(page.locator('#audio-mode')).toHaveAttribute('aria-pressed','false');
+ await page.waitForTimeout(750);expect(await page.locator('#create').evaluate(el=>el.getAnimations().length)).toBe(0);
+});
+
+test('touch companion cycles distinct emotes with no fake cursor following and respects reduced motion',async({browser})=>{
+ const context=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true,locale:'vi-VN'}),page=await context.newPage();
+ await page.clock.install();await page.goto(process.env.EDGE_TEST_BASE||'http://localhost:8787/');
+ await page.evaluate(()=>{window.emotes=[];new MutationObserver(()=>{const mood=document.querySelector('#create').dataset.emote;if(mood!=='neutral')window.emotes.push(mood);}).observe(document.querySelector('#create'),{attributes:true,attributeFilter:['data-emote']});});
+ await page.touchscreen.tap(30,180);await page.clock.runFor(16000);
+ const values=await page.evaluate(()=>[...new Set(window.emotes)]);expect(values.length).toBeGreaterThanOrEqual(2);
+ expect(await page.locator('#create .face-rig').getAttribute('transform')).toMatch(/translate\(0\.000 0\.000\)/);
+ await page.screenshot({path:'test-results/touch-emote.png'});await context.close();
+ const quiet=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true,reducedMotion:'reduce'}),q=await quiet.newPage();await q.clock.install();await q.goto(process.env.EDGE_TEST_BASE||'http://localhost:8787/');await q.clock.runFor(16000);await expect(q.locator('#create')).toHaveAttribute('data-emote','neutral');await quiet.close();
 });

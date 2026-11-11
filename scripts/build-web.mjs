@@ -3,9 +3,10 @@ const ref=process.env.SUPABASE_PROJECT_REF;
 if(!/^[a-z]{20}$/.test(ref||''))throw new Error('Set SUPABASE_PROJECT_REF to the dedicated Whisper project reference');
 const out='.vercel/output';
 await rm(out,{recursive:true,force:true});await mkdir(`${out}/static`,{recursive:true});
-const files=['index.html','app.js','crypto.js','style.css','rich.js','theme.js','interactions.js','i18n.js','audio.js'];
+const files=['format.js','index.html','app.js','crypto.js','style.css','rich.js','theme.js','interactions.js','i18n.js','audio.js'];
 for(const file of files)await copyFile(`web/${file}`,`${out}/static/${file}`);
 await copyFile('web/vendor/purify.js',`${out}/static/purify.js`);
+await copyFile('web/vendor/marked.js',`${out}/static/marked.js`);
 await copyFile('web/whisper-mark.svg',`${out}/static/favicon.svg`);
 const upstream=`https://${ref}.supabase.co/functions/v1/whisper`;
 const headers={
@@ -23,4 +24,4 @@ await writeFile(`${out}/config.json`,JSON.stringify({version:3,routes:[
  {src:'/revoke/[^/]+',dest:'/index.html'},
 ]},null,2)+'\n');
 // Only a fixed allowlist of public frontend files is ever copied, never env/DB/tests.
-console.log(`Built ${files.length+2} public files for Whisper.`);
+console.log(`Built ${files.length+3} public files for Whisper.`);

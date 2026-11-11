@@ -36,3 +36,23 @@ zh:['有小秘密？点我吧。','写好了吗？链接交给我。','嘘…我
 export function chatter(){return conversations[locale]||conversations.en;}
 const playbackErrors={en:'This browser cannot play this recording.',vi:'Trình duyệt này không phát được bản ghi âm.',zh:'此浏览器无法播放这段录音。',es:'Este navegador no puede reproducir esta grabación.',fr:'Ce navigateur ne peut pas lire cet enregistrement.',de:'Dieser Browser kann diese Aufnahme nicht abspielen.',pt:'Este navegador não consegue reproduzir esta gravação.',ja:'このブラウザでは録音を再生できません。',ko:'이 브라우저에서 녹음을 재생할 수 없어요.',ru:'Этот браузер не может воспроизвести запись.',ar:'لا يستطيع هذا المتصفح تشغيل التسجيل.',hi:'यह ब्राउज़र इस रिकॉर्डिंग को नहीं चला सकता।',id:'Peramban ini tidak dapat memutar rekaman ini.',th:'เบราว์เซอร์นี้เล่นเสียงบันทึกนี้ไม่ได้',it:'Questo browser non può riprodurre la registrazione.',tr:'Bu tarayıcı bu kaydı oynatamıyor.'};
 for(const lang of Object.keys(names))dictionaries[lang].playbackFailed=playbackErrors[lang];
+
+const linkReminders={
+en:'This link is shown only here. Copy it before leaving; we cannot recover it for you.',
+vi:'Link chỉ hiện ở màn hình này. Hãy sao chép trước khi rời đi; bạn sẽ không thể tìm lại link tại đây.',
+zh:'链接仅在此处显示。离开前请复制，我们无法为你找回。',
+es:'El enlace solo aparece aquí. Cópialo antes de salir; no podemos recuperarlo.',
+fr:'Ce lien apparaît uniquement ici. Copiez-le avant de quitter ; nous ne pouvons pas le retrouver.',
+de:'Dieser Link wird nur hier angezeigt. Kopiere ihn vor dem Verlassen; wir können ihn nicht wiederherstellen.',
+pt:'O link só aparece aqui. Copie antes de sair; não podemos recuperá-lo.',
+ja:'リンクはこの画面だけに表示されます。離れる前にコピーしてください。復元できません。',
+ko:'링크는 이 화면에만 표시됩니다. 나가기 전에 복사하세요. 복구할 수 없습니다.',
+ru:'Ссылка показана только здесь. Скопируйте её перед выходом: восстановить её нельзя.',
+ar:'يظهر الرابط هنا فقط. انسخه قبل المغادرة، فلا يمكننا استعادته.',
+hi:'लिंक केवल यहाँ दिखता है। जाने से पहले कॉपी करें; इसे वापस नहीं पाया जा सकता।',
+id:'Tautan hanya muncul di sini. Salin sebelum pergi; kami tidak dapat memulihkannya.',
+th:'ลิงก์แสดงเฉพาะที่นี่ คัดลอกก่อนออก ไม่สามารถกู้คืนได้',
+it:'Il link appare solo qui. Copialo prima di uscire: non possiamo recuperarlo.',
+tr:'Bağlantı yalnızca burada gösterilir. Ayrılmadan kopyalayın; geri getiremeyiz.'
+};
+for(const lang of Object.keys(names))dictionaries[lang].linkOnce=linkReminders[lang];

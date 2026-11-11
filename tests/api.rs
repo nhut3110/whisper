@@ -354,6 +354,8 @@ async fn security_headers_and_assets() {
         "/favicon.svg",
         "/crypto.js",
         "/rich.js",
+        "/format.js",
+        "/marked.js",
         "/purify.js",
         "/style.css",
         "/health",

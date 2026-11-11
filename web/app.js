@@ -1,12 +1,13 @@
 import {t,locale,duration,initLanguage,chatter} from '/i18n.js';
 import {watcher,wakeSlider,slideConfirm} from '/interactions.js';
+import {formatted} from '/format.js';
 import {seal,sealBytes,unsealBytes,TEXT_LIMIT,randomToken,randomPin,readLink,newShortLink,deriveShortLink} from '/crypto.js';
 const $=id=>document.getElementById(id),prefix='hush:rich:v1\n';
 let secrets=null,closed=false,rich=null,readText='',readHTML=null,selectedText='';
 let audio=null,recorder=null,preview=null,receivedPlayer=null,mode='text',voicePhase='idle',currentView='compose',metadata=null;
 async function audioTools(){if(!audio)audio=await import('/audio.js');return audio;}
 const sections=['compose','created','receive','reading','destroy','ended'];
-function show(id){currentView=id;if(id!=='compose'){stopVoice();document.body.classList.remove('audio-compose');$('share-dock').classList.remove('voice-mode');}companion(id);$('compose-actions').hidden=id!=='compose';if($('settings').open)$('settings').close();sections.forEach(s=>$(s).hidden=s!==id);status('');}
+function show(id){currentView=id;if(id!=='compose'){stopVoice();document.body.classList.remove('audio-compose');$('share-dock').classList.remove('voice-mode');}companion(id);$('compose-actions').hidden=id!=='compose';$('copy-draft').hidden=id!=='compose';$('copy-draft').disabled=mode==='voice';if($('settings').open)$('settings').close();sections.forEach(s=>$(s).hidden=s!==id);status('');}
 let statusTimer;
 function status(text){clearTimeout(statusTimer);$('status').textContent=text?t(text):'';if(text)statusTimer=setTimeout(()=>$('status').textContent='',4500);}
 async function richTools(){if(!rich)rich=await import('/rich.js');return rich;}
@@ -29,8 +30,8 @@ async function copy(text,html=null){
   if(html&&typeof ClipboardItem!=='undefined'&&navigator.clipboard.write){
    await navigator.clipboard.write([new ClipboardItem({'text/plain':new Blob([text],{type:'text/plain'}),'text/html':new Blob([html],{type:'text/html'})})]);
   }else await navigator.clipboard.writeText(text);
-  status('copied');
- }catch{status('copyFailed');}
+  status('copied');return true;
+ }catch{status('copyFailed');return false;}
 }
 function openSettings(){stopVoice();preview?.pause();$('settings').showModal();count();beginVerification();}
 $('create').addEventListener('click',()=>{if(mode==='text'&&currentView==='compose')openSettings();});
@@ -62,6 +63,23 @@ $('rich-editor').addEventListener('paste',async e=>{
  document.execCommand('insertHTML',false,html?rich.clean(html):rich.fromText(text));count();
 });
 $('rich-editor').addEventListener('drop',e=>e.preventDefault());
+// Preserve safe clipboard formatting automatically without making every draft rich.
+let pasteGeneration=0;
+$('message').addEventListener('paste',async e=>{
+ const html=e.clipboardData.getData('text/html'),text=e.clipboardData.getData('text/plain');
+ if(!formatted(html||text))return;
+ e.preventDefault();const generation=++pasteGeneration,source=$('message'),before=source.value,start=source.selectionStart,end=source.selectionEnd;
+ // Insert the plain fallback immediately; an optional parser failure never loses the paste.
+ source.setRangeText(text,start,end,'end');const inserted=source.value;count();
+ try{
+  const tools=await richTools();
+  if(generation!==pasteGeneration||source.value!==inserted||currentView!=='compose'||mode!=='text'||$('rich-mode').checked)return;
+  const safe=tools.automatic(html||text)||tools.fromText(text);
+  $('rich-editor').innerHTML=tools.fromText(before.slice(0,start))+safe+tools.fromText(before.slice(end));
+  $('rich-mode').checked=true;source.hidden=true;$('rich-editor').hidden=false;$('rich-toolbar').hidden=false;$('message-label').htmlFor='rich-editor';
+  $('rich-editor').focus();const selection=getSelection(),range=document.createRange();range.selectNodeContents($('rich-editor'));range.collapse(false);selection.removeAllRanges();selection.addRange(range);count();
+ }catch{status('richFailed');}
+});
 $('copy-draft').addEventListener('click',()=>{if($('rich-mode').checked)copy($('rich-editor').innerText,rich.clean($('rich-editor').innerHTML));else copy($('message').value);});
 function expirySeconds(){
  const ttl=$('ttl').value==='custom'?Number($('ttl-minutes').value)*60:Number($('ttl').value);
@@ -82,6 +100,8 @@ async function createMessage(verification){
   $('pin-result').hidden=!pin;$('generated-pin').textContent=pin||'';
   $('expiry').textContent=($('burn').checked?t('oneRead')+' · ':'')+t('expiresAt',{date:new Date(result.expires_at*1000).toLocaleString(locale)});
   $('message').value='';$('rich-editor').replaceChildren();stopVoice(true);show('created');
+  // Never hide the only copy of the link when browser clipboard policy refuses.
+  await copy($('share-link').value);
  }catch(err){status(err.message);if($('settings').open)beginVerification();}finally{busy($('create'),false);$('create').disabled=$('compose').hidden;}
 }
 for(const [button,field] of [['copy-link','share-link'],['copy-pin','generated-pin'],['copy-revoke','revoke-link']])$(button).addEventListener('click',()=>copy($(field).value||$(field).textContent));
@@ -92,15 +112,17 @@ function addBlockCopy(block,text,html){
  button.addEventListener('click',()=>copy(text,html));block.classList.add('message-block');block.append(button);
 }
 async function renderMessage(text){
- const root=$('plaintext');root.replaceChildren();root.classList.toggle('plain',!text.startsWith(prefix));
- if(text.startsWith(prefix)){
-  const value=JSON.parse(text.slice(prefix.length));if(typeof value.html!=='string')throw new Error('Invalid rich text');
-  const tools=await richTools();readHTML=tools.clean(value.html);root.innerHTML=readHTML;
+ const root=$('plaintext');root.replaceChildren();const isRich=text.startsWith(prefix),auto=!isRich&&formatted(text);root.classList.toggle('plain',!isRich&&!auto);
+ if(isRich||auto){
+  const tools=await richTools();
+  if(isRich){const value=JSON.parse(text.slice(prefix.length));if(typeof value.html!=='string')throw new Error('Invalid rich text');readHTML=tools.clean(value.html);}
+  else readHTML=tools.automatic(text);
+  root.innerHTML=readHTML;
   readText=root.innerText;
   const parts=[];let inline=null;
   // Group bare text and inline formatting too: contenteditable does not always emit paragraphs.
   for(const node of Array.from(root.childNodes)){
-   if(node.nodeType===1&&['P','DIV','UL','OL','BLOCKQUOTE','PRE'].includes(node.tagName)){
+   if(node.nodeType===1&&['P','DIV','UL','OL','BLOCKQUOTE','PRE','H1','H2','H3','H4','H5','H6','TABLE','HR'].includes(node.tagName)){
     const wrap=document.createElement('div');node.replaceWith(wrap);wrap.append(node);parts.push(wrap);inline=null;
    }else{
     if(!inline){inline=document.createElement('div');node.before(inline);parts.push(inline);}inline.append(node);
@@ -156,6 +178,7 @@ async function route(){
 }
 initLanguage();
 const face=watcher($('create'));
+let modeGeneration=0,switchingMode=false,modeAnimations=[];
 let lastLine=-1,expiryTimer,challenge=null,challengeValue=0,checking=false,challengeGeneration=0,bubbleTimer,bubbleHide,bubbleTextTimer;
 function serverError(message,code){if(code===410)return 'gone';if(code===401)return 'pinError';if(code===429||code===503)return 'network';if(message?.includes('Xác nhận')||message?.includes('xác nhận'))return 'challengeError';return 'network';}
 function stopBubbles(){clearTimeout(bubbleTimer);clearTimeout(bubbleHide);clearTimeout(bubbleTextTimer);$('watcher-line').removeAttribute('data-on');}
@@ -164,7 +187,7 @@ function say(line,hold=5000){
  bubbleTextTimer=setTimeout(()=>{if(document.hidden)return;el.textContent=line;el.dataset.on='';bubbleHide=setTimeout(()=>el.removeAttribute('data-on'),hold);},160);
 }
 function resumeBubbles(){
- stopBubbles();if(document.hidden||$('share-dock').hidden||$('settings').open)return;
+ stopBubbles();if(document.hidden||switchingMode||$('share-dock').hidden||$('settings').open)return;
  const cycle=()=>{if(document.hidden||$('settings').open)return;
  let line;
  if(currentView==='compose'&&mode==='text'){const pool=chatter();let next;do{next=Math.floor(Math.random()*pool.length);}while(next===lastLine&&pool.length>1);lastLine=next;line=pool[next];}
@@ -205,13 +228,35 @@ async function completeVerification(answer){
 $('challenge-retry').addEventListener('click',beginVerification);
 function stopVoice(clear=false){recorder?.stop(true);preview?.pause();if(clear){recorder?.clear();preview?.destroy();preview=null;}}
 async function setMode(next){
- if(next===mode)return;stopVoice();const before=$('create').getBoundingClientRect();mode=next;document.body.classList.toggle('audio-compose',mode==='voice');$('share-dock').classList.toggle('voice-mode',mode==='voice');
- $('text-editor').hidden=mode==='voice';$('voice-stage').hidden=mode!=='voice';$('format-option').hidden=mode==='voice';$('copy-draft').hidden=mode==='voice';$('text-mode').setAttribute('aria-pressed',String(mode==='text'));$('audio-mode').setAttribute('aria-pressed',String(mode==='voice'));
+ if(next===mode)return;
+ const generation=++modeGeneration;mode=next;switchingMode=true;stopVoice();stopBubbles();
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const outgoing=$('text-editor').hidden?$('voice-stage'):$('text-editor');
+ // Let an in-flight bot keep moving during the short content fade; capture its
+ // visual position before cancellation so reversing direction never snaps.
+ for(const animation of modeAnimations)if(animation.effect?.target!==$('create'))animation.cancel();
+ modeAnimations=modeAnimations.filter(animation=>animation.effect?.target===$('create')&&animation.playState==='running');
+ if(!reduced){
+  const exit=outgoing.animate([{opacity:1,translate:'0 0'},{opacity:0,translate:'0 -6px'}],{duration:110,easing:'ease-out'});modeAnimations.push(exit);
+  await exit.finished.catch(()=>{});if(generation!==modeGeneration)return;
+ }
+ const before=$('create').getBoundingClientRect();
+ for(const animation of modeAnimations)animation.cancel();modeAnimations=[];
+ document.body.classList.toggle('audio-compose',mode==='voice');$('share-dock').classList.toggle('voice-mode',mode==='voice');
+ $('text-editor').hidden=mode==='voice';$('voice-stage').hidden=mode!=='voice';$('format-option').hidden=mode==='voice';$('copy-draft').disabled=mode==='voice';$('text-mode').setAttribute('aria-pressed',String(mode==='text'));$('audio-mode').setAttribute('aria-pressed',String(mode==='voice'));
  $('create').removeAttribute('aria-haspopup');if(mode==='text'){$('create').setAttribute('aria-haspopup','dialog');$('create').setAttribute('aria-label',t('create'));}else $('create').setAttribute('aria-label',t('hold'));
- if(!matchMedia('(prefers-reduced-motion: reduce)').matches){const after=$('create').getBoundingClientRect();$('create').animate([{transform:`translate(${before.x-after.x}px,${before.y-after.y}px) scale(${before.width/after.width})`},{transform:'translateY(-8px) scale(1.035)',offset:.78},{transform:'none'}],{duration:520,easing:'cubic-bezier(.22,.7,.25,1)'});}
+ const incoming=mode==='voice'?$('voice-stage'):$('text-editor');
+ let movement;
+ if(!reduced){
+  const after=$('create').getBoundingClientRect();
+  movement=$('create').animate([{transform:`translate(${before.x-after.x}px,${before.y-after.y}px) scale(${before.width/after.width})`,transformOrigin:'0 0'},{transform:'none',transformOrigin:'0 0'}],{duration:600,easing:'cubic-bezier(.22,.8,.22,1)'});
+  modeAnimations.push(movement,incoming.animate([{opacity:0,translate:'0 10px'},{opacity:1,translate:'0 0'}],{duration:380,easing:'cubic-bezier(.2,.7,.2,1)'}));
+ }
  if(mode==='voice'){
-  try{const tools=await audioTools();if(!recorder)recorder=tools.createRecorder($('create'),{onState:voiceState,onWave:(peaks,seconds)=>{tools.paintWave($('live-wave'),peaks);$('recording-time').textContent=tools.clock(seconds);},onClip:clip=>{preview?.destroy();preview=tools.createPlayer($('voice-preview'),clip,phase=>voiceState(phase==='error'?'ready':phase));},onError:key=>{voiceState(recorder?.getClip()?'ready':'idle');face.expression('sad');status(key);say(t(key));}});voiceState(recorder.getClip()?'ready':'idle');}catch{status('micUnsupported');}
- }else{face.expression('idle');resumeBubbles();}count();
+  try{const tools=await audioTools();if(generation!==modeGeneration)return;if(!recorder)recorder=tools.createRecorder($('create'),{onState:voiceState,onWave:(peaks,seconds)=>{tools.paintWave($('live-wave'),peaks);$('recording-time').textContent=tools.clock(seconds);},onClip:clip=>{preview?.destroy();preview=tools.createPlayer($('voice-preview'),clip,phase=>voiceState(phase==='error'?'ready':phase));},onError:key=>{voiceState(recorder?.getClip()?'ready':'idle');face.expression('sad');status(key);say(t(key));}});voiceState(recorder.getClip()?'ready':'idle');}catch{status('micUnsupported');}
+ }else{face.expression('idle');}count();
+ await movement?.finished.catch(()=>{});
+ if(generation===modeGeneration){switchingMode=false;modeAnimations=[];resumeBubbles();}
 }
 function voiceState(phase){
  voicePhase=phase;if(currentView!=='compose'||mode!=='voice')return;

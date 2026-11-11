@@ -488,6 +488,24 @@ pub fn router(app: App) -> Router {
         .route("/favicon.svg", get(favicon))
         .route("/crypto.js", get(crypto_js))
         .route("/rich.js", get(rich_js))
+        .route(
+            "/format.js",
+            get(|| async {
+                (
+                    [("content-type", "text/javascript; charset=utf-8")],
+                    include_str!("../web/format.js"),
+                )
+            }),
+        )
+        .route(
+            "/marked.js",
+            get(|| async {
+                (
+                    [("content-type", "text/javascript; charset=utf-8")],
+                    include_str!("../web/vendor/marked.js"),
+                )
+            }),
+        )
         .route("/purify.js", get(purify_js))
         .route("/style.css", get(css))
         .route("/api/challenges", post(challenge))
