@@ -59,3 +59,20 @@ dialog{width:min(100% - 32px,380px);max-height:85dvh;overflow:auto;padding:24px;
 .bot-brow,.bot-cheek{transition:opacity .25s ease}@media(prefers-reduced-motion:reduce){.bot-brow,.bot-cheek{transition:none}}
 
 #copy-draft:disabled{opacity:.3;cursor:default}
+
+/* One familiar header, with the companion leading recipient actions. */
+header{position:sticky;top:0;z-index:10;background:var(--bg)}.toolbar{top:72px;z-index:3}
+.message-content{max-height:none;overflow:visible}#reading{padding-bottom:100px}
+.mascot-center.share-dock{position:fixed;top:clamp(220px,40dvh,360px);right:50%;bottom:auto;transform:translateX(50%);max-width:none;display:block}
+.mascot-center .eyt,.mascot-center .eyt-ball{width:160px;height:160px;border-radius:48px}
+.mascot-center .watcher-line{left:50%;right:auto;translate:-50% 0;bottom:calc(100% + 28px);transform-origin:50% calc(100% + 28px);max-width:min(310px,calc(100vw - 40px));text-align:center;font-size:14px}
+.mascot-center .watcher-line:before{left:calc(50% + 12px);right:auto;bottom:-13px;width:10px;height:10px}.mascot-center .watcher-line:after{left:calc(50% + 4px);right:auto;bottom:-24px;width:5px;height:5px}
+.mascot-center .bot-mouth,.eyt[data-expression=sad] .bot-mouth,.eyt[data-expression=curious] .bot-mouth{opacity:1}
+.audio-reading .mascot-center{position:absolute}.audio-reading #received-audio{padding-top:calc(clamp(220px,40dvh,360px) + 80px);width:min(380px,100%);margin-inline:auto}
+.recording-gear,.performing-gear{opacity:0;transition:opacity .25s ease;pointer-events:none}.eyt[data-gear=recording] .recording-gear,.eyt[data-gear=performing] .performing-gear{opacity:1}
+.headband,.mic-boom,.mic-handle{fill:none;stroke:var(--ink);stroke-width:4;stroke-linecap:round}.ear-pad,.mic-tip,.mic-head{fill:var(--ink);stroke:var(--bg);stroke-width:1.5}.mic-mesh{fill:none;stroke:var(--bg);stroke-width:1;opacity:.7}.mic-hand{fill:none;stroke:var(--muted);stroke-width:8;stroke-linecap:round}
+.eyt[data-expression=playing] .performing-gear{transform-origin:75px 80px;animation:mic-sway 1.4s ease-in-out infinite}@keyframes mic-sway{50%{transform:rotate(-5deg)}}
+@media(max-width:600px){.toolbar{top:64px}.mascot-center .eyt,.mascot-center .eyt-ball{width:150px;height:150px}.mascot-center .watcher-line{font-size:13px}.audio-reading #received-audio{padding-top:calc(clamp(220px,40dvh,360px) + 70px)}}
+@media(max-height:500px){.mascot-center .eyt,.mascot-center .eyt-ball{width:100px;height:100px}.mascot-center.share-dock{top:220px}.mascot-center .watcher-line{font-size:12px}.audio-reading #received-audio{padding-top:230px}}
+@media(prefers-reduced-motion:reduce){.performing-gear,.recording-gear{transition:none}.eyt[data-expression=playing] .performing-gear{animation:none}}
+#receive,#ended{min-height:1px}

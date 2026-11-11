@@ -12,7 +12,7 @@ async function solve(page){
  await page.waitForTimeout(550);
  if(await page.locator('#desktop-challenge').isVisible()){
   const target=Number((await page.locator('#challenge-label').textContent()).match(/\d+/)[0]);
-  const r=await page.locator('#wake-track').boundingBox();
+  await page.locator('#wake-track').scrollIntoViewIfNeeded();const r=await page.locator('#wake-track').boundingBox();
   await page.mouse.move(r.x,r.y+r.height/2);await page.mouse.down();await page.mouse.move(r.x+r.width*target/100,r.y+r.height/2,{steps:8});await page.mouse.up();
   await page.locator('#settings-done').click();
  }else{
@@ -24,22 +24,23 @@ async function create(page,{text='Chỉ giữa chúng ta 🐚\n秘密',pin=false
   await page.locator('#create').click();if(pin)await page.getByLabel('Thêm mã 6 số').check();if(!burn)await page.getByLabel('Chỉ mở một lần',{exact:true}).uncheck();await solve(page);await expect(page.locator('#created')).toBeVisible();
   return {link:await page.locator('#share-link').inputValue(),revoke:await page.locator('#revoke-link').inputValue(),pin:await page.locator('#generated-pin').textContent()};
 }
-async function open(page,link,pin){await page.goto(link);await expect.poll(async()=>await page.locator('#ended').isVisible()||await page.locator('#open').isEnabled()).toBe(true);if(await page.locator('#ended').isVisible())return;await expect(page.locator('#receive')).toBeVisible();if(pin)await page.locator('#pin').fill(pin);await page.getByRole('button',{name:'Mở lời nhắn',exact:true}).click();}
+async function open(page,link,pin){await page.goto(link);await expect.poll(async()=>await page.locator('#ended').isVisible()||await page.locator('#open').isEnabled()).toBe(true);if(await page.locator('#ended').isVisible())return;await expect(page.locator('#receive')).toBeVisible();await page.locator('#create').click();if(pin)await page.locator('#pin').fill(pin);await page.locator('#open').click();}
+async function closeReading(page){await page.locator('#create').click();await page.locator('#clear').click();}
 test('create → explicit read → clear → second read denied; no plaintext in request',async({page})=>{
   const failures=[];page.on('pageerror',e=>failures.push(e.message));let sent;
   page.on('request',r=>{if(r.url().endsWith('/api/messages'))sent=r.postData();});
   const msg='Kiểm thử riêng tư 🐚\nDòng thứ hai';const {link}=await create(page,{text:msg});
   expect(sent).not.toContain('Kiểm thử');expect(JSON.parse(sent)).not.toHaveProperty('key');
   await page.goto(link);await expect(page.locator('#receive')).toBeVisible();expect(new URL(page.url()).hash).toBe('');await expect(page.locator('#plaintext')).toBeEmpty();
-  await page.getByRole('button',{name:'Mở lời nhắn',exact:true}).click();await expect(page.locator('#plaintext')).toHaveText(msg);
-  await page.getByRole('button',{name:'Đã đọc, đóng lời nhắn'}).click();await expect(page.locator('#plaintext')).toBeEmpty();
+  await page.locator('#create').click();await page.locator('#open').click();await expect(page.locator('#plaintext')).toHaveText(msg);
+  await closeReading(page);await expect(page.locator('#plaintext')).toBeEmpty();
   await open(page,link);await expect(page.locator('#ended')).toBeVisible();expect(failures).toEqual([]);
 });
 test('PIN prompt can retry and correct code opens',async({page})=>{const v=await create(page,{pin:true});await open(page,v.link);await expect(page.locator('#status')).toContainText('Cần mã');await page.locator('#pin').fill(v.pin==='000000'?'000001':'000000');await page.locator('#open').click();await expect(page.locator('#status')).toContainText('Cần mã');await page.locator('#pin').fill(v.pin);await page.locator('#open').click();await expect(page.locator('#reading')).toBeVisible();});
-test('five wrong PINs burn the message',async({page})=>{const v=await create(page,{pin:true});await page.goto(v.link);const wrong=v.pin==='000000'?'000001':'000000';await page.locator('#pin').fill(wrong);for(let i=0;i<5;i++){await page.locator('#open').click();if(i<4){await expect(page.locator('#status')).toContainText('Cần mã');await expect(page.locator('#open')).toBeEnabled();}}await expect(page.locator('#ended')).toBeVisible();await open(page,v.link,v.pin);await expect(page.locator('#ended')).toBeVisible();});
+test('five wrong PINs burn the message',async({page})=>{const v=await create(page,{pin:true});await page.goto(v.link);await page.locator('#create').click();const wrong=v.pin==='000000'?'000001':'000000';await page.locator('#pin').fill(wrong);for(let i=0;i<5;i++){await page.locator('#open').click();if(i<4){await expect(page.locator('#status')).toContainText('Cần mã');await expect(page.locator('#open')).toBeEnabled();}}await expect(page.locator('#ended')).toBeVisible();await open(page,v.link,v.pin);await expect(page.locator('#ended')).toBeVisible();});
 test('timed links reopen, sender can revoke',async({page})=>{const v=await create(page,{burn:false});for(let i=0;i<2;i++){await open(page,v.link);await expect(page.locator('#reading')).toBeVisible();}await page.goto(v.revoke);await expect(page.locator('#destroy')).toBeVisible();await page.locator('#revoke').click();await expect(page.locator('#ended')).toBeVisible();await open(page,v.link);await expect(page.locator('#ended')).toBeVisible();});
 test('preview navigation alone does not consume',async({page})=>{const v=await create(page);await page.goto(v.link);await expect(page.locator('#receive')).toBeVisible();await page.goto('/');await open(page,v.link);await expect(page.locator('#reading')).toBeVisible();});
-test('two recipient tabs race; exactly one reads',async({page,context})=>{const v=await create(page);const other=await context.newPage();await page.goto(v.link);await other.goto(v.link);await Promise.all([page.locator('#open').click(),other.locator('#open').click()]);await expect.poll(async()=>Number(await page.locator('#reading').isVisible())+Number(await other.locator('#reading').isVisible())).toBe(1);await expect.poll(async()=>Number(await page.locator('#ended').isVisible())+Number(await other.locator('#ended').isVisible())).toBe(1);await other.close();});
+test('two recipient tabs race; exactly one reads',async({page,context})=>{const v=await create(page);const other=await context.newPage();await page.goto(v.link);await other.goto(v.link);await page.locator('#create').click();await other.locator('#create').click();await Promise.all([page.locator('#open').click(),other.locator('#open').click()]);await expect.poll(async()=>Number(await page.locator('#reading').isVisible())+Number(await other.locator('#reading').isVisible())).toBe(1);await expect.poll(async()=>Number(await page.locator('#ended').isVisible())+Number(await other.locator('#ended').isVisible())).toBe(1);await other.close();});
 test('script-looking text remains literal text',async({page})=>{const text='<img src=x onerror="window.pwned=true">\n<script>window.pwned=true</script>';const v=await create(page,{text});await open(page,v.link);await expect(page.locator('#plaintext')).toHaveText(text);expect(await page.evaluate(()=>window.pwned)).toBeUndefined();expect(await page.locator('#plaintext img').count()).toBe(0);});
 test('wrong encryption key in a legacy link fails closed after consumption',async({page})=>{const v=await create(page);const old=await page.evaluate(async link=>{const {deriveShortLink}=await import('/crypto.js');const d=await deriveShortLink(new URL(link).hash.slice(1));return `${location.origin}/m/${d.id}#k=${'A'.repeat(43)}&a=${d.access}`;},v.link);await open(page,old);await expect(page.locator('#ended-note')).toContainText('Không thể giải mã');await open(page,v.link);await expect(page.locator('#ended')).toBeVisible();});
 test('malformed link and missing fragment fail without request',async({page})=>{let opens=0;page.on('request',r=>{if(r.url().endsWith('/open'))opens++;});for(const path of ['/m/'+ 'A'.repeat(43),'/m/'+ 'A'.repeat(43)+'#k=bad&a=bad','/revoke/'+'A'.repeat(43)+'#r=bad','/m/bad']){await page.goto(path);await expect(page.locator('#ended')).toBeVisible();}expect(opens).toBe(0);});
@@ -63,7 +64,7 @@ test('plain reader copies all, individual paragraphs and selected substring',asy
  await page.getByRole('button',{name:'Sao chép đoạn này'}).nth(1).click();await expect.poll(()=>page.evaluate(()=>navigator.clipboard.readText())).toBe('Phần thứ hai');
  await page.evaluate(()=>{const node=document.querySelector('#plaintext .message-block').firstChild;const range=document.createRange();range.setStart(node,0);range.setEnd(node,4);getSelection().removeAllRanges();getSelection().addRange(range);});
  await expect(page.locator('#copy-selection')).toBeVisible();await page.locator('#copy-selection').click();await expect.poll(()=>page.evaluate(()=>navigator.clipboard.readText())).toBe('Phần');
- await page.locator('#clear').click();await expect(page.locator('#plaintext')).toBeEmpty();await expect(page.locator('#copy-selection')).toBeHidden();
+ await closeReading(page);await expect(page.locator('#plaintext')).toBeEmpty();await expect(page.locator('#copy-selection')).toBeHidden();
 });
 test('plain flow never downloads rich editor assets',async({page})=>{
  const requests=[];page.on('request',r=>requests.push(new URL(r.url()).pathname));const v=await create(page);await open(page,v.link);await expect(page.locator('#reading')).toBeVisible();expect(requests).not.toContain('/rich.js');expect(requests).not.toContain('/purify.js');
@@ -112,7 +113,7 @@ test('theme still works when storage is unavailable',async({page})=>{
 });
 test('dark theme covers create, settings, receiving, reading and close states',async({page})=>{
  await page.emulateMedia({colorScheme:'dark'});const v=await create(page,{pin:true});await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await expect(page.locator('#created')).toBeVisible();await page.locator('#theme-toggle').click();await expect(page.locator('html')).toHaveAttribute('data-theme','light');await page.locator('#theme-toggle').click();
- await open(page,v.link,v.pin);await expect(page.locator('#reading')).toBeVisible();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await page.locator('#clear').click();await expect(page.locator('#ended')).toBeVisible();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+ await open(page,v.link,v.pin);await expect(page.locator('#reading')).toBeVisible();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');await closeReading(page);await expect(page.locator('#ended')).toBeVisible();await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
 });
 
 test('eyes follow the cursor; header contains only the W. logo',async({page})=>{
@@ -149,7 +150,7 @@ test('locale selection uses browser locale and falls back to English; all 16 lan
 });
 async function recordVoice(page){
  await page.locator('#audio-mode').click();await expect(page.locator('#create')).toHaveAttribute('aria-label','Nhấn giữ để ghi âm');await page.waitForTimeout(600);
- await page.locator('#create').focus();await page.keyboard.down('Space');await expect(page.locator('#recording-wave')).toBeVisible();await page.waitForTimeout(800);await page.screenshot({path:'test-results/audio-recording.png'});await page.waitForTimeout(500);await page.keyboard.up('Space');await expect(page.locator('#voice-preview')).toBeVisible();await expect(page.locator('#share-recording')).toBeVisible();
+ await page.locator('#create').focus();await page.keyboard.down('Space');await expect(page.locator('#recording-wave')).toBeVisible();await expect(page.locator('#create')).toHaveAttribute('data-gear','recording');await page.waitForTimeout(800);await page.screenshot({path:'test-results/audio-recording.png'});await page.waitForTimeout(500);await page.keyboard.up('Space');await expect(page.locator('#voice-preview')).toBeVisible();await expect(page.locator('#share-recording')).toBeVisible();
 }
 test('real MediaRecorder audio → preview/play/seek → encrypted share → single read and clear',async({page})=>{
  let sent;const failures=[];page.on('pageerror',e=>failures.push(e.message));page.on('request',r=>{if(r.url().endsWith('/api/messages'))sent=JSON.parse(r.postData());});await page.goto('/');
@@ -161,7 +162,7 @@ test('real MediaRecorder audio → preview/play/seek → encrypted share → sin
  await page.locator('#share-recording').click();await solve(page);await expect(page.locator('#created')).toBeVisible();const link=await page.locator('#share-link').inputValue();
  expect(sent).not.toHaveProperty('audio');expect(sent).not.toHaveProperty('mime');expect(sent).not.toHaveProperty('key');
  const envelope=await page.evaluate(async({link,sent})=>{const c=await import('/crypto.js'),a=await import('/audio.js'),d=await c.deriveShortLink(new URL(link).hash.slice(1)),bytes=await c.unsealBytes(sent.ciphertext,sent.iv,d.key),clip=a.unpackClip(bytes);return {size:clip.blob.size,type:clip.blob.type,seconds:clip.seconds};},{link,sent});expect(envelope.size).toBeGreaterThan(1000);expect(envelope.type).toMatch(/^audio\//);expect(envelope.seconds).toBeGreaterThan(.5);
- await open(page,link);await expect(page.locator('#received-audio')).toBeVisible();await expect(page.locator('#copy-all')).toBeHidden();await page.locator('#received-audio .voice-play').click();await expect.poll(()=>page.locator('#received-audio audio').evaluate(el=>!el.paused)).toBe(true);await page.locator('#clear').click();await expect(page.locator('#received-audio audio')).toHaveCount(0);await open(page,link);await expect(page.locator('#ended')).toBeVisible();expect(failures).toEqual([]);
+ await open(page,link);await expect(page.locator('#received-audio')).toBeVisible();await expect(page.locator('#share-dock')).toHaveClass(/mascot-center/);await expect(page.locator('#create')).toHaveAttribute('data-gear','performing');await page.waitForTimeout(1100);await page.screenshot({path:'test-results/mascot-audio-reader.png'});await expect(page.locator('#copy-all')).toBeHidden();await page.locator('#received-audio .voice-play').click();await expect.poll(()=>page.locator('#received-audio audio').evaluate(el=>!el.paused)).toBe(true);await closeReading(page);await expect(page.locator('#received-audio audio')).toHaveCount(0);await open(page,link);await expect(page.locator('#ended')).toBeVisible();expect(failures).toEqual([]);
 });
 test('microphone denial and delayed permission release do not leak a stream',async({page})=>{
  await page.goto('/');await page.evaluate(()=>navigator.mediaDevices.getUserMedia=async()=>{throw new DOMException('Denied','NotAllowedError');});await page.locator('#audio-mode').click();await page.waitForTimeout(600);await page.locator('#create').focus();await page.keyboard.down('Space');await page.keyboard.up('Space');await expect(page.locator('#status')).toContainText('microphone');await expect(page.locator('#voice-preview')).toBeHidden();
@@ -273,4 +274,31 @@ test('touch companion cycles distinct emotes with no fake cursor following and r
  expect(await page.locator('#create .face-rig').getAttribute('transform')).toMatch(/translate\(0\.000 0\.000\)/);
  await page.screenshot({path:'test-results/touch-emote.png'});await context.close();
  const quiet=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true,reducedMotion:'reduce'}),q=await quiet.newPage();await q.clock.install();await q.goto(process.env.EDGE_TEST_BASE||'http://localhost:8787/');await q.clock.runFor(16000);await expect(q.locator('#create')).toHaveAttribute('data-emote','neutral');await quiet.close();
+});
+
+test('mascot recipient confirmation never consumes on cancel; navbar follows long reading',async({page})=>{
+ const text=Array.from({length:100},(_,i)=>`Dòng ${i}: một lời thì thầm dài.`).join('\n\n');const v=await create(page,{text});let opens=0;
+ page.on('request',r=>{if(r.url().endsWith('/open'))opens++;});await page.goto(v.link);
+ await expect(page.locator('#share-dock')).toHaveClass(/mascot-center/);await expect(page.locator('#watcher-line')).toContainText('Có người gửi');await page.waitForTimeout(750);await page.screenshot({path:'test-results/mascot-intro.png'});
+ await page.locator('#create').click();await expect(page.locator('#recipient-open')).toBeVisible();await page.keyboard.press('Escape');
+ await expect(page.locator('#recipient-open')).toBeHidden();expect(opens).toBe(0);await expect(page.locator('#create')).toBeFocused();
+ await page.locator('#create').press('Enter');await page.locator('#open').click();await expect(page.locator('#plaintext')).toContainText('Dòng 99');
+ await expect(page.locator('#share-dock')).not.toHaveClass(/mascot-center/);await expect(page.locator('header #copy-all')).toBeVisible();await page.waitForTimeout(750);await page.screenshot({path:'test-results/mascot-text-reader.png'});
+ await page.evaluate(()=>scrollTo(0,1600));expect(await page.locator('header').evaluate(e=>e.getBoundingClientRect().top)).toBe(0);
+ await page.locator('#create').click();await expect(page.locator('#recipient-close')).toBeVisible();await page.keyboard.press('Escape');await expect(page.locator('#reading')).toBeVisible();
+ await closeReading(page);await expect(page.locator('#share-dock')).toHaveClass(/mascot-center/);await expect(page.locator('#plaintext')).toBeEmpty();
+ await open(page,v.link);await expect(page.locator('#ended')).toBeVisible();await expect(page.locator('#create')).toBeEnabled();await page.locator('#create').click();await expect(page.locator('#compose')).toBeVisible();
+});
+
+test('recipient bubbles and action dialogs fit narrow and short touch layouts',async({page})=>{
+ for(const size of [{width:320,height:640},{width:667,height:375}]){
+  await page.setViewportSize(size);const v=await create(page);await page.goto(v.link);
+  await expect(page.locator('#watcher-line')).toHaveAttribute('data-on','');await page.waitForTimeout(500);
+  const box=await page.locator('#watcher-line').boundingBox(),header=await page.locator('header').boundingBox();
+  expect(box.x).toBeGreaterThanOrEqual(0);expect(box.x+box.width).toBeLessThanOrEqual(size.width);expect(box.y).toBeGreaterThanOrEqual(header.height);
+  await page.screenshot({path:`test-results/mascot-recipient-${size.width}.png`});
+  await page.locator('#create').click();await expect(page.locator('#recipient-open')).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  await page.locator('#open').click();await expect(page.locator('#reading')).toBeVisible();await closeReading(page);await expect(page.locator('#ended')).toBeVisible();
+  await page.locator('#language').selectOption('en');await expect(page.locator('#watcher-line')).toContainText('Cleared from this screen');
+ }
 });
