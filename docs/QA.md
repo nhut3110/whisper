@@ -123,3 +123,14 @@ Eight Chromium flows passed against the actual Edge handler and local PostgreSQL
 Cloud API verification completed directly against the deployed Supabase Function: health, exact-origin rejection, non-consuming metadata, AES-GCM roundtrip, concurrent single-read (one winner), PIN retry/lockout, timed reopening and revocation all passed using disposable messages. A production-only routing issue was detected: the Supabase runtime passes function-relative `/whisper/...` paths. Routing now handles that prefix; a regression case covers it without relaxing origin checks.
 
 Cloud role checks confirmed `anon` and `authenticated` cannot SELECT the message table or execute the privileged RPC. Both cron jobs reported real `succeeded` runs; a disposable expired message and stale challenge were subsequently absent from the live tables. Live Vercel UI and GitHub automation remain pending until push/import are complete.
+
+
+## Verified hosted deployment
+
+Production URL: https://whisper-nhut3110.vercel.app. Vercel reported Ready for commit `cbf9d3e25141b80ce97feaa69c40b49c26c162ee`, sourced from personal `nhut3110/whisper`, branch `main`. The same public-API smoke checks also passed through Vercel's `/api` proxy, verifying the actual frontend origin and route configuration.
+
+GitHub CI [43014680059](https://github.com/nhut3110/whisper/actions/runs/43014680059) succeeded, including Rust checks/coverage, crypto/locales, PostgreSQL Edge integration, frontend build and browser suites against Rust and Edge. It automatically triggered Supabase deployment [43015579401](https://github.com/nhut3110/whisper/actions/runs/43015579401), which succeeded at checked migrations, function deployment and live health. This verifies the backend push-to-CI-to-deploy chain, beyond local equivalents.
+
+Manual Chrome production check: typed disposable Vietnamese content, enabled a PIN, completed the app slider through supported keyboard interaction, created a compact link, opened it in a separate recipient tab, tried a wrong code, then decrypted with the correct generated code. The correct text appeared; closing cleared the display, and reopening the original link showed unavailable. The fragment was removed from the URL. Screenshots captured the real settings and decrypted result. No real personal message content was used.
+
+No physical-phone microphone, Safari or network-adversity test is claimed. Audio capture/playback and responsive behavior are covered by the local/CI Chromium cases described above, not a manual production hardware test. The dedicated local QC container was removed. No company repository or global account configuration was modified.

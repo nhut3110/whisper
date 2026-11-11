@@ -5,6 +5,7 @@
 Production has two providers: Vercel serves the static browser UI and proxies `/api/*` to the dedicated Supabase Edge Function `whisper`; Supabase Postgres stores ciphertext, capabilities as hashes, PIN HMACs and transactional request/challenge budgets. The Rust server remains an alternative local/self-hosted implementation; it is not run by Vercel or Supabase.
 
 - Personal repository: `https://github.com/nhut3110/whisper`
+- Live frontend: https://whisper-nhut3110.vercel.app
 - Vercel personal workspace: `my-hobby19`
 - Supabase project: `whisper`, reference `hzzmzskqmgowntzqfxrd`, Mumbai (`ap-south-1`), Free.
 
@@ -34,3 +35,11 @@ Messages are encrypted before upload. SQL deletion clears the active row; provid
 ## Personal Git isolation
 
 Repository-local author/committer is `nhut3110 <jatsu3110@gmail.com>`, remote is `https://github.com/nhut3110/whisper.git`. Ignore global Git configuration for publication commands and use isolated personal authentication; do not change or use company global credentials. Before pushing, inspect both author and committer, destination, branch and staged files. Never commit `.env`, `.private`, database files, coverage artifacts or credentials.
+
+A local `.git/hooks/pre-push` guard is installed in the original checkout. It rejects the wrong remote, global/system Git configuration, unexpected configured identity and commits with a different author/committer. Push from that checkout with:
+
+```sh
+env GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_NOSYSTEM=1 git push origin main
+```
+
+The guard is local and does not travel with a clone. Global Git configuration and the default GitHub CLI account were checked unchanged after deployment. Authentication reuses the existing personal credential helper, configured locally in Whisper, without a new GitHub OAuth grant.

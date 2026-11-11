@@ -1,5 +1,7 @@
 # Whisper.
 
+Live: https://whisper-nhut3110.vercel.app
+
 Personal temporary messages with a small, framework-free browser UI. The browser encrypts/decrypts with Web Crypto AES-256-GCM. Production uses Vercel static hosting + a Supabase Edge Function and Postgres. The Rust Axum implementation remains available for local development and self-hosting.
 
 ## Run locally on macOS
