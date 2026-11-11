@@ -207,10 +207,22 @@ const face=watcher($('create'));
 let modeGeneration=0,switchingMode=false,modeAnimations=[];
 let lastLine=-1,expiryTimer,challenge=null,challengeValue=0,checking=false,challengeGeneration=0,bubbleTimer,bubbleHide,bubbleTextTimer;
 function serverError(message,code){if(code===410)return 'gone';if(code===401)return 'pinError';if(code===429||code===503)return 'network';if(message?.includes('Xác nhận')||message?.includes('xác nhận'))return 'challengeError';return 'network';}
-function stopBubbles(){clearTimeout(bubbleTimer);clearTimeout(bubbleHide);clearTimeout(bubbleTextTimer);$('watcher-line').removeAttribute('data-on');}
+// One scalable, hand-drawn silhouette for both spoken thoughts and the live waveform.
+function thoughtSurface(){
+ const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+ svg.setAttribute('viewBox','0 0 320 120');svg.setAttribute('preserveAspectRatio','none');svg.setAttribute('aria-hidden','true');svg.classList.add('thought-shape');
+ const path=document.createElementNS(svg.namespaceURI,'path');
+ path.setAttribute('d','M49 103C28 112 8 99 9 80C0 65 10 45 29 43C24 22 48 10 69 19C81 1 112 1 130 15C150 2 180 4 191 17C215 3 243 11 249 28C273 20 297 31 296 50C317 56 319 78 306 91C306 111 280 119 260 109C240 122 214 119 200 108C181 121 151 122 132 110C110 122 82 119 74 106C64 112 54 111 49 103Z');
+ svg.append(path);return svg;
+}
+function thoughtDots(el){for(const size of ['near','far']){const dot=document.createElement('span');dot.className='thought-dot thought-dot-'+size;dot.setAttribute('aria-hidden','true');el.append(dot);}}
+const recordingCloud=document.createElement('div');recordingCloud.className='thought-cloud';
+recordingCloud.append(thoughtSurface(),$('live-wave'),$('recording-time'));$('recording-wave').append(recordingCloud);thoughtDots($('recording-wave'));
+function hideBubble(){const el=$('watcher-line');if(el.hasAttribute('data-on'))el.dataset.phase='leaving';el.removeAttribute('data-on');}
+function stopBubbles(){clearTimeout(bubbleTimer);clearTimeout(bubbleHide);clearTimeout(bubbleTextTimer);hideBubble();}
 function say(line,hold=5000){
- clearTimeout(bubbleHide);clearTimeout(bubbleTextTimer);const el=$('watcher-line');el.removeAttribute('data-on');
- bubbleTextTimer=setTimeout(()=>{if(document.hidden)return;el.textContent=line;el.dataset.on='';bubbleHide=setTimeout(()=>el.removeAttribute('data-on'),hold);},160);
+ clearTimeout(bubbleHide);clearTimeout(bubbleTextTimer);const el=$('watcher-line'),replacing=el.hasAttribute('data-on')||el.dataset.phase==='leaving';hideBubble();
+ bubbleTextTimer=setTimeout(()=>{if(document.hidden)return;const text=document.createElement('span');text.className='thought-copy';text.textContent=line;const cloud=document.createElement('span');cloud.className='thought-cloud';cloud.append(thoughtSurface(),text);el.replaceChildren(cloud);thoughtDots(el);el.dataset.direction=Math.random()<.5?'left':'right';$('recording-wave').dataset.direction=el.dataset.direction;delete el.dataset.phase;el.dataset.on='';bubbleHide=setTimeout(hideBubble,hold);},replacing?460:120);
 }
 function resumeBubbles(){
  stopBubbles();if(document.hidden||switchingMode||$('share-dock').hidden||document.querySelector('dialog[open]'))return;
