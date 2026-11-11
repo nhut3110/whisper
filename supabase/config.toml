@@ -1,0 +1,6 @@
+project_id = "whisper"
+
+[functions.whisper]
+# Anonymous app: authorization is by high-entropy message capabilities, not login.
+verify_jwt = false
+

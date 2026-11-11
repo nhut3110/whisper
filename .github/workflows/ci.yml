@@ -1,0 +1,59 @@
+name: Local-equivalent checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: test-only
+          POSTGRES_DB: hush_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy, llvm-tools-preview
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: cargo fmt --check
+      - run: cargo clippy --locked --all-targets -- -D warnings
+      - run: cargo test --locked
+      - run: cargo test --locked
+        env:
+          TEST_DATABASE_URL: postgresql://postgres:test-only@localhost:5432/hush_test
+      - run: cargo install cargo-llvm-cov --locked
+      - run: cargo llvm-cov --locked --summary-only --ignore-filename-regex 'tests/|src/main.rs' --fail-under-lines 95
+      - run: npm ci
+      - run: npm test
+      - name: Test Edge API transactions on disposable Postgres
+        run: npm run test:edge
+        env:
+          TEST_DATABASE_URL: postgresql://postgres:test-only@localhost:5432/hush_test
+      - name: Check public frontend build
+        run: npm run build
+        env:
+          SUPABASE_PROJECT_REF: hzzmzskqmgowntzqfxrd
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:browser
+      - name: Browser flows against the Edge API and Postgres
+        run: npx playwright test --grep 'create → explicit|PIN prompt|five wrong|timed links|two recipient|mobile compose|optional rich|real MediaRecorder'
+        env:
+          TEST_DATABASE_URL: postgresql://postgres:test-only@localhost:5432/hush_test
+          EDGE_TEST_BASE: http://localhost:8788
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: synthetic-test-coverage
+          path: coverage/browser-summary.json

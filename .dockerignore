@@ -1,0 +1,7 @@
+target
+node_modules
+.env
+*.db*
+coverage
+test-results
+.git

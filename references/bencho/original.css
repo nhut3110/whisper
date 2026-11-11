@@ -1,0 +1,40 @@
+.sld { box-sizing: border-box; font-family: var(--font-ui); color: var(--fill-on,var(--ink)); }
+.sld-track { box-sizing: border-box; background: var(--fill-slab,var(--card)); touch-action: none; user-select: none; width: 100%; height: 100%; position: relative; }
+[data-stroke="on"] .sld-track { box-shadow: inset 0 0 0 1px var(--pane-edge); }
+.sld-wash { background: var(--fill-on,var(--ink)); z-index: 1; pointer-events: none; position: absolute; top: 4px; bottom: 4px; left: 4px; }
+.sld-say { letter-spacing: -0.01em; color: color-mix(in srgb, var(--fill-on,#17181a) 52%, var(--fill-slab,#fff)); pointer-events: none; white-space: nowrap; place-items: center; font-size: 14px; font-weight: 500; display: grid; position: absolute; inset: 0px; }
+.sld-grip { background: var(--fill-on,var(--ink)); height: 48px; color: var(--fill-slab,var(--card)); cursor: grab; pointer-events: auto; transform-origin: 0% center; z-index: 2; border: 0px; padding: 0px; transition: none; position: absolute; top: 4px; left: 4px; }
+.sld-track[data-held] .sld-grip { cursor: grabbing; }
+.sld-arrow, .sld-done { letter-spacing: -0.01em; white-space: nowrap; pointer-events: none; justify-content: center; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; display: flex; position: absolute; inset: 0px; }
+@media (prefers-reduced-motion: reduce) {
+  .sld-done { transition-duration: 0.16s; }
+}
+.eyt { place-items: center; width: 200px; height: 200px; display: grid; }
+.eyt-ball { width: var(--eyt-size,100px); height: var(--eyt-size,100px); overflow: visible; }
+.eyt-body { fill: var(--fill-slab,#fff); }
+.eyt-eye { fill: var(--fill-on,#0b0b0d); }
+.eyt { position: relative; }
+.eyt-ball[data-poke] { cursor: pointer; transform-origin: 50% center; -webkit-tap-highlight-color: transparent; transition: scale 0.42s cubic-bezier(0.24, 1.34, 0.38, 1); }
+.eyt-ball[data-poke]:active { transition-duration: 0.16s; transition-timing-function: ease; scale: 0.96; }
+.eyt-say { left: calc(50% + var(--eyt-size,100px) * .36); top: calc(50% + var(--eyt-size,100px) * .3); background: var(--tint,#3b5bff); color: rgb(255, 255, 255); min-height: 34px; font-family: var(--font-ui); white-space: nowrap; transform-origin: 0px 0px; opacity: 0; pointer-events: none; letter-spacing: 0px; border-radius: 6px 14px 14px; align-items: center; gap: 2px; padding: 0px 16px; font-size: 13px; font-weight: 400; transition: opacity 0.16s, scale 0.22s cubic-bezier(0.24, 1.34, 0.38, 1), background-color 0.22s; display: inline-flex; position: absolute; scale: 0.85; box-shadow: rgba(0, 0, 0, 0.1) 0px -1.5px inset; }
+.eyt-say[data-on] { opacity: 1; scale: 1; }
+.eyt-caret { background: var(--fill-slab,var(--card)); border-radius: 1px; width: 1.5px; height: 13px; animation: 1s step-end 0s infinite normal none running pet-caret; }
+.logo-test .eyt { width: auto; height: auto; }
+.logo-test .eyt-body { fill: var(--ink); }
+.logo-test .eyt-eye { fill: var(--bg); }
+[data-theme="dark"] .logo-test .eyt-body { fill: rgb(43, 44, 48); }
+[data-theme="dark"] .logo-test .eyt-eye { fill: rgb(251, 251, 250); }
+@media (width <= 760px) {
+  .hero-head-one { font-size: 38px; line-height: 1.05; }
+  .hero { will-change: auto; }
+  .logo-test .mark, .logo-test .eyt-ball { width: 38px; height: 38px; }
+}
+.wks { color: var(--fill-on,#17181a); align-items: center; gap: 16px; padding: 16px; display: flex; }
+.wks-track { cursor: ew-resize; touch-action: none; user-select: none; -webkit-tap-highlight-color: transparent; border-radius: 6px; align-items: center; gap: 4px; display: flex; }
+.wks-track:focus-visible { outline-offset: 6px; outline: rgb(34, 49, 221) solid 2px; }
+.wks-bar { background: color-mix(in srgb, var(--fill-on,#17181a) 32%, var(--fill-slab,#fff)); transform-origin: 50% center; border-radius: 3px; flex: 0 0 auto; width: 3px; transition: background-color 0.16s; }
+.wks-bar[data-on] { background: var(--fill-on,#17181a); }
+.wks-value { letter-spacing: -0.01em; font-variant-numeric: tabular-nums; min-width: 3ch; color: color-mix(in srgb, var(--fill-on,#17181a) 72%, var(--fill-slab,#fff)); font-size: 14px; font-weight: 500; }
+.bench-lock-face .eyt { width: 96px; height: 96px; position: relative; }
+.bench-lock-face .eyt-body { fill: rgba(0, 0, 0, 0); }
+.bench-lock-face .eyt-eye { fill: rgb(255, 255, 255); }

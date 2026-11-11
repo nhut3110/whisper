@@ -1,0 +1,35 @@
+name: Deploy Supabase
+on:
+  workflow_run:
+    workflows: [Local-equivalent checks]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: whisper-supabase-production
+  cancel-in-progress: false
+jobs:
+  deploy:
+    if: github.repository == 'nhut3110/whisper' && (github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push'))
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_PROJECT_REF: ${{ vars.SUPABASE_PROJECT_REF }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Apply checked migrations
+        run: node scripts/deploy-supabase.mjs
+      - name: Deploy capability-authenticated API
+        run: npx --no-install supabase functions deploy whisper --project-ref "$SUPABASE_PROJECT_REF" --use-api --yes
+      - name: Verify live API health
+        run: curl --fail --retry 5 --retry-delay 3 "https://${SUPABASE_PROJECT_REF}.supabase.co/functions/v1/whisper/health"

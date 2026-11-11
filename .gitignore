@@ -1,0 +1,15 @@
+/target/
+.env
+*.db
+*.db-*
+coverage/
+test-results/
+node_modules/
+.vercel/
+dist/
+.env.*
+!.env.example
+.private/
+supabase/.temp/
+supabase/.branches/
+.DS_Store
