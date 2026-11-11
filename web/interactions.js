@@ -16,24 +16,28 @@ export function watcher(button){
  let raf=0,prev=0,blink=-1000,blinkTimer=0,phaseTimer=0,emoteTimer=0,resetTimer=0,phase='follow',disposed=false,lastEmote=-1;
  let touch=matchMedia('(pointer: coarse)').matches||!matchMedia('(any-hover: hover)').matches;
  button.dataset.emote='neutral';
- function visible(){return !disposed&&!document.hidden&&button.getClientRects().length>0;}
+ let intersecting=true,aimPending=false;
+ function visible(){return !disposed&&!document.hidden&&intersecting;}
  function operational(){return ['listening','playing','sad'].includes(button.dataset.expression);}
  function targetMood(){return moods[operational()?button.dataset.expression:button.dataset.emote==='neutral'?button.dataset.expression:button.dataset.emote]||moods.neutral;}
+ function attr(el,key,value){const text=typeof value==='number'?String(Math.round(value*1000)/1000):value;if(el.getAttribute(key)!==text)el.setAttribute(key,text);}
  function draw(now){
   const x=clamp(pose.x,-8,8),y=clamp(pose.y,-5,5),tilt=x*.28+features[5];
-  rig.setAttribute('transform',`translate(${x.toFixed(3)} ${y.toFixed(3)}) rotate(${tilt.toFixed(3)} 50 50)`);
-  shell.setAttribute('transform',`rotate(${(tilt*.12).toFixed(3)} 50 50)`);
+  attr(rig,'transform',`translate(${x.toFixed(3)} ${y.toFixed(3)}) rotate(${tilt.toFixed(3)} 50 50)`);
+  attr(shell,'transform',`rotate(${(tilt*.12).toFixed(3)} 50 50)`);
   const since=now-blink,lid=since>=0&&since<180?1-.94*Math.sin(since/180*Math.PI):1;
   eyes.forEach((g,i)=>{
    const height=Math.max(.9,features[i]*lid),width=8,r=g.firstElementChild;
-   for(const [key,value] of Object.entries({x:-width/2,y:-height/2,width,height,rx:Math.min(4.25,height/2)}))r.setAttribute(key,String(value));
-   g.setAttribute('transform',`translate(${i?61:39} 44)`);
+   for(const [key,value] of Object.entries({x:-width/2,y:-height/2,width,height,rx:Math.min(4.25,height/2)}))attr(r,key,value);
+   attr(g,'transform',`translate(${i?61:39} 44)`);
   });
   const w=features[2],curve=features[3],h=features[4];
-  mouth.setAttribute('d',`M${50-w} 62 Q50 ${62+curve} ${50+w} 62 Q50 ${62+curve+h} ${50-w} 62`);
+  attr(mouth,'d',`M${(50-w).toFixed(3)} 62 Q50 ${(62+curve).toFixed(3)} ${(50+w).toFixed(3)} 62 Q50 ${(62+curve+h).toFixed(3)} ${(50-w).toFixed(3)} 62`);
  }
  function tick(now){
   raf=0;if(!visible()){prev=0;return;}
+  // Coalesce all pointer events into one geometry read before SVG writes.
+  if(aimPending){aimPending=false;updateAim();}
   const dt=prev?Math.min(2,(now-prev)/16.67):1;prev=now;const target=targetMood();
   if(still){pose.x=pose.tx;pose.y=pose.ty;features.splice(0,6,...target);}else{
    pose.vx+=((pose.tx-pose.x)*.065-pose.vx*.36)*dt;pose.vy+=((pose.ty-pose.y)*.065-pose.vy*.36)*dt;
@@ -46,10 +50,11 @@ export function watcher(button){
  }
  function wake(){if(!raf&&visible())raf=requestAnimationFrame(tick);}
  function rest(){pose.tx=pose.ty=0;wake();}
- function aim(){
-  if(!visible()||touch||phase==='front'||!pointer.known||button.classList.contains('anonymous')||still){rest();return;}
+ function aim(){aimPending=true;wake();}
+ function updateAim(){
+  if(!visible()||touch||phase==='front'||!pointer.known||button.classList.contains('anonymous')||still){pose.tx=pose.ty=0;return;}
   const r=button.getBoundingClientRect(),gain=button.closest('.voice-mode') ? .72 : 1;
-  pose.tx=Math.tanh((pointer.x-r.left-r.width/2)/240)*8*gain;pose.ty=Math.tanh((pointer.y-r.top-r.height/2)/220)*5*gain;wake();
+  pose.tx=Math.tanh((pointer.x-r.left-r.width/2)/240)*8*gain;pose.ty=Math.tanh((pointer.y-r.top-r.height/2)/220)*5*gain;
  }
  function blinkOnce(){if(visible()&&!still&&!button.classList.contains('anonymous')){blink=performance.now();wake();}}
  function idleEmote(){
@@ -81,7 +86,7 @@ export function watcher(button){
  document.documentElement.addEventListener('pointerleave',()=>{pointer.known=false;rest();});
  function pause(){cancelAnimationFrame(raf);raf=0;prev=0;for(const timer of [phaseTimer,blinkTimer,emoteTimer,resetTimer])clearTimeout(timer);}
  function resume(){if(visible()){button.dataset.emote='neutral';aim();cycle();idleEmote();}}
- const observer=new IntersectionObserver(()=>{pause();resume();});observer.observe(button);
+ const observer=new IntersectionObserver(entries=>{intersecting=entries[0].isIntersecting;pause();resume();});observer.observe(button);
  document.addEventListener('visibilitychange',()=>{pause();if(!document.hidden){phase='front';rest();resume();}});
  window.addEventListener('pagehide',()=>{disposed=true;pause();observer.disconnect();});
  button.dataset.attention='follow';draw(performance.now());cycle();idleEmote();

@@ -6,7 +6,7 @@ permissions:
   contents: read
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     services:
       postgres:
         image: postgres:17
@@ -45,7 +45,14 @@ jobs:
         run: npm run build
         env:
           SUPABASE_PROJECT_REF: hzzmzskqmgowntzqfxrd
-      - run: npx playwright install --with-deps chromium
+      - name: Use preinstalled runner Chrome
+        shell: bash
+        run: |
+          chrome_path="$(command -v google-chrome || command -v google-chrome-stable || true)"
+          test -n "$chrome_path" || { echo "::error::Runner Chrome missing"; exit 1; }
+          "$chrome_path" --version
+          echo "CHROME_PATH=$chrome_path" >> "$GITHUB_ENV"
+      - run: npm run test:music
       - run: npm run test:browser
       - name: Browser flows against the Edge API and Postgres
         run: npx playwright test --grep 'create → explicit|PIN prompt|five wrong|timed links|two recipient|mobile compose|optional rich|real MediaRecorder'

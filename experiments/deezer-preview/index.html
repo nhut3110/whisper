@@ -1,0 +1,17 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Whisper. · Nhạc (beta)</title><link rel="icon" href="data:,"><link rel="stylesheet" href="/style.css"><script type="module" src="/app.js"></script></head><body data-screen="library">
+<header id="player-header" hidden><button id="back" class="nav-icon" type="button" aria-label="Chọn bài khác"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button><h1 id="screen-title" class="sr-only" tabindex="-1">Nhạc đã chọn</h1><button id="recipient-preview" class="nav-icon" type="button" aria-label="Xem thử người nhận" title="Xem thử người nhận"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button></header>
+<main>
+<section id="library"><header class="library-heading"><h1>Chọn một bài nhạc. <small>(beta)</small></h1></header>
+<form id="search"><label class="sr-only" for="query">Tên bài hát hoặc nghệ sĩ</label><div class="search-row"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="query" type="search" placeholder="Tìm bài hát, nghệ sĩ…" autocomplete="off" minlength="2" maxlength="120" required><button id="submit">Tìm</button></div></form>
+<p id="status" role="status" aria-live="polite">Tìm một bài bạn muốn gửi.</p><ul id="results" aria-label="Kết quả tìm kiếm"></ul>
+<footer>Demo local · preview từ Deezer, tối đa 30 giây. Chưa tạo link gửi nhạc.</footer></section>
+<section id="selected" aria-label="Nhạc đã chọn" hidden>
+ <div class="record-scene">
+  <div class="vinyl" aria-hidden="true"><div class="record-spin"><div class="record-label"><img decoding="async" id="record-art" alt=""><span>33⅓ · STEREO</span></div></div><div class="spindle"></div></div>
+  <div class="sleeve"><img decoding="async" id="art" alt=""><div class="sleeve-shade"></div><div class="sleeve-caption"><h2 id="title"></h2><p id="artist"></p></div></div>
+  <button id="play-toggle" type="button" aria-label="Phát bản nghe thử"><span class="play-badge"><svg id="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 11 7-11 7Z"/></svg><svg id="pause-icon" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M7 5h4v14H7zm6 0h4v14h-4z"/></svg></span></button>
+ </div>
+ <div class="companion-row"><p id="intro-line" role="status" hidden><svg viewBox="0 0 320 120" preserveAspectRatio="none" aria-hidden="true"><path d="M49 103C28 112 8 99 9 80C0 65 10 45 29 43C24 22 48 10 69 19C81 1 112 1 130 15C150 2 180 4 191 17C215 3 243 11 249 28C273 20 297 31 296 50C317 56 319 78 306 91C306 111 280 119 260 109C240 122 214 119 200 108C181 121 151 122 132 110C110 122 82 119 74 106C64 112 54 111 49 103Z"/></svg><span>Mình chuẩn bị hát một bài cho bạn…</span></p><div class="bot-shadow" aria-hidden="true"></div><button id="music-bot" class="eyt" type="button" aria-label="Phát bản nghe thử"></button><div class="music-notes" aria-hidden="true"><span>♪</span><span>♫</span><span>♪</span></div></div>
+ <p id="playback" class="sr-only" role="status" aria-live="polite"></p><a id="source" target="_blank" rel="noreferrer noopener">Deezer ↗</a><audio id="audio" preload="none"></audio>
+</section>
+</main></body></html>

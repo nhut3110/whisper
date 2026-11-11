@@ -157,7 +157,7 @@ test('real MediaRecorder audio → preview/play/seek → encrypted share → sin
  // Observe browser MediaStreamTrack lifecycle without substituting MediaRecorder or the analyser.
  await page.evaluate(()=>{window.micTracks=[];const original=navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);navigator.mediaDevices.getUserMedia=async c=>{const stream=await original(c);window.micTracks.push(...stream.getTracks());return stream;};});
  await recordVoice(page);expect(await page.evaluate(()=>micTracks.every(t=>t.readyState==='ended'))).toBe(true);
- await expect(page.locator('#voice-preview .voice-bar')).toHaveCount(40);expect(await page.locator('#voice-preview .voice-bar').evaluateAll(b=>b.some(e=>parseFloat(e.style.height)>8))).toBe(true);
+ await expect(page.locator('#voice-preview .voice-bar')).toHaveCount(40);expect(await page.locator('#voice-preview .voice-bar').evaluateAll(b=>b.some(e=>e.getBoundingClientRect().height>8))).toBe(true);
  await page.locator('#voice-preview .voice-play').click();await expect(page.locator('#create')).toHaveAttribute('data-expression','playing');await page.locator('#voice-preview .voice-seek').fill('500');await page.locator('#voice-preview .voice-play').click();await page.screenshot({path:'test-results/audio-preview.png'});
  await page.locator('#share-recording').click();await solve(page);await expect(page.locator('#created')).toBeVisible();const link=await page.locator('#share-link').inputValue();
  expect(sent).not.toHaveProperty('audio');expect(sent).not.toHaveProperty('mime');expect(sent).not.toHaveProperty('key');

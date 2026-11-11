@@ -106,3 +106,7 @@ Header order is theme, copy, language and text/voice. Voice mode keeps copy disa
 On touch devices the companion cycles nine gentle emotes, including curiosity, smiling, winking, blushing, surprise and sleepiness. Actual mouse input on hybrid devices restores bounded cursor following. Recording/playing expressions take priority, and hidden tabs pause animation timers.
 
 Creating a link attempts to copy only the recipient link immediately; the PIN is never automatically included. Browser clipboard restrictions may require the visible Copy button. The creation screen reminds the sender that links are not saved in an inbox and must be copied before leaving. The mobile confirmation track fills its container on phones and touch tablets.
+
+## Local music beta
+
+`SUPABASE_PROJECT_REF=hzzmzskqmgowntzqfxrd npm run build:beta` builds the opt-in music experiment. Run `node scripts/preview-beta.mjs` and open http://127.0.0.1:8793/music-beta/. `npm run build` excludes music; the approved personal Vercel deployment uses `build:beta`. This is a preview player, not shareable music messages; provider rights remain unresolved for public launch. See [music QC and limits](docs/MUSIC-BETA-QA.md) and [provider terms review](docs/DEEZER-REVIEW.md). `npm run test:music` runs repeatable fixture-based player regressions.

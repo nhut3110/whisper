@@ -20,7 +20,7 @@ export function resample(samples,n=40){return Array.from({length:n},(_,i)=>{cons
 export function clock(seconds){const s=Math.floor(Math.max(0,seconds));return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;}
 export function paintWave(root,peaks,progress=0){
  if(root.children.length!==peaks.length){root.replaceChildren(...peaks.map(()=>{const bar=document.createElement('i');bar.className='voice-bar';return bar;}));}
- Array.from(root.children).forEach((bar,i)=>{bar.style.height=`${4+Math.max(0,Math.min(255,peaks[i]))/255*26}px`;bar.toggleAttribute('data-played',i/Math.max(1,peaks.length)<=progress);});
+ Array.from(root.children).forEach((bar,i)=>{const scale=((4+Math.max(0,Math.min(255,peaks[i]))/255*26)/30).toFixed(4);if(bar.dataset.peak!==scale){bar.style.transform=`scaleY(${scale})`;bar.dataset.peak=scale;}bar.toggleAttribute('data-played',i/Math.max(1,peaks.length)<=progress);});
 }
 export function createPlayer(root,clip,onState=()=>{}){
  const audio=document.createElement('audio'),url=URL.createObjectURL(clip.blob);audio.src=url;audio.preload='metadata';
