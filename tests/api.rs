@@ -358,6 +358,11 @@ async fn security_headers_and_assets() {
         "/marked.js",
         "/purify.js",
         "/style.css",
+        "/editor-menu.js",
+        "/index.html",
+        "/og-once.png",
+        "/og-timed.png",
+        "/og-gone.png",
         "/health",
     ] {
         let r = a
@@ -547,4 +552,56 @@ async fn audio_sized_ciphertext_at_limit_is_accepted_without_exposing_type() {
     assert_eq!(s, StatusCode::OK);
     assert_eq!(data["ciphertext"], p["ciphertext"]);
     assert!(data.get("mime").is_none());
+}
+
+#[tokio::test]
+async fn public_share_preview_only_exposes_policy_and_does_not_consume() {
+    let (a, _) = setup().await;
+    for burn in [true, false] {
+        let mut p = payload();
+        p["burn"] = json!(burn);
+        let id = make(&a, p).await;
+        let path = format!("/s/{}", &id[..16]);
+        for _ in 0..2 {
+            let response = a
+                .clone()
+                .oneshot(Request::builder().uri(&path).body(Body::empty()).unwrap())
+                .await
+                .unwrap();
+            assert_eq!(response.status(), StatusCode::OK);
+            let html = String::from_utf8(
+                response
+                    .into_body()
+                    .collect()
+                    .await
+                    .unwrap()
+                    .to_bytes()
+                    .to_vec(),
+            )
+            .unwrap();
+            assert!(html.contains(if burn { "og-once.png" } else { "og-timed.png" }));
+            assert!(html.contains("UTC"));
+            assert!(!html.contains(&tok(1)));
+            assert!(!html.contains(&payload()["ciphertext"].as_str().unwrap().to_string()));
+        }
+        assert_eq!(open(&a, &id, Value::Null).await.0, StatusCode::OK);
+    }
+    for path in ["/s/malformed", "/s/AAAAAAAAAAAAAAAA"] {
+        let response = a
+            .clone()
+            .oneshot(Request::builder().uri(path).body(Body::empty()).unwrap())
+            .await
+            .unwrap();
+        let html = String::from_utf8(
+            response
+                .into_body()
+                .collect()
+                .await
+                .unwrap()
+                .to_bytes()
+                .to_vec(),
+        )
+        .unwrap();
+        assert!(html.contains("og-gone.png"));
+    }
 }

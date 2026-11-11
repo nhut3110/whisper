@@ -49,6 +49,14 @@ export function handler(config: { origin: string; pepper: string; rpc: RPC }) {
     const reply = (status: number, data: unknown) => new Response(status === 204 ? null : JSON.stringify(data), {status,headers});
     const path = new URL(req.url).pathname.replace(/^\/functions\/v1\/whisper(?=\/|$)/, '').replace(/^\/whisper(?=\/|$)/, '').replace(/^\/api(?=\/|$)/, '');
     if (req.method === 'GET' && path === '/health') return reply(200, {ok:true});
+    if ((req.method === 'GET' || req.method === 'HEAD') && /^\/preview\/[A-Za-z0-9_-]{16}$/.test(path)) {
+      const handle = path.slice('/preview/'.length);
+      try {
+        const result = await config.rpc('preview',{preview:handle});
+        if (result.status !== 200 && result.status !== 410) return reply(503,{error:errors.unavailable});
+        return reply(result.status,result.status === 200 ? result.body : {});
+      } catch { return reply(503,{error:errors.unavailable}); }
+    }
     if (req.headers.get('origin') !== config.origin) return reply(403, {error:'Nguồn yêu cầu không được phép.'});
     headers['Access-Control-Allow-Origin'] = config.origin;
     if (req.method === 'OPTIONS') {

@@ -75,3 +75,135 @@ const recipientLines={
  "it": ["Qualcuno ti ha lasciato un sussurro.", "Toccami quando vuoi aprirlo.", "Hai finito? Toccami per chiudere.", "Premi play. Ti faccio compagnia. Toccami quando hai finito.", "Chiudere cancella il contenuto dallo schermo. Un link monouso non si può riaprire.", "Toccami per scrivere un nuovo sussurro."],
  "tr": ["Biri sana bir fısıltı bıraktı.", "Açmaya hazır olduğunda bana dokun.", "Okudun mu? Kapatmak için bana dokun.", "Oynata bas. Birlikte dinleyelim. Bitince bana dokun.", "Kapatmak içeriği ekrandan siler. Tek kullanımlık bağlantı tekrar açılamaz.", "Yeni bir fısıltı yazmak için bana dokun."]};
 for(const lang of Object.keys(names)) ['intro','tapOpen','tapClose','listenHint','closeHint','restartHint'].forEach((key,i)=>dictionaries[lang][key]=recipientLines[lang][i]);
+
+const editLines={
+ "en": [
+  "Paste",
+  "Cut",
+  "Edit",
+  "Just copy, paste or cut here.",
+  "This content is private. This page can limit shortcuts, but cannot block browser tools or screenshots.",
+  "Use ⌘V or Ctrl+V to paste."
+ ],
+ "vi": [
+  "Dán",
+  "Cắt",
+  "Chỉnh sửa",
+  "Ở đây chỉ sao chép, dán và cắt thôi nhé.",
+  "Nội dung này riêng tư. Trang chỉ hạn chế được phím tắt, không thể chặn công cụ trình duyệt hay chụp màn hình.",
+  "Dùng ⌘V hoặc Ctrl+V để dán nhé."
+ ],
+ "zh": [
+  "粘贴",
+  "剪切",
+  "编辑",
+  "这里只能复制、粘贴或剪切。",
+  "内容属于私人信息。网页只能限制快捷键，无法阻止浏览器工具或截屏。",
+  "请使用 ⌘V 或 Ctrl+V 粘贴。"
+ ],
+ "es": [
+  "Pegar",
+  "Cortar",
+  "Editar",
+  "Aquí solo copiar, pegar o cortar.",
+  "Este contenido es privado. La página limita atajos, pero no puede bloquear herramientas del navegador ni capturas.",
+  "Usa ⌘V o Ctrl+V para pegar."
+ ],
+ "fr": [
+  "Coller",
+  "Couper",
+  "Modifier",
+  "Ici, seulement copier, coller ou couper.",
+  "Ce contenu est privé. La page limite les raccourcis, mais ne peut bloquer les outils du navigateur ni les captures.",
+  "Utilisez ⌘V ou Ctrl+V pour coller."
+ ],
+ "de": [
+  "Einfügen",
+  "Ausschneiden",
+  "Bearbeiten",
+  "Hier nur kopieren, einfügen oder ausschneiden.",
+  "Dieser Inhalt ist privat. Die Seite begrenzt Tastenkürzel, kann Browserwerkzeuge oder Screenshots aber nicht blockieren.",
+  "Mit ⌘V oder Strg+V einfügen."
+ ],
+ "pt": [
+  "Colar",
+  "Recortar",
+  "Editar",
+  "Aqui, apenas copiar, colar ou recortar.",
+  "Este conteúdo é privado. A página limita atalhos, mas não pode bloquear ferramentas do navegador ou capturas.",
+  "Use ⌘V ou Ctrl+V para colar."
+ ],
+ "ja": [
+  "貼り付け",
+  "切り取り",
+  "編集",
+  "ここではコピー、貼り付け、切り取りだけ。",
+  "これは個人的な内容です。ショートカットは制限できますが、ブラウザのツールやスクリーンショットは防げません。",
+  "⌘V または Ctrl+V で貼り付けてね。"
+ ],
+ "ko": [
+  "붙여넣기",
+  "잘라내기",
+  "편집",
+  "여기서는 복사, 붙여넣기, 잘라내기만 가능해요.",
+  "비공개 내용입니다. 단축키는 제한할 수 있지만 브라우저 도구나 스크린샷을 막을 수는 없어요.",
+  "⌘V 또는 Ctrl+V로 붙여넣으세요."
+ ],
+ "ru": [
+  "Вставить",
+  "Вырезать",
+  "Правка",
+  "Здесь можно только копировать, вставлять и вырезать.",
+  "Это личное содержимое. Страница ограничивает сочетания клавиш, но не инструменты браузера или снимки экрана.",
+  "Нажмите ⌘V или Ctrl+V для вставки."
+ ],
+ "ar": [
+  "لصق",
+  "قص",
+  "تحرير",
+  "هنا نسخ ولصق وقص فقط.",
+  "هذا محتوى خاص. يمكن تقييد الاختصارات، لكن لا يمكن حظر أدوات المتصفح أو لقطات الشاشة.",
+  "استخدم ⌘V أو Ctrl+V للصق."
+ ],
+ "hi": [
+  "पेस्ट",
+  "कट",
+  "संपादित करें",
+  "यहाँ केवल कॉपी, पेस्ट या कट करें।",
+  "यह सामग्री निजी है। पेज शॉर्टकट सीमित कर सकता है, ब्राउज़र टूल या स्क्रीनशॉट नहीं रोक सकता।",
+  "पेस्ट करने के लिए ⌘V या Ctrl+V दबाएँ।"
+ ],
+ "id": [
+  "Tempel",
+  "Potong",
+  "Edit",
+  "Di sini hanya salin, tempel, atau potong.",
+  "Konten ini pribadi. Halaman membatasi pintasan, tetapi tidak dapat memblokir alat peramban atau tangkapan layar.",
+  "Gunakan ⌘V atau Ctrl+V untuk menempel."
+ ],
+ "th": [
+  "วาง",
+  "ตัด",
+  "แก้ไข",
+  "ที่นี่ทำได้แค่คัดลอก วาง หรือตัด",
+  "เนื้อหานี้เป็นส่วนตัว หน้าเว็บจำกัดปุ่มลัดได้ แต่บล็อกเครื่องมือเบราว์เซอร์หรือการจับภาพหน้าจอไม่ได้",
+  "ใช้ ⌘V หรือ Ctrl+V เพื่อวาง"
+ ],
+ "it": [
+  "Incolla",
+  "Taglia",
+  "Modifica",
+  "Qui puoi solo copiare, incollare o tagliare.",
+  "Questo contenuto è privato. La pagina limita le scorciatoie, ma non può bloccare strumenti del browser o screenshot.",
+  "Usa ⌘V o Ctrl+V per incollare."
+ ],
+ "tr": [
+  "Yapıştır",
+  "Kes",
+  "Düzenle",
+  "Burada yalnızca kopyala, yapıştır veya kes.",
+  "Bu içerik özeldir. Sayfa kısayolları sınırlayabilir ancak tarayıcı araçlarını veya ekran görüntülerini engelleyemez.",
+  "Yapıştırmak için ⌘V veya Ctrl+V kullanın."
+ ]
+};
+for(const lang of Object.keys(names)) ['paste','cut','editMenu','menuHint','inspectNotice','pasteShortcut'].forEach((key,i)=>dictionaries[lang][key]=editLines[lang][i]);

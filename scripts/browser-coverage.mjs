@@ -5,7 +5,7 @@ const map=coverage.createCoverageMap({});
 for(const file of await fs.readdir('coverage/browser-raw')){
  for(const entry of JSON.parse(await fs.readFile('coverage/browser-raw/'+file,'utf8'))){
   const name=new URL(entry.url).pathname;
-  if(!['/app.js','/format.js','/crypto.js','/rich.js','/theme.js','/interactions.js','/i18n.js','/audio.js'].includes(name))continue;
+  if(!['/app.js','/editor-menu.js','/format.js','/crypto.js','/rich.js','/theme.js','/interactions.js','/i18n.js','/audio.js'].includes(name))continue;
   // Never merge executions of older source versions into current coverage.
   if(entry.source!==await fs.readFile('web'+name,'utf8'))continue;
   const converter=v8ToIstanbul('web'+name,0,{source:entry.source});await converter.load();converter.applyCoverage(entry.functions);map.merge(converter.toIstanbul());

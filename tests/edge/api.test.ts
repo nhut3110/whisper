@@ -25,7 +25,7 @@ async function create(options:Record<string,unknown>={}){
 before(async()=>{
  await pool.query("DO $$ BEGIN IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname='anon') THEN CREATE ROLE anon; END IF; IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname='authenticated') THEN CREATE ROLE authenticated; END IF; IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname='service_role') THEN CREATE ROLE service_role; END IF; END $$");
  await pool.query('DROP FUNCTION IF EXISTS public.hush_api(text,jsonb); DROP TABLE IF EXISTS public.hush_challenges,public.hush_budgets,public.hush_messages');
- for(const file of ['202611110001_messages.sql','202611110002_restrict_access.sql','202611110004_edge_api.sql']){
+ for(const file of ['202611110001_messages.sql','202611110002_restrict_access.sql','202611110004_edge_api.sql','202611110005_safe_previews.sql']){
   const sql=await readFile(new URL('../../supabase/migrations/'+file,import.meta.url),'utf8');
   // Plain PostgreSQL has no Supabase pg_cron. The real job is checked after cloud deployment.
   await pool.query(sql.split('-- Keep existing independent')[0]);
@@ -117,4 +117,17 @@ test('Supabase gateway function-relative paths are routed without relaxing origi
   assert.equal(r.status,200);
  }
  assert.equal((await api(new Request(origin+'/whisper/challenges',{method:'POST',headers:{origin:'https://wrong.invalid','content-type':'application/json'},body:'{"mobile":false}'}))).status,403);
+});
+
+test('public preview GET exposes exactly burn/expiry, never consumes or bypasses PIN',async()=>{
+ const v=await create({pin:'123456'}),handle=v.id.slice(0,16);
+ for(let i=0;i<2;i++){
+  const r=await api(new Request(origin+'/api/preview/'+handle));assert.equal(r.status,200);
+  const data=await r.json();assert.deepEqual(Object.keys(data).sort(),['burn','expires_at']);assert.equal(data.burn,true);
+ }
+ assert.equal((await post(`/messages/${v.id}/open`,{access:v.access,pin:'000000'})).status,401);
+ assert.equal((await post(`/messages/${v.id}/open`,{access:v.access,pin:'123456'})).status,200);
+ assert.equal((await api(new Request(origin+'/api/preview/'+handle))).status,410);
+ const timed=await create({burn:false});await pool.query('UPDATE hush_messages SET expires_at=0');assert.equal((await api(new Request(origin+'/api/preview/'+timed.id.slice(0,16)))).status,410);
+ const invalid=await api(new Request(origin+'/api/preview/bad'));assert.notEqual(invalid.status,200);
 });

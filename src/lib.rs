@@ -406,6 +406,82 @@ async fn security(State(app): State<App>, req: Request, next: Next) -> Response 
     }
     res
 }
+// Civil-date conversion uses Howard Hinnant's days-to-civil algorithm (UTC only).
+fn expiry_utc(epoch: i64) -> String {
+    let z = epoch.div_euclid(86400) + 719468;
+    let era = z.div_euclid(146097);
+    let doe = z - era * 146097;
+    let yoe = (doe - doe / 1460 + doe / 36524 - doe / 146096) / 365;
+    let year = yoe + era * 400;
+    let doy = doe - (365 * yoe + yoe / 4 - yoe / 100);
+    let mp = (5 * doy + 2) / 153;
+    let day = doy - (153 * mp + 2) / 5 + 1;
+    let month = mp + if mp < 10 { 3 } else { -9 };
+    let year = year + i64::from(month <= 2);
+    let sec = epoch.rem_euclid(86400);
+    format!(
+        "{year:04}-{month:02}-{day:02} {:02}:{:02}:{:02} UTC",
+        sec / 3600,
+        sec / 60 % 60,
+        sec % 60
+    )
+}
+async fn preview(
+    State(app): State<App>,
+    Path(handle): Path<String>,
+) -> Result<impl IntoResponse, ApiError> {
+    app.limit("preview", 180)?;
+    let valid = handle.len() == 16
+        && handle
+            .bytes()
+            .all(|b| b.is_ascii_alphanumeric() || b == b'_' || b == b'-');
+    let row = if valid {
+        sqlx::query("SELECT burn,expires_at FROM hush_messages WHERE substr(id,1,16)=$1 AND expires_at>$2 AND attempts<5 LIMIT 1")
+        .bind(&handle).bind(now()).fetch_optional(&app.pool).await?
+    } else {
+        None
+    };
+    let (title, description, kind) = if let Some(row) = row {
+        let burn: i32 = row.try_get("burn")?;
+        let expiry: i64 = row.try_get("expires_at")?;
+        (
+            if burn == 1 {
+                "Whisper. — Open once"
+            } else {
+                "Whisper. — A private message"
+            },
+            format!(
+                "{} Valid until {}. Encrypted content stays private.",
+                if burn == 1 {
+                    "Open once, then this link is gone."
+                } else {
+                    "Reopen until it expires."
+                },
+                expiry_utc(expiry)
+            ),
+            if burn == 1 { "once" } else { "timed" },
+        )
+    } else {
+        (
+            "Whisper. — Link unavailable",
+            "This message has expired, was opened, or is no longer available.".into(),
+            "gone",
+        )
+    };
+    // No request/user text enters metadata. Origin is escaped before HTML interpolation.
+    let origin = app
+        .origin
+        .replace('&', "&amp;")
+        .replace('"', "&quot;")
+        .replace('<', "&lt;")
+        .replace('>', "&gt;");
+    let tags = format!(
+        r#"<meta name="robots" content="noindex, noarchive, nosnippet"><meta name="description" content="{description}"><meta property="og:title" content="{title}"><meta property="og:description" content="{description}"><meta property="og:type" content="website"><meta property="og:image" content="{origin}/og-{kind}.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">"#
+    );
+    Ok(axum::response::Html(
+        include_str!("../web/index.html").replace("</head>", &(tags + "</head>")),
+    ))
+}
 async fn index() -> impl IntoResponse {
     axum::response::Html(include_str!("../web/index.html"))
 }
@@ -454,6 +530,17 @@ async fn favicon() -> impl IntoResponse {
 pub fn router(app: App) -> Router {
     Router::new()
         .route("/", get(index))
+        .route("/s/{handle}", get(preview))
+        .route("/index.html", get(index))
+        .route(
+            "/editor-menu.js",
+            get(|| async {
+                (
+                    [("content-type", "text/javascript; charset=utf-8")],
+                    include_str!("../web/editor-menu.js"),
+                )
+            }),
+        )
         .route("/m/{id}", get(index))
         .route("/revoke/{id}", get(index))
         .route("/app.js", get(js))
@@ -507,6 +594,33 @@ pub fn router(app: App) -> Router {
             }),
         )
         .route("/purify.js", get(purify_js))
+        .route(
+            "/og-once.png",
+            get(|| async {
+                (
+                    [("content-type", "image/png")],
+                    include_bytes!("../web/og-once.png").as_slice(),
+                )
+            }),
+        )
+        .route(
+            "/og-timed.png",
+            get(|| async {
+                (
+                    [("content-type", "image/png")],
+                    include_bytes!("../web/og-timed.png").as_slice(),
+                )
+            }),
+        )
+        .route(
+            "/og-gone.png",
+            get(|| async {
+                (
+                    [("content-type", "image/png")],
+                    include_bytes!("../web/og-gone.png").as_slice(),
+                )
+            }),
+        )
         .route("/style.css", get(css))
         .route("/api/challenges", post(challenge))
         .route("/api/messages", post(create))
@@ -582,5 +696,17 @@ mod challenge_tests {
             .is_err()
         );
         assert!(app.challenges.lock().unwrap().is_empty());
+    }
+}
+
+#[cfg(test)]
+mod preview_dates {
+    use super::expiry_utc;
+    #[test]
+    fn renders_utc_and_leap_boundaries() {
+        assert_eq!(expiry_utc(0), "1970-01-01 00:00:00 UTC");
+        assert_eq!(expiry_utc(1794409200), "2026-11-11 15:00:00 UTC");
+        assert_eq!(expiry_utc(1709164800), "2024-02-29 00:00:00 UTC");
+        assert_eq!(expiry_utc(1709251200), "2024-03-01 00:00:00 UTC");
     }
 }
