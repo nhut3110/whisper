@@ -1,6 +1,6 @@
 import {watcher} from '/interactions.js';
 let musicLocale='vi';
-const english={"Chọn bài khác": "Choose another song", "Trở về bản chốt": "Back to your selection", "Nhạc gửi đến bạn": "A song for you", "Nhạc đã chọn": "Selected song", "Bấm vào bìa đĩa hoặc bot để nghe.": "Tap the record or mascot to listen.", "Phát bản nghe thử": "Play preview", "Tạm dừng": "Pause", "Chưa phát được. Bấm thử lại hoặc nghe trên Deezer nhé.": "Could not play. Try again or listen on Deezer.", "Đang tìm…": "Searching…", "Chọn": "Choose", "Không có preview": "No preview", "Chọn một bài để nghe preview.": "Choose a song to preview.", "Không có kết quả. Thử tên khác nhé.": "No results. Try another search.", "Không tìm được. Thử lại nhé.": "Search failed. Please try again.", "Đang chờ nhạc…": "Loading music…", "Đang phát.": "Playing.", "Đã tạm dừng.": "Paused.", "Đã hết bản nghe thử. Bấm để nghe lại.": "Preview ended. Tap to replay.", "Chưa phát được. Bạn có thể mở trên Deezer.": "Could not play. You can listen on Deezer.", "Không tải được bài hát. Thử mở lại sau nhé.": "Could not load this song. Please try later.", "Chọn một bài nhạc. ": "Choose a song. ", "Tên bài hát hoặc nghệ sĩ": "Song or artist", "Tìm bài hát, nghệ sĩ…": "Search songs, artists…", "Tìm": "Search", "Tìm một bài bạn muốn gửi.": "Find a song to send.", "Kết quả tìm kiếm": "Search results", "Mình chuẩn bị hát một bài cho bạn…": "I’m getting a song ready for you…", "Deezer · bản nghe thử tối đa 30 giây · beta cá nhân": "Deezer · previews up to 30 seconds · personal beta"};
+const english={"Chọn bài khác": "Choose another song", "Trở về bản chốt": "Back to your selection", "Nhạc gửi đến bạn": "A song for you", "Nhạc đã chọn": "Selected song", "Bấm vào bìa đĩa hoặc bot để nghe.": "Tap the record or mascot to listen.", "Phát bản nghe thử": "Play preview", "Tạm dừng": "Pause", "Chưa phát được. Bấm thử lại hoặc nghe trên Deezer nhé.": "Could not play. Try again or listen on Deezer.", "Đang tìm…": "Searching…", "Chọn": "Choose", "Không có preview": "No preview", "Chọn một bài để nghe preview.": "Choose a song to preview.", "Không có kết quả. Thử tên khác nhé.": "No results. Try another search.", "Không tìm được. Thử lại nhé.": "Search failed. Please try again.", "Đang chờ nhạc…": "Loading music…", "Đang phát.": "Playing.", "Đã tạm dừng.": "Paused.", "Đã hết bản nghe thử. Bấm để nghe lại.": "Preview ended. Tap to replay.", "Chưa phát được. Bạn có thể mở trên Deezer.": "Could not play. You can listen on Deezer.", "Không tải được bài hát. Thử mở lại sau nhé.": "Could not load this song. Please try later.", "Chọn một bài nhạc.": "Choose a song.", "Tên bài hát hoặc nghệ sĩ": "Song or artist", "Tìm bài hát, nghệ sĩ…": "Search songs, artists…", "Tìm": "Search", "Tìm một bài bạn muốn gửi.": "Find a song to send.", "Kết quả tìm kiếm": "Search results", "Mình chuẩn bị hát một bài cho bạn…": "I’m getting a song ready for you…", "Deezer · bản nghe thử tối đa 30 giây": "Deezer · previews up to 30 seconds"};
 const tr=text=>musicLocale==='vi'?text:(english[text]||text);
 const originalText=new WeakMap(),originalAttrs=new WeakMap();
 function localize(){
@@ -11,18 +11,19 @@ const $=id=>document.getElementById(id),audio=$('audio');let generation=0,search
 const face=watcher($('music-bot'));face.gear('singing');face.expression('happy');
 const embedded=new URLSearchParams(location.search).has('embed');
 function tell(action,ref=null){if(embedded)parent.postMessage({whisperMusic:1,action,ref},location.origin);}
+function reportPose(){if(!embedded)return;requestAnimationFrame(()=>{const r=$('music-bot').getBoundingClientRect();parent.postMessage({whisperMusic:1,action:'pose',screen,x:r.left+r.width/2,y:r.top,size:r.width,playing:!audio.paused&&!audio.ended,intro:$('selected').classList.contains('is-intro')?tr('Mình chuẩn bị hát một bài cho bạn…'):null},location.origin);});}
 if(embedded){document.body.classList.add('embedded');$('recipient-preview').remove();}
 let screen='library',lastChoice=null,mediaGeneration=0,introTimer=0,introAnimation=null;
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-function cancelIntro(){clearTimeout(introTimer);introAnimation?.cancel();introAnimation=null;$('selected').dataset.intro='ready';$('selected').classList.remove('is-intro');$('intro-line').hidden=true;}
+function cancelIntro(){clearTimeout(introTimer);introAnimation?.cancel();introAnimation=null;$('selected').dataset.intro='ready';$('selected').classList.remove('is-intro');$('intro-line').hidden=true;reportPose();}
 function introduce(){
- cancelIntro();$('selected').dataset.intro='pending';const token=mediaGeneration;$('selected').classList.add('is-intro');$('intro-line').hidden=false;face.expression('happy');
+ cancelIntro();$('selected').dataset.intro='pending';const token=mediaGeneration;$('selected').classList.add('is-intro');$('intro-line').hidden=false;face.expression('happy');reportPose();
  introTimer=setTimeout(()=>{
   if(token!==mediaGeneration||screen==='library')return;
   const bot=$('music-bot'),before=bot.getBoundingClientRect();
   $('selected').classList.remove('is-intro');$('intro-line').hidden=true;
-  const after=bot.getBoundingClientRect();
-  if(!reduced)introAnimation=bot.animate([{transform:`translateY(${before.top-after.top}px) scale(1.45)`},{transform:'translateY(0) scale(1)'}],{duration:650,easing:'cubic-bezier(.22,1,.36,1)'});
+  const after=bot.getBoundingClientRect();reportPose();
+  if(!reduced&&!embedded)introAnimation=bot.animate([{transform:`translateY(${before.top-after.top}px) scale(1.45)`},{transform:'translateY(0) scale(1)'}],{duration:650,easing:'cubic-bezier(.22,1,.36,1)'});
   introTimer=setTimeout(()=>{if(token===mediaGeneration&&screen!=='library'&&!document.hidden)toggle();},reduced?0:650);
  },reduced?800:1900);
 }
@@ -35,10 +36,12 @@ function screenTo(next){
  notice(tr('Bấm vào bìa đĩa hoặc bot để nghe.'));window.scrollTo(0,0);
  if(next==='library'){tell('select');stop();(lastChoice||$('query')).focus({preventScroll:true});}
  else {$('screen-title').focus({preventScroll:true});introduce();}
+ reportPose();
 }
 $('back').addEventListener('click',()=>screenTo(screen==='recipient'?'confirm':'library'));
 $('recipient-preview')?.addEventListener('click',()=>screenTo('recipient'));
 function state(on){
+ if(embedded)parent.postMessage({whisperMusic:1,action:'performance',playing:on},location.origin);
  $('selected').classList.toggle('is-playing',on);face.expression(on?'playing':'happy');
  const label=audio.paused||audio.ended?tr('Phát bản nghe thử'):tr('Tạm dừng');
  for(const id of ['play-toggle','music-bot'])$(id).setAttribute('aria-label',label);
@@ -70,7 +73,7 @@ $('search').addEventListener('submit',async event=>{
    const row=document.createElement('li'),button=document.createElement('button');button.type='button';button.dataset.id=track.id;button.setAttribute('aria-pressed','false');button.disabled=!track.preview;
    if(track.cover){const img=document.createElement('img');img.src=track.cover;img.alt='';img.loading='lazy';img.decoding='async';button.append(img);}
    const info=document.createElement('span');info.className='info';const title=document.createElement('strong');title.textContent=track.title;const artist=document.createElement('small');artist.textContent=track.artist;info.append(title,artist);
-   const label=document.createElement('span');label.className='pick';label.textContent=track.preview?tr('Chọn'):tr('Không có preview');button.append(info,label);button.addEventListener('click',()=>{lastChoice=button;choose(track);});row.append(button);$('results').append(row);
+   const label=document.createElement('span');label.className='pick';if(track.preview){label.setAttribute('aria-hidden','true');label.innerHTML='<svg viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>';}else label.textContent=tr('Không có preview');button.append(info,label);button.addEventListener('click',()=>{lastChoice=button;choose(track);});row.append(button);$('results').append(row);
   }
   $('status').textContent=data.tracks.length?tr('Chọn một bài để nghe preview.'):tr('Không có kết quả. Thử tên khác nhé.');
  }catch(error){if(current===generation&&error.name!=='AbortError')$('status').textContent=error.message||tr('Không tìm được. Thử lại nhé.');}
@@ -90,6 +93,8 @@ let receiveID=null;
 window.addEventListener('message',async event=>{
  if(!embedded||event.origin!==location.origin||event.source!==parent||event.data?.whisperMusic!==1)return;
  const data=event.data;
+ if(data.action==='pose')reportPose();
+ if(data.action==='toggle'){toggle();reportPose();}
  if(data.action==='pause'){cancelIntro();audio.pause();}
  if(data.action==='clear'){receiveID=null;screenTo('library');$('back').hidden=false;$('play-toggle').disabled=false;}
  if(data.action==='appearance'){document.documentElement.dataset.theme=data.theme||'light';document.documentElement.lang=data.locale||'en';musicLocale=data.locale==='vi'?'vi':'en';localize();}
@@ -98,4 +103,13 @@ window.addEventListener('message',async event=>{
   try{const r=await fetch('/api/search?id='+id);const result=await r.json();if(id!==receiveID)return;if(!r.ok||!result.tracks?.[0]?.preview)throw Error();choose(result.tracks[0]);screen='recipient';document.body.dataset.screen='recipient';$('back').hidden=true;}catch{notice(tr('Không tải được bài hát. Thử mở lại sau nhé.'),true);$('selected').hidden=false;$('play-toggle').disabled=true;}
  }
 });
+if(embedded){new ResizeObserver(reportPose).observe($('selected'));window.addEventListener('resize',reportPose);window.addEventListener('scroll',reportPose,{passive:true});}
 tell('ready');
+
+// The form is inert until its module and event handlers are ready.
+$('submit').disabled=false;
+
+// Text fields match :focus-visible on mouse clicks too; show the group ring
+// only after keyboard navigation, never on pointer focus.
+document.addEventListener('keydown',event=>{if(event.key==='Tab')document.body.dataset.keyboard='';});
+document.addEventListener('pointerdown',()=>{delete document.body.dataset.keyboard;},true);

@@ -1,9 +1,9 @@
-// A convenience menu, not a security boundary. Browser/OS controls remain user-owned.
+// Selection/clipboard bridge. shadcn + Radix own rendering, focus and dismissal.
 export function editorMenu({copy,notify,inspect,t}){
- const menu=document.getElementById('edit-menu');let target=null,range=null,snapshot=null,selection='',restoreFocus=null,generation=0;
- const buttons=[...menu.querySelectorAll('[data-edit]')];
+ let target=null,range=null,snapshot=null,selection='',restoreFocus=null,generation=0,opened=false;
+ const emit=(name,detail)=>document.dispatchEvent(new CustomEvent(`whisper:menu-${name}`,{detail}));
  const writable=e=>e instanceof HTMLElement&&!e.closest('[hidden]')&&((e instanceof HTMLTextAreaElement||e instanceof HTMLInputElement)&&!e.readOnly&&!e.disabled&&['text','search','url','email','tel','password','textarea'].includes(e.type)||e.isContentEditable);
- function dismiss(focus=false){if(menu.matches(':popover-open'))menu.hidePopover();menu.hidden=true;if(focus)restoreFocus?.focus({preventScroll:true});}
+ function dismiss(focus=false){opened=false;emit('close');if(focus)restoreFocus?.focus({preventScroll:true});}
  function restore(){target?.focus({preventScroll:true});if(snapshot&&target?.value===snapshot.value)target.setSelectionRange(snapshot.start,snapshot.end);else if(range&&target?.contains(range.commonAncestorContainer)){const s=getSelection();s.removeAllRanges();s.addRange(range);}}
  function replace(text){
   if(!writable(target)||!target.isConnected)return false;
@@ -11,7 +11,9 @@ export function editorMenu({copy,notify,inspect,t}){
   else{if(!range||!target.contains(range.commonAncestorContainer))return false;restore();document.execCommand('insertText',false,text);}
   target.dispatchEvent(new Event('input',{bubbles:true}));return true;
  }
+ document.addEventListener('pointerdown',e=>{if(e.button===2)emit('warm');});
  document.addEventListener('contextmenu',e=>{
+  if(e.target instanceof Element&&e.target.closest('#context-menu-host'))return;
   e.preventDefault();generation++;dismiss();restoreFocus=document.activeElement;
   const element=e.target instanceof Element?e.target:null;
   target=element?.closest('input,textarea,[contenteditable=true]')||null;range=null;snapshot=null;selection='';
@@ -20,35 +22,37 @@ export function editorMenu({copy,notify,inspect,t}){
    if(start!==null){snapshot={start,end,value:target.value};selection=target.value.slice(start,end);}
    if(!selection&&target.readOnly)selection=target.value;
   }else{const s=getSelection();selection=s?.toString()||'';if(s?.rangeCount)range=s.getRangeAt(0).cloneRange();}
-  buttons.find(b=>b.dataset.edit==='copy').disabled=!selection;
-  buttons.find(b=>b.dataset.edit==='cut').disabled=!selection||!writable(target);
-  buttons.find(b=>b.dataset.edit==='paste').disabled=!writable(target);
-  menu.hidden=false;menu.showPopover();
-  const r=menu.getBoundingClientRect(),anchor=element?.getBoundingClientRect();
-  const x=e.clientX||anchor?.left||8,y=e.clientY||anchor?.bottom||8;
-  menu.style.left=Math.max(8,Math.min(x,innerWidth-r.width-8))+'px';menu.style.top=Math.max(8,Math.min(y,innerHeight-r.height-8))+'px';
-  (buttons.find(b=>!b.disabled)||menu).focus({preventScroll:true});notify();
+  const token=generation,anchor=element?.getBoundingClientRect();opened=true;
+  emit('open',{x:e.clientX||anchor?.left||8,y:e.clientY||anchor?.bottom||8,container:element?.closest('dialog[open]')||undefined,
+   items:['copy','paste','cut'].map(action=>({action,label:t(action),disabled:action==='copy'?!selection:action==='cut'?!selection||!writable(target):!writable(target)})),
+   closed(){if(token===generation)opened=false;},
+   async select(action){
+    if(token!==generation)return;dismiss();restore();
+    if(action==='copy')await copy(selection);
+    if(action==='cut'&&await copy(selection)&&token===generation)replace('');
+    if(action==='paste')try{
+     const text=await navigator.clipboard.readText();if(token!==generation)return;
+     let html='',notion='';
+     if(target?.matches('#message,#rich-editor')&&navigator.clipboard.read)try{
+      const items=await navigator.clipboard.read(),item=items.find(item=>item.types.includes('text/html'));if(item)html=await (await item.getType('text/html')).text();
+      const blocks=items.find(item=>item.types.includes('text/_notion-blocks-v3-production'));if(blocks)notion=await (await blocks.getType('text/_notion-blocks-v3-production')).text();
+     }catch{/* Plain text remains available when HTML clipboard access is unsupported. */}
+     if(token!==generation||!writable(target)||snapshot&&target.value!==snapshot.value)return;
+     restore();
+     if(target.matches('#message,#rich-editor')){
+      const data=new DataTransfer();data.setData('text/plain',text);if(html)data.setData('text/html',html);if(notion)data.setData('text/_notion-blocks-v3-production',notion);
+      const event=new ClipboardEvent('paste',{clipboardData:data,bubbles:true,cancelable:true});target.dispatchEvent(event);if(event.defaultPrevented)return;
+     }
+     replace(text);
+    }catch{notify(t('pasteShortcut'));}
+   }
+  });notify();
  });
- menu.addEventListener('pointerdown',e=>e.preventDefault());
- menu.addEventListener('click',async e=>{
-  const action=e.target.closest('[data-edit]')?.dataset.edit;if(!action)return;
-  const token=generation;dismiss();restore();
-  if(action==='copy')await copy(selection);
-  if(action==='cut'&&await copy(selection)&&token===generation)replace('');
-  if(action==='paste')try{const text=await navigator.clipboard.readText();if(token===generation){restore();replace(text);}}catch{notify(t('pasteShortcut'));}
- });
- document.addEventListener('pointerdown',e=>{if(!menu.contains(e.target))dismiss();},true);
- for(const event of ['scroll','resize'])window.addEventListener(event,()=>dismiss(),{passive:true});
+ for(const event of ['scroll','resize'])window.addEventListener(event,()=>{if(opened)dismiss();},{passive:true});
  document.addEventListener('keydown',e=>{
   if(e.key==='F12'||((e.ctrlKey&&e.shiftKey||e.metaKey&&e.altKey)&&['i','j','c'].includes(e.key.toLowerCase()))){e.preventDefault();dismiss();inspect();return;}
-  if(!menu.matches(':popover-open'))return;
-  if(e.key==='Escape'){e.preventDefault();dismiss(true);return;}
-  if(e.key==='Tab'){dismiss(true);return;}
-  if(['ArrowDown','ArrowUp','Home','End'].includes(e.key)){
-   e.preventDefault();const active=buttons.filter(b=>!b.disabled);if(!active.length)return;
-   const i=active.indexOf(document.activeElement),next=e.key==='Home'?0:e.key==='End'?active.length-1:(i+(e.key==='ArrowDown'?1:-1)+active.length)%active.length;active[next].focus();
-  }
+  if(opened&&e.key==='Escape'){e.preventDefault();dismiss(true);}
  },true);
- window.addEventListener('pagehide',()=>{dismiss();target=range=snapshot=null;selection='';});
+ window.addEventListener('pagehide',()=>{generation++;dismiss();target=range=snapshot=null;selection='';});
  return {dismiss(){generation++;dismiss();target=range=snapshot=restoreFocus=null;selection='';}};
 }

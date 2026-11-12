@@ -13,7 +13,7 @@ async function choose(page){
 async function solve(page){
  await expect(page.locator('#challenge-label')).not.toHaveText('Đang chuẩn bị…');await page.waitForTimeout(550);
  const n=Number((await page.locator('#challenge-label').textContent()).match(/\d+/)[0]),r=await page.locator('#wake-track').boundingBox();
- await page.mouse.move(r.x,r.y+r.height/2);await page.mouse.down();await page.mouse.move(r.x+r.width*n/100,r.y+r.height/2,{steps:8});await page.mouse.up();await page.locator('#settings-done').click();
+ await page.mouse.move(r.x,r.y+r.height/2);await page.mouse.down();await page.mouse.move(r.x+r.width*n/100,r.y+r.height/2,{steps:8});await page.mouse.up();const response=page.waitForResponse(r=>r.url().endsWith('/api/messages')&&r.request().method()==='POST');await page.locator('#settings-done').click();const result=await response;expect(result.ok(),result.ok()?'Created':await result.text()).toBe(true);
 }
 test('music reference is encrypted, shared, freshly resolved, played and burned',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));let payload='';page.on('request',r=>{if(r.url().endsWith('/api/messages'))payload=r.postData();});

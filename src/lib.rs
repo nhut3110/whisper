@@ -476,14 +476,45 @@ async fn preview(
         .replace('<', "&lt;")
         .replace('>', "&gt;");
     let tags = format!(
-        r#"<meta name="robots" content="noindex, noarchive, nosnippet"><meta name="description" content="{description}"><meta property="og:title" content="{title}"><meta property="og:description" content="{description}"><meta property="og:type" content="website"><meta property="og:image" content="{origin}/og-{kind}.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">"#
+        r#"<meta name="robots" content="noindex, noarchive, nosnippet"><meta name="description" content="{description}"><meta property="og:title" content="{title}"><meta property="og:description" content="{description}"><meta property="og:type" content="website"><meta property="og:image" content="{origin}/og-{kind}.png?v=soft-w2"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">"#
     );
     Ok(axum::response::Html(
-        include_str!("../web/index.html").replace("</head>", &(tags + "</head>")),
+        client_html().await.replace("</head>", &(tags + "</head>")),
     ))
 }
+// Vite output is loaded at runtime, so the Rust API can still compile independently.
+async fn client_html() -> String {
+    tokio::fs::read_to_string("dist/index.html")
+        .await
+        .unwrap_or_else(|_| include_str!("../web/index.html").to_owned())
+}
+async fn client_asset(Path(file): Path<String>) -> Response {
+    // Assets are flat, public build artifacts. Never allow traversal or source maps.
+    if file.contains("..")
+        || file.contains('/')
+        || file.contains('\\')
+        || !(file.ends_with(".js") || file.ends_with(".css"))
+    {
+        return StatusCode::NOT_FOUND.into_response();
+    }
+    match tokio::fs::read(format!("dist/assets/{file}")).await {
+        Ok(bytes) => (
+            [(
+                "content-type",
+                if file.ends_with(".css") {
+                    "text/css"
+                } else {
+                    "text/javascript"
+                },
+            )],
+            bytes,
+        )
+            .into_response(),
+        Err(_) => StatusCode::NOT_FOUND.into_response(),
+    }
+}
 async fn index() -> impl IntoResponse {
-    axum::response::Html(include_str!("../web/index.html"))
+    axum::response::Html(client_html().await)
 }
 async fn js() -> impl IntoResponse {
     (
@@ -530,6 +561,7 @@ async fn favicon() -> impl IntoResponse {
 pub fn router(app: App) -> Router {
     Router::new()
         .route("/", get(index))
+        .route("/assets/{*file}", get(client_asset))
         .route("/s/{handle}", get(preview))
         .route("/index.html", get(index))
         .route(

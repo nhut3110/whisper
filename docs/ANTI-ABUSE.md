@@ -30,7 +30,7 @@ Count/insert is protected by the same PostgreSQL transaction lock as the storage
 
 Errors return 409/`activeLimit` or 429/`rateLimit`/`createLimit`, with local UI messages and Retry-After on throttling. Rate limits can also affect legitimate users behind a shared IP; the defaults target a small personal service.
 
-## Deployment prerequisites — code not deployed yet
+## Deployment prerequisites and rollout
 
 **Do not push/deploy this revision before configuration is ready.** The user requires separate approval for every push.
 
@@ -39,7 +39,7 @@ Errors return 409/`activeLimit` or 429/`rateLimit`/`createLimit`, with local UI 
 3. The existing Supabase workflow discovers the new checksum-checked migration automatically; no extra provider is needed. `index.ts` fails closed if the gateway secret is missing. The Vercel build bundles the gateway without embedding its runtime secret.
 4. Verify cookie flags, spoofed-header refusal, direct-Supabase refusal, three parallel creates, real 429 responses, metadata/open/revoke, audio, previews and music on the deployed version.
 
-The Rust local reference API retains its existing global rate/storage caps and slider checks. The new hosted identity limits are implemented in the Vercel/Edge/Postgres path; use `scripts/edge-dev.ts` to test that path, not standalone `cargo run`. The local music lab and loopback `preview-beta.mjs` search likewise remain isolated provider experiments; hosted beta music uses the distributed admission path.
+The Rust local reference API retains its existing global rate/storage caps and slider checks. The hosted identity limits are implemented in the Vercel/Edge/Postgres path; use `scripts/edge-dev.ts` to test that path, not standalone `cargo run`. The local music lab and loopback `preview-beta.mjs` search likewise remain isolated provider experiments; hosted beta music uses the distributed admission path.
 
 ## Limits of protection
 
@@ -51,7 +51,7 @@ This reduces automatic mass creation and bounds accepted storage/creation, but c
 - 24 real Edge/PostgreSQL integration tests: simultaneous creates, slot release via read/revoke/expiry/PIN, cookie/owner rotation under shared network limits, challenge ownership, budget expiry, daily/hourly quotas, distributed music limits and previous encrypted message/PIN/RLS flows.
 - 9 browser regressions against the actual signed gateway + Edge handler + disposable PostgreSQL: encrypted text/rich/audio creation and reading, PINs, revocation, concurrent readers and mobile layouts. The added quota UI test verifies a persistent in-dialog error, retained draft, HttpOnly cookie and creation after a read frees a slot.
 
-These are local checks. The shared secret has been configured as described below. Provider firewall protection and live behavior of the new code remain unverified until an approved rollout.
+These are local checks. The shared secret and approved backend commit are deployed. Live smoke confirmed the two-link limit, slot release, PIN reading and direct unsigned request denial. Provider-level flood protection and load behavior remain unverified; no production load test was run.
 
 ## Test configuration prepared
 
@@ -60,5 +60,4 @@ Whisper Supabase project and the personal `my-hobby19/whisper-nhut3110` Vercel
 project (Production and Preview). Its local backup is in ignored
 `.private/deploy.json`, mode 0600. Never expose it via `VITE_`/`NEXT_PUBLIC_`,
 commit it, or reuse it for a user-facing PIN. Rotate the same value on both
-services together. Configuration alone does not deploy the pending gateway or
-migration; release them together following the rollout steps above.
+services together. The gateway, migration and Edge code from approved commit `0e14145` are deployed. The initial CI browser batch itself reached the gateway request brake; the pending workflow fix separates server lifetimes without changing any production quota.

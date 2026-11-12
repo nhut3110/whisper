@@ -1,7 +1,7 @@
 // Local bridge for the EXACT Edge handler and PostgreSQL RPC, no mocked API.
 import {previewHTML} from '../supabase/functions/whisper/preview.ts';
 import http from 'node:http';
-import {readFile} from 'node:fs/promises';
+import {readFile,readdir} from 'node:fs/promises';
 import pg from 'pg';
 import {musicHandler} from '../server/music.mjs';
 import {gatewayHandler} from '../server/gateway.mjs';
@@ -15,9 +15,9 @@ const api=handler({origin,gatewaySecret,pepper:'local-test-pepper-01234567890123
 const gateway=gatewayHandler({origin,secret:gatewaySecret,upstream:origin+'/api',production:false,fetcher:async(url,options)=>api(new Request(url,options))});
 const music=musicHandler({origin,secret:gatewaySecret,upstream:origin+'/api',production:false,fetcher:async(url,options)=>api(new Request(url,options))});
 const enableBeta=(html:string)=>html.replace('</head>','<meta name="whisper-music-beta" content="1"></head>');
-const files=new Map(['format.js','index.html','app.js','crypto.js','style.css','rich.js','theme.js','interactions.js','i18n.js','audio.js','editor-menu.js'].map(f=>['/'+f,f]));
-for(const kind of ['once','timed','gone'])files.set(`/og-${kind}.png`,`og-${kind}.png`);
-files.set('/marked.js','vendor/marked.js');files.set('/purify.js','vendor/purify.js');files.set('/favicon.svg','whisper-mark.svg');
+const publicNames=['format.js','index.html','app.js','crypto.js','style.css','rich.js','theme.js','interactions.js','i18n.js','audio.js','editor-menu.js','marked.js','purify.js','favicon.svg','og-once.png','og-timed.png','og-gone.png'];
+for(const file of await readdir(new URL('../.vercel/output/static/assets/',import.meta.url)))if(/\.(js|css)$/.test(file))publicNames.push('assets/'+file);
+const files=new Map(publicNames.map(f=>['/'+f,f]));
 http.createServer(async(req,res)=>{
  try{
   const path=new URL(req.url!,origin).pathname;
@@ -33,7 +33,7 @@ http.createServer(async(req,res)=>{
   if(/^\/s\/[A-Za-z0-9_-]{16}$/.test(path)){
    const result=await api(new Request(origin+'/api/preview/'+path.slice(3)));
    if(![200,410].includes(result.status)){res.writeHead(503);res.end();return;}
-   const html=previewHTML(enableBeta(await readFile(new URL('../web/index.html',import.meta.url),'utf8')),origin,path.slice(3),result.status===200?await result.json():null);
+   const html=previewHTML(enableBeta(await readFile(new URL('../.vercel/output/static/index.html',import.meta.url),'utf8')),origin,path.slice(3),result.status===200?await result.json():null);
    res.writeHead(200,{...previewHeaders,'Content-Type':'text/html; charset=utf-8'});res.end(html);return;
   }
   if(path.startsWith('/api/')||path==='/health'){
@@ -43,6 +43,6 @@ http.createServer(async(req,res)=>{
   const file=path==='/'||/^\/(m|revoke)\/[^/]+$/.test(path)?'index.html':files.get(path);
   if(!file){res.writeHead(404);res.end();return;}
   const mime=file.endsWith('.js')?'text/javascript':file.endsWith('.css')?'text/css':file.endsWith('.svg')?'image/svg+xml':file.endsWith('.png')?'image/png':'text/html';
-  res.writeHead(200,{'Content-Type':mime,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self'; media-src blob:; frame-src 'self'; font-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; object-src 'none'"});res.end(file==='index.html'?enableBeta(await readFile(new URL('../web/'+file,import.meta.url),'utf8')):await readFile(new URL('../web/'+file,import.meta.url)));
+  res.writeHead(200,{'Content-Type':mime,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self'; media-src blob:; frame-src 'self'; font-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; object-src 'none'"});res.end(file==='index.html'?enableBeta(await readFile(new URL('../.vercel/output/static/'+file,import.meta.url),'utf8')):await readFile(new URL('../.vercel/output/static/'+file,import.meta.url)));
  }catch{res.writeHead(503);res.end();}
 }).listen(8788,'127.0.0.1',()=>console.log('Whisper Edge test bridge ready on '+origin));

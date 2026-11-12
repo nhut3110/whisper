@@ -2,17 +2,20 @@
 
 Live: https://whisper-nhut3110.vercel.app
 
-Personal temporary messages with a small, framework-free browser UI. The browser encrypts/decrypts with Web Crypto AES-256-GCM. Production uses Vercel static hosting + a Supabase Edge Function and Postgres. The Rust Axum implementation remains available for local development and self-hosting.
+Personal temporary messages with a Vite + React + TypeScript browser shell and small shadcn/ui primitives. The browser encrypts/decrypts with Web Crypto AES-256-GCM. Production uses Vercel static hosting + a Supabase Edge Function and Postgres. The Rust Axum implementation remains available for local development and self-hosting.
 
 ## Run locally on macOS
 
 Double-click **Start Whisper.command**, or:
 
 ```sh
+npm ci
 ./scripts/dev.sh
 ```
 
 Open http://localhost:8787. The script generates a private, Git-ignored `.env` pepper on first run. It uses installed Rust or the isolated `/tmp/temporary-cargo` toolchain created during development. `/tmp` is temporary; install stable Rust from https://rustup.rs for continued use. Requires OpenSSL for first-run secret generation.
+
+For frontend development, leave that local Rust API running, then run `npm run dev` and open http://localhost:5173. Vite serves the TSX shell, reloads safely when custom islands change, and proxies local API requests. The music search screen is included in Vite development. No cloud credentials are required.
 
 Default storage is `hush.db` (SQLite, local only). The same API is tested against PostgreSQL. No cloud account or deployment is configured by this command.
 
@@ -23,6 +26,51 @@ The UI follows the first supported browser language, with English fallback. 16 c
 A blank writing surface with only the W. monogram in the upper-left, copy and appearance controls, and a compact eye-tracking share companion. Click the eyes for a single settings panel with inline desktop Wake Slider or mobile Slide to Confirm. Completed links wear incognito glasses. There is no separate chevron. Thought bubbles appear for 5 seconds, rest, and cycle through localized lines. Expiry, single-read, PIN and rich text live in a native modal (a bottom sheet on mobile). No decorative landing content or permanent settings form. Light/dark defaults to the system; an explicit choice is remembered locally under `whisper-theme` (appearance only, never message data). Logo assets and usage notes are in [art/brand](art/brand/README.md). Bencho original component sources, MIT notice and porting notes are in [references/bencho](references/bencho/README.md). Receiver hints use authenticated, non-consuming metadata and show the actual expiry/single-read policy.
 
 Copy the complete message, individual paragraphs, or the selected substring. Optional rich text supports bold, italic, underline and lists. It loads the locally vendored DOMPurify module only when formatting is enabled or a rich message is opened. No CDN. Safe pasted rich text is detected automatically. Typed Markdown and semantic HTML are automatically rendered on the receiving screen; Markdown headings, lists, quotes, code blocks and tables are supported. Images and unsafe links are stripped. HTTPS links open separately with no referrer. Clipboard supports HTML + plain-text flavors where available; otherwise manual selection/copy remains available. Rich payload markup counts toward the 256 KiB encrypted-content limit.
+
+## Writing tools
+
+The text surface has a small, local editor inspired by Notion: `/` searches paragraph,
+three heading levels, bullet/numbered lists, quotes, code, checklists, toggles,
+callouts, dividers and simple tables. The aligned `+` control opens the picker;
+the six-dot handle reorders top-level blocks with pointer/touch or ↑/↓ and native Undo. Arrow keys choose a block; Enter applies it;
+Escape leaves the draft intact. Markdown-style `# `, `- `, `1. `, `> ` and triple-backtick
+shortcuts convert the current line. Selecting text reveals a compact floating bar for block type, bold/italic/underline/strike,
+inline code, HTTPS links, text/highlight colors and clear formatting. Table Tab moves
+between cells and adds a row at the end. Clipboard HTML (including common Notion
+style spans) is normalized to safe semantic markup; plain Markdown also renders
+when pasted into an already-formatted draft. Custom-menu Paste follows this path too.
+This is a focused message editor, not Notion's database or collaborative workspace.
+
+The optional editor module loads on first writing focus. Rich-text parsing/sanitizing
+loads on first formatting action. Message sizing is calculated when opening settings,
+not after every keystroke. Menus coalesce selection updates into one animation frame;
+IME composition is left untouched. The shadcn context menu also loads separately and
+contains only Copy, Paste and Cut, preserving selections and clipboard refusal handling.
+All content still passes through the existing sanitizer before encryption and display.
+
+Notion paste has two adapters: rendered canvas HTML is reduced to semantic blocks
+before layout wrappers are discarded; native `text/_notion-blocks-v3-production`
+clipboard data preserves task state, text annotations and toggle children. Only
+content fields are imported; workspace/user metadata and IDs are discarded. No
+Notion API or resource fetch is made. Invalid/oversized structured data falls back
+to sanitized HTML/Markdown. Collapsed content absent from the clipboard cannot be
+recovered. Semantic HTML checklist markers (`[ ]` / `[x]`) are also recognized.
+
+Block handles also open a keyboard-accessible menu: turn into, color, copy,
+duplicate, move and delete. Individual list rows can be dragged or nested with
+Tab/Shift+Tab. Enter continues an unchecked task; Enter on an empty list item
+returns to a paragraph. Table tools add/delete rows and columns, toggle header
+rows/columns, clear cells or delete the table. These edits support native Undo.
+Local placeholders guide empty blocks without becoming message content.
+
+Shortcuts: Ctrl/⌘+K for links, Ctrl/⌘+E for inline code, Ctrl/⌘+Shift+D to duplicate,
+Ctrl/⌘+Shift+Enter to check a task, Ctrl/⌘+Alt+0–9 for block types. Escape leaves
+a code/quote/callout/toggle block. Shift+Enter retains a soft line break.
+
+This is not complete Notion feature parity. Database views, multi-column layouts,
+media/file embeds, collaboration, formulas and advanced table sizing/merge tools
+are not implemented. Unsupported
+structured blocks retain available text and children, without fetching attachments.
 
 ## Compact private links
 
@@ -109,6 +157,15 @@ Creating a link attempts to copy only the recipient link immediately; the PIN is
 
 ## Local music beta
 
-`SUPABASE_PROJECT_REF=hzzmzskqmgowntzqfxrd npm run build:beta` builds the opt-in music experiment. Run `node scripts/preview-beta.mjs` and open http://127.0.0.1:8793/music-beta/. `npm run build` excludes music; the approved personal Vercel deployment uses `build:beta`. The main Text / Voice / Music (beta) switch now creates encrypted music-reference links using the existing expiry/PIN/one-read controls. Deezer streams previews only (up to 30 seconds); provider rights remain unresolved for public launch. See [music QC and limits](docs/MUSIC-BETA-QA.md) and [provider terms review](docs/DEEZER-REVIEW.md). `npm run test:music` runs repeatable fixture-based player regressions.
+`SUPABASE_PROJECT_REF=hzzmzskqmgowntzqfxrd npm run build:beta` builds the opt-in music experiment. Run `node scripts/preview-beta.mjs` and open http://127.0.0.1:8793/music-beta/. `npm run build` excludes music; the approved personal Vercel deployment uses `build:beta`. The main Text / Voice / Music switch now creates encrypted music-reference links using the existing expiry/PIN/one-read controls. Deezer streams previews only (up to 30 seconds); provider rights remain unresolved for public launch. See [music QC and limits](docs/MUSIC-BETA-QA.md) and [provider terms review](docs/DEEZER-REVIEW.md). `npm run test:music` runs repeatable fixture-based player regressions.
 
 Hosted anonymous anti-spam controls and required server configuration are documented in [docs/ANTI-ABUSE.md](docs/ANTI-ABUSE.md). They use the existing Vercel + Supabase setup; no login or hardware fingerprint is required. The signed gateway secret must be configured in both services before deploying that revision.
+
+## Frontend structure
+
+- `frontend/`: strict TypeScript/TSX shell, screen components, shadcn/ui primitives and Tailwind tokens. `components.json` configures the official shadcn registry and aliases.
+- `web/`: the existing custom JavaScript controllers for encryption, editor/media lifecycles, mascot/bubbles and verification. These DOM islands are initialized after React hydration; they are not yet a full React-state or TypeScript migration. Keep the shell stable while they own their DOM.
+- `experiments/deezer-preview/`: isolated music library/player, reused by the production build and Vite development.
+- `npm run typecheck`, `npm run build:client`: check TS and build the standalone frontend. `npm run build:beta` still emits Vercel's existing Build Output API layout with its gateway and preview functions; Supabase is unchanged.
+
+The public HTML is rendered at build time, then hydrated once. No user message data enters that build. Plain text does not eagerly load the rich-text parser, sanitizer, recorder or music iframe. The new React/UI entry is about 84 kB gzip; this is additional to the custom controllers. The migration improves component maintenance, not download size. Shadcn attribution is in [references/shadcn](references/shadcn/README.md).

@@ -1,15 +1,12 @@
 import {build} from 'esbuild';
-import {mkdir,writeFile,copyFile,rm,readFile} from 'node:fs/promises';
+import {musicAsset,musicAssetNames} from './music-assets.mjs';
+import {mkdir,writeFile,copyFile,rm,readFile,cp} from 'node:fs/promises';
 const ref=process.env.SUPABASE_PROJECT_REF;
 if(!/^[a-z]{20}$/.test(ref||''))throw new Error('Set SUPABASE_PROJECT_REF to the dedicated Whisper project reference');
 const out='.vercel/output',musicBeta=process.env.INCLUDE_MUSIC_BETA==='1';
 await rm(out,{recursive:true,force:true});await mkdir(`${out}/static`,{recursive:true});
-const files=['format.js','index.html','app.js','crypto.js','style.css','rich.js','theme.js','interactions.js','i18n.js','audio.js','editor-menu.js'];
-for(const file of files)await copyFile(`web/${file}`,`${out}/static/${file}`);
-await copyFile('web/vendor/purify.js',`${out}/static/purify.js`);
-await copyFile('web/vendor/marked.js',`${out}/static/marked.js`);
-for(const kind of ['once','timed','gone'])await copyFile(`web/og-${kind}.png`,`${out}/static/og-${kind}.png`);
-await copyFile('web/whisper-mark.svg',`${out}/static/favicon.svg`);
+await (await import('vite')).build();
+await cp('dist',`${out}/static`,{recursive:true});
 const upstream=`https://${ref}.supabase.co/functions/v1/whisper`;
 const functionDir=`${out}/functions/share.func`;
 await mkdir(functionDir,{recursive:true});
@@ -20,7 +17,7 @@ const root=new URL('./',import.meta.url);
 const config=JSON.parse(await readFile(new URL('public-config.json',root),'utf8'));
 export default shareHandler(config,await readFile(new URL('index.html',root),'utf8'));
 `);
-await copyFile('web/index.html',`${functionDir}/index.html`);
+await copyFile('dist/index.html',`${functionDir}/index.html`);
 
 await writeFile(`${functionDir}/public-config.json`,JSON.stringify({api:upstream,origin:'https://whisper-nhut3110.vercel.app'}));
 await writeFile(`${functionDir}/.vc-config.json`,JSON.stringify({runtime:'nodejs22.x',handler:'index.mjs',launcherType:'Nodejs',shouldAddHelpers:true}));
@@ -40,12 +37,7 @@ await writeFile(`${gatewayDir}/.vc-config.json`,JSON.stringify({runtime:'nodejs2
 const betaRoutes=[];
 if(musicBeta){
  const dir=`${out}/static/music-beta`;await mkdir(dir,{recursive:true});
- for(const file of ['index.html','app.js','style.css']){
-  let source=await readFile(`experiments/deezer-preview/${file}`,'utf8');
-  source=source.replaceAll('/interactions.js','/music-beta/interactions.js').replaceAll('/style.css','/music-beta/style.css').replaceAll('/app.js','/music-beta/app.js').replaceAll('/api/search','/music-beta/search');
-  await writeFile(`${dir}/${file}`,source);
- }
- for(const file of ['interactions.js','i18n.js'])await writeFile(`${dir}/${file}`,(await readFile(`web/${file}`,'utf8')).replaceAll("'/i18n.js'","'/music-beta/i18n.js'"));
+ for(const file of musicAssetNames)await writeFile(`${dir}/${file}`,await musicAsset(file));
  const fn=`${out}/functions/music-search.func`;await mkdir(fn,{recursive:true});
  await build({entryPoints:['server/music.mjs'],outfile:`${fn}/music.mjs`,platform:'node',format:'esm',bundle:true});
  await writeFile(`${fn}/index.mjs`, `import {musicHandler} from './music.mjs';\nexport default musicHandler({secret:process.env.WHISPER_GATEWAY_SECRET,origin:'https://whisper-nhut3110.vercel.app',upstream:'${upstream}'});\n`);

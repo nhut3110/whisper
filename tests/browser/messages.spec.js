@@ -24,7 +24,7 @@ async function create(page,{text='Chỉ giữa chúng ta 🐚\n秘密',pin=false
   await page.locator('#create').click();if(pin)await page.getByLabel('Thêm mã 6 số').check();if(!burn)await page.getByLabel('Chỉ mở một lần',{exact:true}).uncheck();await solve(page);await expect(page.locator('#created')).toBeVisible();
   return {link:await page.locator('#share-link').inputValue(),revoke:await page.locator('#revoke-link').inputValue(),pin:await page.locator('#generated-pin').textContent()};
 }
-async function open(page,link,pin){await page.goto(link);await expect.poll(async()=>await page.locator('#ended').isVisible()||await page.locator('#open').isEnabled()).toBe(true);if(await page.locator('#ended').isVisible())return;await expect(page.locator('#receive')).toBeVisible();await page.locator('#create').click();if(pin)await page.locator('#pin').fill(pin);await page.locator('#open').click();}
+async function open(page,link,pin){await page.goto(link);await expect(page.locator('#root')).not.toHaveAttribute('inert','');await expect.poll(async()=>await page.locator('#ended').isVisible()||await page.locator('#receive').isVisible()).toBe(true);if(await page.locator('#ended').isVisible())return;await expect(page.locator('#receive')).toBeVisible();await page.locator('#create').click();if(pin)await page.locator('#pin').fill(pin);await page.locator('#open').click();}
 async function closeReading(page){await page.locator('#create').click();await page.locator('#clear').click();}
 test('create → explicit read → clear → second read denied; no plaintext in request',async({page})=>{
   const failures=[];page.on('pageerror',e=>failures.push(e.message));let sent;
@@ -55,7 +55,7 @@ test('clipboard buttons and fallback',async({page,context})=>{await context.gran
 test('expired message is unreadable after real wall-clock TTL',async({page})=>{test.setTimeout(90000);await page.goto('/');const v=await page.evaluate(async()=>{const {seal,randomToken}=await import('/crypto.js');const {key,...box}=await seal('Expiry test');const access=randomToken(),revoke=randomToken();const c=await (await fetch('/api/challenges',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({mobile:false})})).json();await new Promise(r=>setTimeout(r,550));const res=await fetch('/api/messages',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({...box,access,revoke,ttl:60,burn:false,pin:null,verification:{id:c.id,answer:c.target}})});if(!res.ok)throw Error('create failed');const data=await res.json();return {link:`${location.origin}/m/${data.id}#k=${key}&a=${access}`,expires:data.expires_at};});await open(page,v.link);await expect(page.locator('#reading')).toBeVisible();await page.waitForTimeout(Math.max(0,v.expires*1000-Date.now()+1100));await open(page,v.link);await expect(page.locator('#ended')).toBeVisible();});
 test('mobile compose and receive stay within viewport',async({page})=>{await page.setViewportSize({width:390,height:844});const v=await create(page,{pin:true});await page.screenshot({path:'test-results/mobile-created.png',fullPage:true});await open(page,v.link,v.pin);await expect(page.locator('#reading')).toBeVisible();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:'test-results/mobile-read.png',fullPage:true});});
 
-test('custom expiry controls and no browser persistence',async({page})=>{await page.goto('/');await page.locator('#create').click();await page.locator('#ttl').selectOption('custom');await expect(page.locator('#custom-expiry')).toBeVisible();await page.locator('#ttl-minutes').fill('15');await page.locator('#settings-close').click();await page.locator('#message').fill('Custom TTL');const response=page.waitForResponse(r=>r.url().endsWith('/api/messages')&&r.request().method()==='POST');await share(page);const data=await (await response).json();expect(data.expires_at-Math.floor(Date.now()/1000)).toBeGreaterThanOrEqual(898);await expect(page.locator('#created')).toBeVisible();expect(await page.evaluate(()=>[localStorage.length,sessionStorage.length,document.cookie])).toEqual([0,0,'']);});
+test('custom expiry controls and no browser persistence',async({page})=>{await page.goto('/');await page.locator('#create').click();await page.locator('[data-expiry=custom]').click();await expect(page.locator('#custom-expiry')).toBeVisible();await page.locator('#ttl-minutes').fill('15');await page.locator('#settings-close').click();await page.locator('#message').fill('Custom TTL');const response=page.waitForResponse(r=>r.url().endsWith('/api/messages')&&r.request().method()==='POST');await share(page);const data=await (await response).json();expect(data.expires_at-Math.floor(Date.now()/1000)).toBeGreaterThanOrEqual(898);await expect(page.locator('#created')).toBeVisible();expect(await page.evaluate(()=>[localStorage.length,sessionStorage.length,document.cookie])).toEqual([0,0,'']);});
 
 test('plain reader copies all, individual paragraphs and selected substring',async({page,context})=>{
  await context.grantPermissions(['clipboard-read','clipboard-write']);
@@ -343,4 +343,19 @@ test('anonymous create quota keeps its error visible and preserves the draft; re
  await page.locator('#settings-close').click();await expect(page.locator('#message')).toHaveValue('Keep this third draft');
  expect(await page.evaluate(()=>document.cookie.includes('whisper-device'))).toBe(false);
  await open(page,a.link);await expect(page.locator('#reading')).toBeVisible();await create(page,{text:'Slot released'});
+});
+
+test('desktop alternates cursor following with varied emotes without pointer interruptions',async({page})=>{
+ await page.clock.install();await page.goto('/');const bot=page.locator('#create');
+ await page.evaluate(()=>{window.desktopEmotes=[];new MutationObserver(()=>{const value=document.querySelector('#create').dataset.emote;if(value!=='neutral')window.desktopEmotes.push(value);}).observe(document.querySelector('#create'),{attributes:true,attributeFilter:['data-emote']});});
+ await page.mouse.move(20,20);await page.clock.runFor(600);
+ await expect(bot).toHaveAttribute('data-attention','follow');await expect(bot).toHaveAttribute('data-emote','neutral');
+ expect(await bot.locator('.face-rig').getAttribute('transform')).not.toMatch(/translate\(0\.000 0\.000\)/);
+ for(let i=0;i<28&&await bot.getAttribute('data-attention')!=='front';i++)await page.clock.runFor(200);
+ await expect(bot).toHaveAttribute('data-attention','front');const mood=await bot.getAttribute('data-emote');expect(mood).not.toBe('neutral');
+ await page.mouse.move(200,80);await page.clock.runFor(900);await expect(bot).toHaveAttribute('data-emote',mood);
+ const shift=await bot.locator('.face-rig').getAttribute('transform');const [,x,y]=shift.match(/translate\(([-\d.]+) ([-\d.]+)\)/);expect(Math.abs(Number(x))+Math.abs(Number(y))).toBeLessThan(.1);
+ await page.clock.runFor(2300);await expect(bot).toHaveAttribute('data-attention','follow');await expect(bot).toHaveAttribute('data-emote','neutral');
+ expect(await bot.locator('.face-rig').getAttribute('transform')).not.toMatch(/translate\(0\.000 0\.000\)/);
+ await page.clock.runFor(16000);const moods=await page.evaluate(()=>window.desktopEmotes);expect(new Set(moods).size).toBeGreaterThanOrEqual(2);for(let i=1;i<moods.length;i++)expect(moods[i]).not.toBe(moods[i-1]);
 });

@@ -35,3 +35,12 @@ test('mobile reduced-motion stage fits and retains click-to-play',async({page})=
  expect(await page.locator('.record-spin').evaluate(e=>getComputedStyle(e).animationName)).toBe('none');
  await page.locator('#recipient-preview').click();await expect(page.locator('#intro-line')).toBeVisible();
 });
+test('search waits for module readiness instead of navigating away and losing the query',async({page})=>{
+ let release;const ready=new Promise(resolve=>release=resolve);
+ await page.route('**/interactions.js',async route=>{await ready;await route.continue();});
+ await page.route('**/api/search?*',r=>r.fulfill({json:{tracks:[]}}));
+ try{
+  await page.goto('/',{waitUntil:'commit'});await page.locator('#query').fill('Rick Astley');await expect(page.locator('#submit')).toBeDisabled();
+  release();await page.locator('#submit').click();await expect(page.locator('#status')).toHaveText('Không có kết quả. Thử tên khác nhé.');await expect(page.locator('#query')).toHaveValue('Rick Astley');expect(new URL(page.url()).search).toBe('');
+ }finally{release();}
+});

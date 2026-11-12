@@ -17,4 +17,5 @@ fi
 set -a
 . ./.env
 set +a
+npm run build:client
 exec cargo run

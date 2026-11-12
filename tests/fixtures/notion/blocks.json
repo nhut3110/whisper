@@ -1,0 +1,160 @@
+{
+  "blocks": [
+    {
+      "blockId": "intro",
+      "blockSubtree": {
+        "__version__": 3,
+        "block": {
+          "intro": {
+            "value": {
+              "type": "text",
+              "properties": {
+                "title": [
+                  [
+                    "👋 Welcome to Notion!"
+                  ]
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "blockId": "todo",
+      "blockSubtree": {
+        "__version__": 3,
+        "block": {
+          "todo": {
+            "value": {
+              "type": "to_do",
+              "properties": {
+                "checked": [
+                  [
+                    "Yes"
+                  ]
+                ],
+                "title": [
+                  [
+                    "Highlight "
+                  ],
+                  [
+                    "style",
+                    [
+                      [
+                        "b"
+                      ]
+                    ]
+                  ],
+                  [
+                    " "
+                  ],
+                  [
+                    "your",
+                    [
+                      [
+                        "i"
+                      ]
+                    ]
+                  ],
+                  [
+                    " "
+                  ],
+                  [
+                    "writing",
+                    [
+                      [
+                        "s"
+                      ]
+                    ]
+                  ],
+                  [
+                    " "
+                  ],
+                  [
+                    "however",
+                    [
+                      [
+                        "c"
+                      ]
+                    ]
+                  ],
+                  [
+                    " "
+                  ],
+                  [
+                    "you",
+                    [
+                      [
+                        "a",
+                        "https://www.notion.so/product"
+                      ]
+                    ]
+                  ],
+                  [
+                    " "
+                  ],
+                  [
+                    "like",
+                    [
+                      [
+                        "h",
+                        "yellow_background"
+                      ]
+                    ]
+                  ]
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "blockId": "toggle",
+      "blockSubtree": {
+        "__version__": 3,
+        "block": {
+          "toggle": {
+            "value": {
+              "type": "toggle",
+              "properties": {
+                "title": [
+                  [
+                    "A few useful links"
+                  ]
+                ]
+              },
+              "content": [
+                "child"
+              ]
+            }
+          },
+          "child": {
+            "value": {
+              "type": "bulleted_list",
+              "properties": {
+                "title": [
+                  [
+                    "Notion Help",
+                    [
+                      [
+                        "a",
+                        "https://www.notion.so/help"
+                      ],
+                      [
+                        "h",
+                        "red"
+                      ]
+                    ]
+                  ]
+                ]
+              },
+              "content": []
+            }
+          }
+        }
+      }
+    }
+  ]
+}

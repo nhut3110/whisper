@@ -605,3 +605,37 @@ async fn public_share_preview_only_exposes_policy_and_does_not_consume() {
         assert!(html.contains("og-gone.png"));
     }
 }
+
+#[tokio::test]
+async fn vite_assets_never_expose_parent_files_or_source_maps() {
+    let (app, _) = setup().await;
+    for path in [
+        "/assets/..%2Ftheme.js",
+        "/assets/subdir%2Findex.js",
+        "/assets/index.js.map",
+        "/assets/missing.js",
+    ] {
+        let response = app
+            .clone()
+            .oneshot(Request::builder().uri(path).body(Body::empty()).unwrap())
+            .await
+            .unwrap();
+        assert_eq!(response.status(), StatusCode::NOT_FOUND, "{path}");
+    }
+    // A backend-only checkout may not have Vite artifacts yet. CI builds them first.
+    if std::path::Path::new("dist/assets/index.js").exists() {
+        for (path, mime) in [
+            ("/assets/index.js", "text/javascript"),
+            ("/assets/whisper.css", "text/css"),
+        ] {
+            let response = app
+                .clone()
+                .oneshot(Request::builder().uri(path).body(Body::empty()).unwrap())
+                .await
+                .unwrap();
+            assert_eq!(response.status(), StatusCode::OK);
+            assert_eq!(response.headers()["content-type"], mime);
+            assert_eq!(response.headers()["x-frame-options"], "DENY");
+        }
+    }
+}

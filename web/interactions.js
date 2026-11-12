@@ -57,12 +57,15 @@ export function watcher(button){
   pose.tx=Math.tanh((pointer.x-r.left-r.width/2)/240)*8*gain;pose.ty=Math.tanh((pointer.y-r.top-r.height/2)/220)*5*gain;
  }
  function blinkOnce(){if(visible()&&!still&&!button.classList.contains('anonymous')){blink=performance.now();wake();}}
+ function randomEmote(){
+  if(operational()||button.classList.contains('anonymous'))return false;
+  let next;do{next=Math.floor(Math.random()*pool.length);}while(next===lastEmote);lastEmote=next;
+  button.dataset.emote=pool[next];rest();return true;
+ }
  function idleEmote(){
   clearTimeout(emoteTimer);if(!visible()||still)return;
   emoteTimer=setTimeout(()=>{
-   if(touch&&!operational()&&!button.classList.contains('anonymous')){
-    let next;do{next=Math.floor(Math.random()*pool.length);}while(next===lastEmote);lastEmote=next;
-    button.dataset.emote=pool[next];rest();
+   if(touch&&randomEmote()){
     clearTimeout(resetTimer);resetTimer=setTimeout(()=>{button.dataset.emote='neutral';blinkOnce();wake();},1700+Math.random()*900);
    }
    idleEmote();
@@ -72,7 +75,10 @@ export function watcher(button){
   clearTimeout(phaseTimer);clearTimeout(blinkTimer);if(!visible()||still)return;
   if(phase==='follow')phaseTimer=setTimeout(()=>{phase='front';button.dataset.attention='front';rest();cycle();},3200+Math.random()*1800);
   else{
-   phaseTimer=setTimeout(()=>{phase='follow';button.dataset.attention='follow';aim();cycle();},1600+Math.random()*800);
+   // Desktop alternates a bounded cursor-follow phase with a front-facing
+   // emote. Pointer moves during this break never interrupt the expression.
+   if(!touch)randomEmote();
+   phaseTimer=setTimeout(()=>{phase='follow';button.dataset.attention='follow';if(!touch)button.dataset.emote='neutral';aim();cycle();},1600+Math.random()*800);
    blinkTimer=setTimeout(()=>{blinkOnce();blinkTimer=setTimeout(blinkOnce,340);},1000);
   }
  }

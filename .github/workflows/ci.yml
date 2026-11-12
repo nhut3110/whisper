@@ -27,6 +27,9 @@ jobs:
         with:
           node-version: 24
           cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build:client
       - run: cargo fmt --check
       - run: cargo clippy --locked --all-targets -- -D warnings
       - run: cargo test --locked
@@ -35,7 +38,6 @@ jobs:
           TEST_DATABASE_URL: postgresql://postgres:test-only@localhost:5432/hush_test
       - run: cargo install cargo-llvm-cov --locked
       - run: cargo llvm-cov --locked --summary-only --ignore-filename-regex 'tests/|src/main.rs' --fail-under-lines 95
-      - run: npm ci
       - run: npm test
       - name: Test Edge API transactions on disposable Postgres
         run: npm run test:edge
@@ -55,7 +57,14 @@ jobs:
       - run: npm run test:music
       - run: npm run test:browser
       - name: Browser flows against the Edge API and Postgres
-        run: npx playwright test --grep 'create → explicit|PIN prompt|five wrong|timed links|two recipient|mobile compose|optional rich|real MediaRecorder|anonymous create quota|music reference is encrypted|mobile layout and mode switching'
+        run: npx playwright test --grep 'create → explicit|PIN prompt|five wrong|timed links|two recipient|mobile compose|optional rich|real MediaRecorder|anonymous create quota'
+        env:
+          TEST_DATABASE_URL: postgresql://postgres:test-only@localhost:5432/hush_test
+          EDGE_TEST_BASE: http://localhost:8788
+      # Separate server lifetime: the combined UI suite intentionally exceeds
+      # the production gateway's 60 requests/minute/network burst budget.
+      - name: Music sharing through the Edge API and Postgres
+        run: npx playwright test tests/browser/music-sharing.spec.js
         env:
           TEST_DATABASE_URL: postgresql://postgres:test-only@localhost:5432/hush_test
           EDGE_TEST_BASE: http://localhost:8788

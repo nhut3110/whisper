@@ -14,7 +14,7 @@ Local verification:
 - 3 standalone player tests covering intro, real media events with fixture audio, cancellation, reduced motion and 320px layout.
 - Manual local integrated search against real Deezer returned Rick Astley results; preview playback reached its actual end at 29.988563 seconds. Desktop sleeve/art/mascot were visually inspected. Physical mobile devices, speaker output and iOS autoplay have not been verified.
 
-This revision has not been pushed/deployed. The shared gateway secret is already configured on personal Vercel Production/Preview and dedicated Supabase Whisper; the pending migration/gateway require coordinated rollout. See [abuse controls](ANTI-ABUSE.md) and [provider review](DEEZER-REVIEW.md).
+Commit `0e14145` is deployed on personal Vercel and dedicated Supabase Whisper, including the abuse migration and shared gateway secret. Vercel succeeded. The first CI run failed because 11 UI cases together hit the gateway warm-instance 60 requests/minute/network brake; 9 existing Edge cases and the two music cases pass when run in separate server lifetimes. Supabase was deployed manually from the approved commit after that local verification. The CI split is prepared locally and still needs separate push approval. See [abuse controls](ANTI-ABUSE.md) and [provider review](DEEZER-REVIEW.md).
 
 ---
 
@@ -57,3 +57,10 @@ A separate 390x844 / CPU slowdown 6 run through the built beta's real search, in
 Run [43041337281](https://github.com/nhut3110/whisper/actions/runs/43041337281) failed during `playwright install --with-deps chromium`: Ubuntu package hosts could not resolve, so browser tests never started and the dependent Supabase deploy was skipped.
 
 The workflow now pins Ubuntu 24.04 and exports the preinstalled runner Chrome path through `CHROME_PATH`, which the browser configs already honor. It fails explicitly if Chrome is missing. All prior tests/coverage remain; music regressions are added. This removes the failing apt-install path, but the fix is not verified on GitHub until an approved push triggers a new run. The first local QC completed before push. The user subsequently approved pushing this revision and enabling the preview beta for personal testing; verify GitHub/Vercel status after that push.
+
+
+## Live release smoke and follow-up fixes — 2026-11-12
+
+On https://whisper-nhut3110.vercel.app, real Deezer search produced a music link; recipient playback advanced beyond one second with an actual 29.988563-second preview. Consumed links returned 410. A timed PIN text message decrypted correctly. A third active link returned 409 and kept its draft; consuming music freed the slot. Direct unsigned Supabase calls returned 403. No page runtime errors were observed. Test links were revoked after QC. These checks used real hosted services, not provider/media fixtures.
+
+A separate fast-click check found a form startup race: clicking Search before its module initialized submitted the native form, navigated the iframe and lost the query. The pending local fix starts the Search button disabled and enables it after listeners initialize. A delayed-module regression passes, along with all four player cases and 25 Node tests. This readiness fix is not yet deployed; the successful live smoke waited for module initialization.
