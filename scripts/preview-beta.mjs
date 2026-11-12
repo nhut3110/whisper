@@ -1,5 +1,5 @@
-// Loopback-only preview of the built beta artifact. Private-message APIs are not emulated.
-import http from 'node:http';import {readFile} from 'node:fs/promises';import path from 'node:path';import search from '../.vercel/output/functions/music-search.func/index.mjs';
+// Loopback-only built-assets preview with the local search experiment (not the hosted admission gate). Private-message APIs are not emulated.
+import http from 'node:http';import {readFile} from 'node:fs/promises';import path from 'node:path';import search from '../experiments/deezer-preview/search.mjs';
 const root=path.resolve('.vercel/output/static'),config=JSON.parse(await readFile('.vercel/output/config.json','utf8'));
 const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png'};
 http.createServer(async(req,res)=>{

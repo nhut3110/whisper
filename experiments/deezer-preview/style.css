@@ -36,3 +36,5 @@ body:not([data-screen=library]) main{width:100%;max-width:none;margin:0;padding:
 .is-playing .bot-mouth{transform-box:fill-box;transform-origin:center;animation:sing-mouth .82s ease-in-out infinite}
 @keyframes sing-mouth{0%,100%{transform:scaleY(1)}30%,65%{transform:scaleY(1.8)}}
 @media(prefers-reduced-motion:reduce){#intro-line svg,#intro-line span,#intro-line:before,#intro-line:after,.is-playing .bot-mouth{animation:none}}
+
+:root[data-theme=light]{color-scheme:light;--bg:#fff;--ink:#242424;--muted:#666;--line:#ddd;--surface:#f3f3f3}:root[data-theme=dark]{color-scheme:dark;--bg:#151514;--ink:#eeede8;--muted:#a7a59e;--line:#3b3b37;--surface:#20201e}.embedded #player-header{top:12px}.embedded main{min-height:calc(100svh - 32px)}.embedded footer{font-size:11px}

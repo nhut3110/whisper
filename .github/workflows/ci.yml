@@ -42,7 +42,7 @@ jobs:
         env:
           TEST_DATABASE_URL: postgresql://postgres:test-only@localhost:5432/hush_test
       - name: Check public frontend build
-        run: npm run build
+        run: npm run build:beta
         env:
           SUPABASE_PROJECT_REF: hzzmzskqmgowntzqfxrd
       - name: Use preinstalled runner Chrome
@@ -55,7 +55,7 @@ jobs:
       - run: npm run test:music
       - run: npm run test:browser
       - name: Browser flows against the Edge API and Postgres
-        run: npx playwright test --grep 'create → explicit|PIN prompt|five wrong|timed links|two recipient|mobile compose|optional rich|real MediaRecorder'
+        run: npx playwright test --grep 'create → explicit|PIN prompt|five wrong|timed links|two recipient|mobile compose|optional rich|real MediaRecorder|anonymous create quota|music reference is encrypted|mobile layout and mode switching'
         env:
           TEST_DATABASE_URL: postgresql://postgres:test-only@localhost:5432/hush_test
           EDGE_TEST_BASE: http://localhost:8788

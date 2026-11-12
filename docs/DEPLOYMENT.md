@@ -2,7 +2,7 @@
 
 ## Architecture
 
-Production has two providers: Vercel serves the static browser UI and proxies `/api/*` to the dedicated Supabase Edge Function `whisper`; Supabase Postgres stores ciphertext, capabilities as hashes, PIN HMACs and transactional request/challenge budgets. The Rust server remains an alternative local/self-hosted implementation; it is not run by Vercel or Supabase.
+Production has two providers: Vercel serves the static browser UI and handles `/api/*` through a signed Node gateway to the dedicated Supabase Edge Function `whisper`; Supabase Postgres stores ciphertext, capabilities as hashes, PIN HMACs and transactional request/challenge budgets. The Rust server remains an alternative local/self-hosted implementation; it is not run by Vercel or Supabase.
 
 - Personal repository: `https://github.com/nhut3110/whisper`
 - Live frontend: https://whisper-nhut3110.vercel.app
@@ -13,7 +13,7 @@ Do not reuse an unrelated or company project. The SQL migrations are only for th
 
 ## Initial configuration
 
-1. Set `SUPABASE_PROJECT_REF` in Vercel. It is a public identifier, not a credential. The build uses `npm ci --ignore-scripts` then `npm run build`; `scripts/build-web.mjs` emits Vercel Build Output API v3 with an explicit public-file allowlist, strict CSP, no-store headers and external API rewrites.
+1. Set `SUPABASE_PROJECT_REF` in Vercel. It is a public identifier, not a credential. The build uses `npm ci --ignore-scripts` then `npm run build:beta` for the personal music beta; `scripts/build-web.mjs` emits Vercel Build Output API v3 with an explicit public-file allowlist, strict CSP, no-store headers and external API rewrites.
 2. Store a project-scoped management token in the repository Actions secret `SUPABASE_ACCESS_TOKEN`; set Actions variable `SUPABASE_PROJECT_REF`. Token rights are Project Settings read, Database read/write, Edge Functions read/write and Edge Function Secrets read/write. No other project's permissions are required. Local copies belong only in ignored `.private/` with mode 0600.
 3. Set Edge Function secrets `APP_ORIGIN` to the exact stable HTTPS frontend origin without a trailing slash, and `PIN_PEPPER` to a cryptographically random secret of at least 32 characters. Neither belongs in Vercel's public build. Supabase supplies its internal service-role environment variables. Rotating the pepper makes existing PIN-protected messages inaccessible.
 4. Run `node scripts/deploy-supabase.mjs` with the scoped token and reference in the environment. It applies migrations through the Management API without a database password, records SHA-256 checksums in a private schema, and verifies both cleanup jobs are enabled. Never edit an applied migration; add a new one.
@@ -43,3 +43,10 @@ env GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_NOSYSTEM=1 git push origin main
 ```
 
 The guard is local and does not travel with a clone. Global Git configuration and the default GitHub CLI account were checked unchanged after deployment. Authentication reuses the existing personal credential helper, configured locally in Whisper, without a new GitHub OAuth grant.
+
+
+## Gateway secret and pending release
+
+`WHISPER_GATEWAY_SECRET` must match between Vercel server environments and the dedicated Whisper Edge secrets. A random test value is now configured in Production/Preview and Supabase, backed up only in ignored `.private/deploy.json` (0600). It is not a PIN or database password. Replace it with a fresh 32-byte random value on both providers together when rotating. Never use a public frontend variable.
+
+See [ANTI-ABUSE.md](ANTI-ABUSE.md) for the migration/gateway/Edge rollout order, temporary version-mismatch risk, limits and post-deploy checks. The new limits and music integration remain local until a separately approved push.

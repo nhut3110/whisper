@@ -10,3 +10,12 @@ test('music search validates queries before fetching and restricts untrusted CDN
 test('music upstream errors and malformed responses remain controlled',async()=>{
  for(const fetcher of [async()=>{throw Error('network');},async()=>({ok:false}),async()=>({ok:true,json:async()=>({error:{}})})])assert.equal((await createSearch(fetcher)('valid')).status,502);
 });
+test('recipient resolves a numeric track reference with fresh sanitized metadata',async()=>{
+ let requested;
+ const lookup=createSearch(async url=>{requested=String(url);return {ok:true,json:async()=>({id:3135556,title:'Song',artist:{name:'Artist'},album:{cover_big:'https://cdn.dzcdn.net/cover.jpg'},preview:'https://cdn.dzcdn.net/preview.mp3'})};});
+ assert.equal((await lookup('', '../settings')).status,400);
+ assert.equal((await lookup('', '0')).status,400);
+ assert.equal((await lookup('', '1234567890123456')).status,400);
+ assert.equal(requested,undefined);
+ const result=await lookup('', '3135556');assert.equal(requested,'https://api.deezer.com/track/3135556');assert.equal(result.status,200);assert.equal(result.body.tracks[0].id,3135556);assert.equal(result.body.tracks[0].preview,'https://cdn.dzcdn.net/preview.mp3');
+});

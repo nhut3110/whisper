@@ -28,8 +28,15 @@ const headers={
  'Cache-Control':'no-store, max-age=0','Pragma':'no-cache','Referrer-Policy':'no-referrer',
  'X-Content-Type-Options':'nosniff','X-Frame-Options':'DENY','Permissions-Policy':'camera=(), microphone=(self), geolocation=()',
  'Strict-Transport-Security':'max-age=31536000',
- 'Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self'; media-src blob:; font-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; object-src 'none'",
+ 'Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self'; media-src blob:; frame-src 'self'; font-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; object-src 'none'",
 };
+const gatewayDir=`${out}/functions/gateway.func`;
+await mkdir(gatewayDir,{recursive:true});
+await build({entryPoints:['server/gateway.mjs'],outfile:`${gatewayDir}/gateway.mjs`,platform:'node',format:'esm',bundle:true});
+await writeFile(`${gatewayDir}/index.mjs`, `import {gatewayHandler} from './gateway.mjs';
+export default gatewayHandler({secret:process.env.WHISPER_GATEWAY_SECRET,origin:'https://whisper-nhut3110.vercel.app',upstream:'${upstream}'});
+`);
+await writeFile(`${gatewayDir}/.vc-config.json`,JSON.stringify({runtime:'nodejs22.x',handler:'index.mjs',launcherType:'Nodejs',shouldAddHelpers:true}));
 const betaRoutes=[];
 if(musicBeta){
  const dir=`${out}/static/music-beta`;await mkdir(dir,{recursive:true});
@@ -40,19 +47,17 @@ if(musicBeta){
  }
  for(const file of ['interactions.js','i18n.js'])await writeFile(`${dir}/${file}`,(await readFile(`web/${file}`,'utf8')).replaceAll("'/i18n.js'","'/music-beta/i18n.js'"));
  const fn=`${out}/functions/music-search.func`;await mkdir(fn,{recursive:true});
- await copyFile('experiments/deezer-preview/search.mjs',`${fn}/index.mjs`);
+ await build({entryPoints:['server/music.mjs'],outfile:`${fn}/music.mjs`,platform:'node',format:'esm',bundle:true});
+ await writeFile(`${fn}/index.mjs`, `import {musicHandler} from './music.mjs';\nexport default musicHandler({secret:process.env.WHISPER_GATEWAY_SECRET,origin:'https://whisper-nhut3110.vercel.app',upstream:'${upstream}'});\n`);
  await writeFile(`${fn}/.vc-config.json`,JSON.stringify({runtime:'nodejs22.x',handler:'index.mjs',launcherType:'Nodejs',shouldAddHelpers:true}));
- const betaHeaders={...headers,'Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src https://*.dzcdn.net; media-src https://*.dzcdn.net; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; object-src 'none'"};
+ const betaHeaders={...headers,'X-Frame-Options':'SAMEORIGIN','Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src https://*.dzcdn.net; media-src https://*.dzcdn.net; base-uri 'none'; form-action 'self'; frame-ancestors 'self'; object-src 'none'"};
  betaRoutes.push({src:'/music-beta',status:307,headers:{Location:'/music-beta/'}},{src:'/music-beta/(.*)',headers:betaHeaders,continue:true},{src:'/music-beta/search',dest:'/music-search'},{src:'/music-beta/',dest:'/music-beta/index.html'});
- await writeFile(`${out}/static/style.css`,(await readFile(`${out}/static/style.css`,'utf8'))+'\n.beta-entry{width:auto;text-decoration:none;font-size:11px;white-space:nowrap;padding:6px}\n');
- // Entry exists only in the explicit beta artifact. Ordinary builds stay unchanged.
- const home=`${out}/static/index.html`;
- await writeFile(home,(await readFile(home,'utf8')).replace('</nav></div></header>','<a class="icon-button beta-entry" href="/music-beta/" aria-label="Music beta" title="Music (beta)">♫ (beta)</a></nav></div></header>'));
+ for(const home of [`${out}/static/index.html`,`${functionDir}/index.html`])await writeFile(home,(await readFile(home,'utf8')).replace('</head>','<meta name="whisper-music-beta" content="1"></head>'));
 }
 await writeFile(`${out}/config.json`,JSON.stringify({version:3,routes:[
  ...betaRoutes,
  {src:musicBeta?'/(?!music-beta(?:/|$))(.*)':'/(.*)',headers,continue:true},
- {src:'/api/(.*)',dest:`${upstream}/$1`},
+ {src:'/api/(.*)',dest:'/gateway?path=$1'},
  {src:'/health',dest:`${upstream}/health`},
  {src:'/s/([A-Za-z0-9_-]{16})',dest:'/share?handle=$1'},
  {handle:'filesystem'},

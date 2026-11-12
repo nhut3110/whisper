@@ -1,3 +1,25 @@
+# Integrated music beta — 2026-11-12
+
+The personal beta is part of the main Text / Voice / Music switch. Search has its own screen; selection and recipient use the minimal sleeve/vinyl + mascot view. The recipient intro yields to playback, with a click fallback for browsers that refuse autoplay. A small share button opens the existing link settings/confirmation. Theme and language follow the parent (Vietnamese/English, English fallback for other music locales).
+
+Music links contain an encrypted Deezer track reference. Recipient metadata is freshly resolved; existing expiry, six-digit PIN, burn-on-read and revocation apply. No audio files enter the message database. The beta is lazy-loaded. Changing mode, closing a message, hiding the page or opening privacy warnings pauses the player. The child can be framed only by the same origin; its extra CDN policy does not apply to text/audio content.
+
+Local verification:
+
+- 25 Node tests, including numeric lookup validation and sanitized provider responses.
+- 24 real Edge/PostgreSQL tests, including quotas and distributed music admission.
+- 57 existing Rust-backed browser tests passed (3 Edge-only cases skipped in that run); the Edge-only cases were exercised separately.
+- 9 browser regression flows through the signed gateway/Edge/PostgreSQL.
+- 2 integrated browser cases with deterministic provider/media fixtures: encrypted reference -> fresh recipient lookup -> playback -> close -> consumed link denial; mobile layout and mode-switch cancellation/draft preservation.
+- 3 standalone player tests covering intro, real media events with fixture audio, cancellation, reduced motion and 320px layout.
+- Manual local integrated search against real Deezer returned Rick Astley results; preview playback reached its actual end at 29.988563 seconds. Desktop sleeve/art/mascot were visually inspected. Physical mobile devices, speaker output and iOS autoplay have not been verified.
+
+This revision has not been pushed/deployed. The shared gateway secret is already configured on personal Vercel Production/Preview and dedicated Supabase Whisper; the pending migration/gateway require coordinated rollout. See [abuse controls](ANTI-ABUSE.md) and [provider review](DEEZER-REVIEW.md).
+
+---
+
+The following is historical QC for the earlier preview-only build.
+
 # Music beta / animation QC — 2026-11-11
 
 ## Scope and build

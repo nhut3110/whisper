@@ -4,7 +4,7 @@ Reviewed 2026-11-11. This is an engineering assessment, not a legal clearance or
 
 ## Decision
 
-**Do not ship music sharing in Whisper on the basis of the public API responding.** The published terms do not establish that this use is authorized. Keep the prototype isolated from private-message content. The user subsequently approved deploying the preview-only beta for personal testing; this does not resolve provider rights for a public music-sharing launch. Normal builds have no music routes or CDN allowances. An explicit local beta build now includes isolated music routes; no database fields or sharing payloads have been added.
+The user approved integrating music-reference sharing into the main layout for personal beta testing on 2026-11-12. The feature streams only provider-hosted previews and stores an encrypted numeric track reference, never a music file. Ordinary builds keep music disabled; the personal Vercel build explicitly enables it. This user decision does not establish provider approval or settle licensing for a public launch. The official-source findings below remain relevant before going public.
 
 ## Official sources and constraints
 
@@ -54,3 +54,12 @@ Manual Chromium checks: real audio starts both animations; pause stops both; see
 A brief centered cloud/bot introduction precedes a transform-only move down and record fade-in. Playback then attempts to start; if browser policy blocks it, the sleeve/bot remains a tap-to-play fallback. The bot wears headphones and holds a microphone; disc, dance, mouth and notes track actual playing/pause/waiting/ended events. Navigation and visibility changes cancel pending introductions. Reduced motion skips decorative animation. No shareable music messages have been implemented.
 
 `npm run test:music` uses synthetic search/media fixtures for repeatable state, cancellation and mobile/reduced-motion tests. Separate manual checks against the built beta used real Deezer search and the Rick Astley preview, which reached its actual end at 29.988563 seconds. These evidence sources must not be conflated.
+
+
+## Integrated personal beta — 2026-11-12
+
+The main Text / Voice / Music (beta) switch embeds the tested player at a same-origin route. A numeric `{provider:"deezer",id}` reference is sealed with the normal message key inside `whisper:music:v1` and follows the existing PIN/expiry/burn/revoke lifecycle. Receivers resolve fresh metadata from the server and stream directly from the provider CDN. There is no music-file upload, download, caching or full-track support.
+
+The selected reference is encrypted at rest, but the provider/CDN sees search, metadata and playback requests. This does not make music listening anonymous or private from Deezer or the hosting providers. The beta frame alone can fetch CDN covers/audio; the parent keeps its existing external image/media restrictions and allows only self-origin frames. Frame messages require both the exact origin and expected sender.
+
+The earlier sections describe historical preview-only iterations; the integrated personal beta supersedes their statements that shareable music links are absent.

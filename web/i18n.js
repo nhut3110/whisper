@@ -207,3 +207,10 @@ const editLines={
  ]
 };
 for(const lang of Object.keys(names)) ['paste','cut','editMenu','menuHint','inspectNotice','pasteShortcut'].forEach((key,i)=>dictionaries[lang][key]=editLines[lang][i]);
+
+// Abuse limits do not add a new screen; keep errors localized with English fallback.
+for(const lang of Object.keys(names))Object.assign(dictionaries[lang],{activeLimit:'You already have 2 active links. Wait for one to expire or revoke it first.',createLimit:'Link creation limit reached. Please try again later.',rateLimit:'Too many requests. Please wait a minute and try again.'});
+Object.assign(dictionaries.vi,{activeLimit:'Bạn đang có 2 link còn hiệu lực. Hãy đợi hoặc huỷ một link trước.',createLimit:'Đã đạt giới hạn tạo link. Hãy thử lại sau.',rateLimit:'Thao tác hơi nhanh. Đợi một phút rồi thử lại nhé.'});
+
+for(const lang of Object.keys(names))Object.assign(dictionaries[lang],{music:'Music (beta)',musicFirst:'Choose a song first.'});
+Object.assign(dictionaries.vi,{music:'Nhạc (beta)',musicFirst:'Chọn một bài hát trước nhé.'});

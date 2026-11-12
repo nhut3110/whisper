@@ -333,3 +333,14 @@ test('pending custom paste cannot put old clipboard data into a new view',async(
  await page.locator('#message').click({button:'right',position:{x:1,y:10}});await page.getByRole('menuitem',{name:'Dán',exact:true}).click();
  await share(page);await expect(page.locator('#created')).toBeVisible();const link=await page.locator('#share-link').inputValue();await page.evaluate(()=>finishPaste('STALE CLIPBOARD'));await expect(page.locator('#message')).toHaveValue('');await expect(page.locator('#created')).toBeVisible();await open(page,link);await expect(page.locator('#plaintext')).toHaveText('Only this draft');await closeReading(page);
 });
+
+
+test('anonymous create quota keeps its error visible and preserves the draft; reading frees a slot',async({page})=>{
+ test.skip(!process.env.EDGE_TEST_BASE,'Hosted quota uses the real signed gateway/Edge/Postgres path');
+ const a=await create(page,{text:'Quota first'});await create(page,{text:'Quota second'});
+ await page.goto('/');await page.locator('#message').fill('Keep this third draft');await page.locator('#create').click();await solve(page);
+ await expect(page.locator('#settings-error')).toContainText('2 link');await page.waitForTimeout(4700);await expect(page.locator('#settings-error')).toBeVisible();await page.screenshot({path:'test-results/anonymous-quota.png'});
+ await page.locator('#settings-close').click();await expect(page.locator('#message')).toHaveValue('Keep this third draft');
+ expect(await page.evaluate(()=>document.cookie.includes('whisper-device'))).toBe(false);
+ await open(page,a.link);await expect(page.locator('#reading')).toBeVisible();await create(page,{text:'Slot released'});
+});

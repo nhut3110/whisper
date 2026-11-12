@@ -1,3 +1,4 @@
+import {readClient} from './gateway.ts';
 type Payload = Record<string, unknown>;
 export type Result = { status: number; body: unknown };
 export type RPC = (action: string, payload: Payload) => Promise<Result>;
@@ -26,13 +27,13 @@ function hex(b: ArrayBuffer) { return [...new Uint8Array(b)].map(v => v.toString
 function randomToken() {
   return btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(32)))).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
 }
-async function body(req: Request): Promise<Payload> {
+async function body(req: Request, limit=maxBody): Promise<Payload> {
   if (!req.headers.get('content-type')?.split(';')[0].trim().match(/^application\/json$/i)) throw new Error('bad');
-  if (Number(req.headers.get('content-length')) > maxBody) throw new Error('large');
+  if (Number(req.headers.get('content-length')) > limit) throw new Error('large');
   const reader = req.body?.getReader(); if (!reader) throw new Error('bad');
   const chunks: Uint8Array[] = []; let size = 0;
   try {
-    while (true) { const next = await reader.read(); if (next.done) break; size += next.value.length; if (size > maxBody) throw new Error('large'); chunks.push(next.value); }
+    while (true) { const next = await reader.read(); if (next.done) break; size += next.value.length; if (size > limit) throw new Error('large'); chunks.push(next.value); }
   } finally { await reader.cancel().catch(() => {}); }
   const data = new Uint8Array(size); let at = 0; for (const chunk of chunks) { data.set(chunk, at); at += chunk.length; }
   let parsed;
@@ -40,7 +41,7 @@ async function body(req: Request): Promise<Payload> {
   if (!parsed || Array.isArray(parsed) || typeof parsed !== 'object') throw new Error('bad');
   return parsed;
 }
-export function handler(config: { origin: string; pepper: string; rpc: RPC }) {
+export function handler(config: { origin: string; pepper: string; gatewaySecret?: string; rpc: RPC }) {
   if (!/^https?:\/\/[^/]+$/.test(config.origin) || config.pepper.length < 32) throw new Error('Missing server configuration');
   const macKey = crypto.subtle.importKey('raw', new TextEncoder().encode(config.pepper), {name:'HMAC',hash:'SHA-256'}, false, ['sign']);
   const mac = async (id: string, code: string) => hex(await crypto.subtle.sign('HMAC', await macKey, new TextEncoder().encode(`${id}:${code}`)));
@@ -65,15 +66,20 @@ export function handler(config: { origin: string; pepper: string; rpc: RPC }) {
     }
     if (req.method !== 'POST') return reply(405, {error:errors.bad});
     const match = path.match(/^\/messages\/([^/]+)\/(metadata|open|revoke)$/);
-    const action = path === '/challenges' ? 'challenge' : path === '/messages' ? 'create' : match?.[2];
+    const action = path === '/music-budget' ? 'music_guard' : path === '/challenges' ? 'challenge' : path === '/messages' ? 'create' : match?.[2];
     if (!action) return reply(404, {error:errors.gone});
     try {
-      const v = await body(req); let payload: Payload;
+      const client=config.gatewaySecret?await readClient(config.gatewaySecret,req):null;
+      if(config.gatewaySecret&&!client)return reply(403,{error:'Gateway required'});
+      const identity=client?{owner_hash:client.owner,network_hash:client.network}:{};
+      if(client){const guard=await config.rpc('guard',identity);if(guard.status!==200){headers['Retry-After']='60';return reply(guard.status,guard.body);}}
+      if(action==='music_guard'){if(!client)return reply(403,{error:'Gateway required'});const r=await config.rpc(action,identity);if(r.status===429)headers['Retry-After']='60';return reply(r.status,r.body);}
+      const v = await body(req,action==='create'?maxBody:4096); let payload: Payload;
       if (action === 'challenge') {
         if (!fields(v,['mobile']) || typeof v.mobile !== 'boolean') return reply(400,{error:errors.bad});
         let n: number; do { n = crypto.getRandomValues(new Uint8Array(1))[0]; } while (n >= 200);
         const id = randomToken(), target = v.mobile ? 100 : n % 100 + 1;
-        const result = await config.rpc(action,{id_hash:await sha(id),target});
+        const result = await config.rpc(action,{id_hash:await sha(id),target,...identity});
         return reply(result.status,result.status === 200 ? {id,target,expires_in:120} : result.body);
       }
       if (action === 'create') {
@@ -99,7 +105,8 @@ export function handler(config: { origin: string; pepper: string; rpc: RPC }) {
           payload = {id,access_hash:await sha(v.access),pin_hash:await mac(id,(v.pin as string) || ''),has_pin:!!v.pin};
         }
       }
-      const result = await config.rpc(action,payload);
+      const result = await config.rpc(action,{...payload,...identity});
+      if(result.status===429)headers['Retry-After']='60';
       return reply(result.status,result.body);
     } catch (e) {
       if (e instanceof Error && e.message === 'bad') return reply(400,{error:errors.bad});

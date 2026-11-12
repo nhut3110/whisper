@@ -4,20 +4,24 @@ import {editorMenu} from '/editor-menu.js';
 import {formatted} from '/format.js';
 import {seal,sealBytes,unsealBytes,TEXT_LIMIT,randomToken,randomPin,readLink,newShortLink,deriveShortLink} from '/crypto.js';
 const $=id=>document.getElementById(id),prefix='hush:rich:v1\n';
+const musicPrefix='whisper:music:v1\n';
+let musicRef=null,readingMusic=false;
 let secrets=null,closed=false,rich=null,readText='',readHTML=null,selectedText='';
 let audio=null,recorder=null,preview=null,receivedPlayer=null,mode='text',voicePhase='idle',currentView='compose',metadata=null,readingAudio=false,endedReason='gone';
 async function audioTools(){if(!audio)audio=await import('/audio.js');return audio;}
 const sections=['compose','created','receive','reading','destroy','ended'];
 let viewAnimation=null,viewGeneration=0,edit=null;
+function musicSend(data){$('music-frame').contentWindow?.postMessage({whisperMusic:1,...data},location.origin);}
+function syncMusic(){const active=(currentView==='compose'&&mode==='music')||(currentView==='reading'&&readingMusic);$('music-stage').hidden=!active;$('share-music').hidden=!active||currentView!=='compose'||!musicRef;$('close-music').hidden=!active||currentView!=='reading';if(active){if(!$('music-frame').getAttribute('src'))$('music-frame').src='/music-beta/?embed=1';$('share-dock').hidden=true;stopBubbles();}else{$('share-dock').hidden=currentView==='destroy';musicSend({action:'pause'});}}
 function show(id){
  edit?.dismiss();
  const generation=++viewGeneration,before=$('create').getBoundingClientRect();viewAnimation?.cancel();currentView=id;
  if(id!=='compose'){stopVoice();document.body.classList.remove('audio-compose');$('share-dock').classList.remove('voice-mode');}
  for(const dialog of document.querySelectorAll('dialog[open]'))dialog.close();
  sections.forEach(s=>$(s).hidden=s!==id);
- $('compose-actions').hidden=id!=='compose';$('copy-draft').hidden=id!=='compose';$('copy-draft').disabled=mode==='voice';$('copy-all').hidden=id!=='reading'||readingAudio;
+ $('compose-actions').hidden=id!=='compose';$('copy-draft').hidden=id!=='compose';$('copy-draft').disabled=mode!=='text';$('copy-all').hidden=id!=='reading'||readingAudio||readingMusic;
  document.body.classList.toggle('audio-reading',id==='reading'&&readingAudio);
- companion(id);status('');
+ companion(id);syncMusic();status('');
  if(before.width&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
   const after=$('create').getBoundingClientRect();
   if(after.width){stopBubbles();viewAnimation=$('create').animate([{transform:`translate(${before.x-after.x}px,${before.y-after.y}px) scale(${before.width/after.width})`,transformOrigin:'0 0'},{transform:'none',transformOrigin:'0 0'}],{duration:650,easing:'cubic-bezier(.22,.8,.22,1)'});viewAnimation.finished.then(()=>{if(generation===viewGeneration)resumeBubbles();}).catch(()=>{});}
@@ -27,12 +31,12 @@ let statusTimer;
 function status(text){clearTimeout(statusTimer);$('status').textContent=text?t(text):'';if(text)statusTimer=setTimeout(()=>$('status').textContent='',4500);}
 async function richTools(){if(!rich)rich=await import('/rich.js');return rich;}
 async function api(path,data){
-  const res=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data),cache:'no-store',credentials:'omit',redirect:'error'});
-  if(!res.ok){let message='network';try{const data=await res.json();message=serverError(data.error,res.status);}catch{}const e=new Error(message);e.status=res.status;throw e;}
+  const res=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data),cache:'no-store',credentials:'same-origin',redirect:'error'});
+  if(!res.ok){let message='network';try{const data=await res.json();message=serverError(data.error,res.status,data.code);}catch{}const e=new Error(message);e.status=res.status;throw e;}
   return res.status===204?null:res.json();
 }
 function busy(button,value){button.disabled=value;button.setAttribute('aria-busy',String(value));}
-function forget(){stopVoice(true);receivedPlayer?.destroy();receivedPlayer=null;clearInterval(expiryTimer);metadata=null;secrets=null;readText='';readHTML=null;selectedText='';$('plaintext').replaceChildren();$('rich-editor').replaceChildren();$('message').value='';$('share-link').value='';$('revoke-link').value='';$('generated-pin').textContent='';$('pin').value='';drawPin();$('copy-selection').hidden=true;$('copy-all').hidden=false;$('received-audio').hidden=true;$('plaintext').hidden=false;closed=true;}
+function forget(){readingMusic=false;musicRef=null;musicSend({action:'clear'});stopVoice(true);receivedPlayer?.destroy();receivedPlayer=null;clearInterval(expiryTimer);metadata=null;secrets=null;readText='';readHTML=null;selectedText='';$('plaintext').replaceChildren();$('rich-editor').replaceChildren();$('message').value='';$('share-link').value='';$('revoke-link').value='';$('generated-pin').textContent='';$('pin').value='';drawPin();$('copy-selection').hidden=true;$('copy-all').hidden=false;$('received-audio').hidden=true;$('plaintext').hidden=false;closed=true;}
 function ended(note){endedReason=note;forget();show('ended');$('ended-note').textContent=t(note);}
 function draft(){
  if(!$('rich-mode').checked)return $('message').value;
@@ -48,7 +52,7 @@ async function copy(text,html=null){
   status('copied');return true;
  }catch{status('copyFailed');return false;}
 }
-function openSettings(){stopVoice();preview?.pause();$('settings').showModal();count();beginVerification();}
+function openSettings(){musicSend({action:'pause'});$('settings-error').hidden=true;stopVoice();preview?.pause();$('settings').showModal();count();beginVerification();}
 $('create').addEventListener('click',()=>{
  if(currentView==='receive'){stopBubbles();$('recipient-open').showModal();}
  else if(currentView==='reading'){receivedPlayer?.pause();stopBubbles();$('recipient-close').showModal();}
@@ -114,11 +118,11 @@ $('compose-form').addEventListener('submit',async e=>{
  e.preventDefault();openSettings();
 });
 async function createMessage(verification){
- busy($('create'),true);status('');
+ busy($('create'),true);status('');$('settings-error').hidden=true;
  try{
   const ttl=expirySeconds();
   validateDraft();
-  const short=await newShortLink(),encrypted=mode==='voice'?await sealBytes(await audio.packClip(recorder.getClip()),short.key):await seal(draft(),short.key),access=short.access,revoke=randomToken(),pin=$('use-pin').checked?randomPin():null;
+  const short=await newShortLink(),encrypted=mode==='voice'?await sealBytes(await audio.packClip(recorder.getClip()),short.key):await seal(mode==='music'?musicPrefix+JSON.stringify(musicRef):draft(),short.key),access=short.access,revoke=randomToken(),pin=$('use-pin').checked?randomPin():null;
   const result=await api('/api/messages',{id:short.id,ciphertext:encrypted.ciphertext,iv:encrypted.iv,access,revoke,ttl,burn:$('burn').checked,pin,verification});
   $('share-link').value=`${location.origin}/s/${short.id.slice(0,16)}#${short.seed}`;
   $('revoke-link').value=`${location.origin}/revoke/${result.id}#r=${revoke}`;
@@ -127,7 +131,7 @@ async function createMessage(verification){
   $('message').value='';$('rich-editor').replaceChildren();stopVoice(true);show('created');
   // Never hide the only copy of the link when browser clipboard policy refuses.
   await copy($('share-link').value);
- }catch(err){status(err.message);if($('settings').open)beginVerification();}finally{busy($('create'),false);$('create').disabled=$('compose').hidden;}
+ }catch(err){status(err.message);if($('settings').open){$('settings-error').textContent=t(err.message);$('settings-error').hidden=false;}}finally{busy($('create'),false);$('create').disabled=$('compose').hidden;}
 }
 for(const [button,field] of [['copy-link','share-link'],['copy-pin','generated-pin'],['copy-revoke','revoke-link']])$(button).addEventListener('click',()=>copy($(field).value||$(field).textContent));
 function addBlockCopy(block,text,html){
@@ -165,7 +169,7 @@ $('open-form').addEventListener('submit',async e=>{
  e.preventDefault();if(!secrets||closed)return;$('open-error').textContent='';$('pin-code').removeAttribute('data-phase');$('pin').removeAttribute('aria-invalid');busy($('open'),true);status('');
  try{
   const data=await api(`/api/messages/${secrets.id}/open`,{access:secrets.access,pin:$('pin').value||null});
-  try{const bytes=await unsealBytes(data.ciphertext,data.iv,secrets.key);const isAudio=new TextDecoder().decode(bytes.subarray(0,17)).startsWith('whisper:audio:v1\n');const tools=isAudio?await audioTools():null,clip=tools?.unpackClip(bytes);readingAudio=!!clip;show('reading');if(clip){$('plaintext').hidden=true;$('copy-all').hidden=true;$('received-audio').hidden=false;receivedPlayer=tools.createPlayer($('received-audio'),clip,phase=>{face.expression(phase==='playing'?'playing':'happy');face.gear('performing');say(t(phase==='playing'?'playing':'listenHint'));});}else{await renderMessage(new TextDecoder('utf-8',{fatal:true}).decode(bytes));}$('pin').value='';secrets=null;}
+  try{const bytes=await unsealBytes(data.ciphertext,data.iv,secrets.key);const isAudio=new TextDecoder().decode(bytes.subarray(0,17)).startsWith('whisper:audio:v1\n');const decoded=new TextDecoder('utf-8',{fatal:true}).decode(isAudio?new Uint8Array():bytes);readingMusic=decoded.startsWith(musicPrefix);if(readingMusic){const ref=JSON.parse(decoded.slice(musicPrefix.length));if(ref.provider!=='deezer'||!Number.isSafeInteger(ref.id)||ref.id<=0)throw Error('Invalid music');musicRef={provider:'deezer',id:ref.id};}const tools=isAudio?await audioTools():null,clip=tools?.unpackClip(bytes);readingAudio=!!clip;show('reading');if(clip){$('plaintext').hidden=true;$('copy-all').hidden=true;$('received-audio').hidden=false;receivedPlayer=tools.createPlayer($('received-audio'),clip,phase=>{face.expression(phase==='playing'?'playing':'happy');face.gear('performing');say(t(phase==='playing'?'playing':'listenHint'));});}else if(readingMusic){$('plaintext').hidden=true;musicSend({action:'receive',ref:musicRef});}else{$('plaintext').hidden=false;await renderMessage(decoded);}$('pin').value='';secrets=null;}
   catch{ended('decodeError');}
  }catch(err){if(err.status===410)ended(err.message);else{if(err.status===401){$('pin-code').dataset.phase='no';$('pin').setAttribute('aria-invalid','true');}$('open-error').textContent=t(err.status?err.message:'openNetwork');}}
  finally{busy($('open'),false);}
@@ -206,7 +210,7 @@ initLanguage();
 const face=watcher($('create'));
 let modeGeneration=0,switchingMode=false,modeAnimations=[];
 let lastLine=-1,expiryTimer,challenge=null,challengeValue=0,checking=false,challengeGeneration=0,bubbleTimer,bubbleHide,bubbleTextTimer;
-function serverError(message,code){if(code===410)return 'gone';if(code===401)return 'pinError';if(code===429||code===503)return 'network';if(message?.includes('Xác nhận')||message?.includes('xác nhận'))return 'challengeError';return 'network';}
+function serverError(message,code,reason){if(['activeLimit','createLimit','rateLimit'].includes(reason))return reason;if(code===429)return 'rateLimit';if(code===410)return 'gone';if(code===401)return 'pinError';if(code===429||code===503)return 'network';if(message?.includes('Xác nhận')||message?.includes('xác nhận'))return 'challengeError';return 'network';}
 // One scalable, hand-drawn silhouette for both spoken thoughts and the live waveform.
 function thoughtSurface(){
  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
@@ -256,7 +260,7 @@ async function receiveMetadata(generation){
 }
 const wake=wakeSlider($('wake-track'),$('wake-value'),v=>{challengeValue=v;$('settings-done').disabled=!challenge||v!==challenge.target||checking;});
 const slide=slideConfirm($('slide-track'),()=>completeVerification(100));
-function validateDraft(){if(mode==='voice'){if(!recorder?.getClip())throw new Error('recordFirst');return;}const text=draft();if(!text.trim()||new TextEncoder().encode(text).length>TEXT_LIMIT)throw new Error('textLimit');}
+function validateDraft(){if(mode==='music'){if(!musicRef)throw new Error('musicFirst');return;}if(mode==='voice'){if(!recorder?.getClip())throw new Error('recordFirst');return;}const text=draft();if(!text.trim()||new TextEncoder().encode(text).length>TEXT_LIMIT)throw new Error('textLimit');}
 function challengeLabel(){if(challenge)$('challenge-label').textContent=t(challenge.mobile?'slide':'drag',{n:new Intl.NumberFormat(locale).format(challenge.target)});}
 async function beginVerification(){
  if(checking)return;
@@ -276,7 +280,7 @@ $('challenge-retry').addEventListener('click',beginVerification);
 function stopVoice(clear=false){recorder?.stop(true);preview?.pause();if(clear){recorder?.clear();preview?.destroy();preview=null;}}
 async function setMode(next){
  if(next===mode)return;
- const generation=++modeGeneration;mode=next;switchingMode=true;stopVoice();stopBubbles();
+ const generation=++modeGeneration;mode=next;musicSend({action:'pause'});switchingMode=true;stopVoice();stopBubbles();
  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
  const outgoing=$('text-editor').hidden?$('voice-stage'):$('text-editor');
  // Let an in-flight bot keep moving during the short content fade; capture its
@@ -290,7 +294,7 @@ async function setMode(next){
  const before=$('create').getBoundingClientRect();
  for(const animation of modeAnimations)animation.cancel();modeAnimations=[];
  document.body.classList.toggle('audio-compose',mode==='voice');$('share-dock').classList.toggle('voice-mode',mode==='voice');
- $('text-editor').hidden=mode==='voice';$('voice-stage').hidden=mode!=='voice';$('format-option').hidden=mode==='voice';$('copy-draft').disabled=mode==='voice';$('text-mode').setAttribute('aria-pressed',String(mode==='text'));$('audio-mode').setAttribute('aria-pressed',String(mode==='voice'));
+ $('text-editor').hidden=mode!=='text';$('voice-stage').hidden=mode!=='voice';$('format-option').hidden=mode!=='text';$('copy-draft').disabled=mode!=='text';$('text-mode').setAttribute('aria-pressed',String(mode==='text'));$('audio-mode').setAttribute('aria-pressed',String(mode==='voice'));$('music-mode').setAttribute('aria-pressed',String(mode==='music'));syncMusic();
  $('create').removeAttribute('aria-haspopup');if(mode==='text'){$('create').setAttribute('aria-haspopup','dialog');$('create').setAttribute('aria-label',t('create'));}else $('create').setAttribute('aria-label',t('hold'));
  const incoming=mode==='voice'?$('voice-stage'):$('text-editor');
  let movement;
@@ -312,6 +316,15 @@ function voiceState(phase){
  $('recording-wave').hidden=phase!=='recording';$('voice-preview').hidden=!recorder?.getClip()||phase==='recording'||phase==='waiting';$('delete-recording').hidden=!recorder?.getClip()||phase==='recording';$('share-recording').hidden=!recorder?.getClip()||phase==='recording'||phase==='waiting';$('voice-instruction').textContent=t(phase==='recording'?'recording':phase==='waiting'?'preparing':phase==='ready'?'hold':phase==='playing'?'playing':'hold');
  resumeBubbles();
 }
+$('music-mode').hidden=!document.querySelector('meta[name=whisper-music-beta]');
+$('music-mode').addEventListener('click',()=>setMode('music'));
+$('share-music').addEventListener('click',openSettings);
+$('close-music').addEventListener('click',()=>{musicSend({action:'pause'});$('recipient-close').showModal();});
+function musicAppearance(){musicSend({action:'appearance',theme:document.documentElement.dataset.theme,locale});}
+$('music-frame').addEventListener('load',()=>{musicAppearance();if(readingMusic)musicSend({action:'receive',ref:musicRef});});
+window.addEventListener('message',e=>{if(e.origin!==location.origin||e.source!==$('music-frame').contentWindow||e.data?.whisperMusic!==1)return;if(e.data.action==='ready'){musicAppearance();if(readingMusic)musicSend({action:'receive',ref:musicRef});}if(e.data.action==='select'&&currentView==='compose'&&mode==='music'){const ref=e.data.ref;musicRef=ref?.provider==='deezer'&&Number.isSafeInteger(ref.id)&&ref.id>0?{provider:'deezer',id:ref.id}:null;syncMusic();}});
+new MutationObserver(musicAppearance).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+window.addEventListener('whisper-languagechange',musicAppearance);
 $('text-mode').addEventListener('click',()=>setMode('text'));
 $('audio-mode').addEventListener('click',()=>setMode('voice'));
 $('share-recording').addEventListener('click',openSettings);
@@ -320,7 +333,7 @@ $('delete-recording').addEventListener('click',()=>{recorder?.clear();preview?.d
 $('create').addEventListener('pointerdown',e=>{if(mode!=='voice'||currentView!=='compose')e.stopImmediatePropagation();},true);
 $('create').addEventListener('keydown',e=>{if(mode!=='voice'||currentView!=='compose')e.stopImmediatePropagation();},true);
 window.addEventListener('whisper-languagechange',()=>{count();challengeLabel();resumeBubbles();if(currentView==='ended')$('ended-note').textContent=t(endedReason);$('create').setAttribute('aria-label',t(currentView==='receive'?'open':currentView==='reading'?'closeMessage':currentView==='ended'?'newMessage':mode==='voice'?'hold':'create'));if(currentView==='compose'&&mode==='voice')voiceState(voicePhase);if(metadata&&currentView==='receive')$('receive-note').textContent=t(metadata.burn?'readOnce':'readTimed',{time:duration((metadata.expires_at*1000-Date.now())/1000)});});
-document.addEventListener('visibilitychange',()=>{if(document.hidden)stopBubbles();else resumeBubbles();});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){musicSend({action:'pause'});stopBubbles();}else resumeBubbles();});
 // Six visual cells, one real field: native editing, paste and code autofill remain intact.
 // Adapted from Bencho Otp (MIT), references/bencho/Otp.tsx and Otp.css.
 function drawPin(event){
@@ -333,7 +346,7 @@ function drawPin(event){
 }
 for(const event of ['input','click','keyup','focus'])$('pin').addEventListener(event,drawPin);
 edit=editorMenu({copy,t,notify:line=>{if(!line)line=t('menuHint');say(line);},inspect:()=>{
- stopVoice();receivedPlayer?.pause();stopBubbles();$('privacy-warning').showModal();document.body.classList.add('privacy-paused');
+ musicSend({action:'pause'});stopVoice();receivedPlayer?.pause();stopBubbles();$('privacy-warning').showModal();document.body.classList.add('privacy-paused');
 }});
 $('privacy-warning').addEventListener('close',()=>{document.body.classList.remove('privacy-paused');resumeBubbles();});
 companion('compose');
