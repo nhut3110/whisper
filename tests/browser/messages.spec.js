@@ -86,7 +86,7 @@ test('turning formatting on/off preserves text and pastes only allowed markup',a
  await expect(page.locator('#rich-editor img')).toHaveCount(0);await expect(page.locator('#rich-editor b')).toHaveText('Paste an toàn');await page.locator('#create').click();await page.locator('#rich-mode').uncheck();await page.locator('#settings-close').click();await expect(page.locator('#message')).toBeVisible();await expect(page.locator('#message')).toContainText('');expect(await page.locator('#message').inputValue()).toContain('Paste an toàn');
 });
 test('rich mode load failure falls back without losing plain draft',async({page})=>{
- await page.goto('/');await page.locator('#message').fill('Giữ bản nháp');await page.route('**/rich.js',r=>r.abort());await page.locator('#create').click();await page.locator('#rich-mode').check();await page.locator('#settings-close').click();await expect(page.locator('#status')).toContainText('văn bản thường');await expect(page.locator('#message')).toHaveValue('Giữ bản nháp');await expect(page.locator('#rich-mode')).not.toBeChecked();
+ await page.goto('/');await page.locator('#message').fill('Giữ bản nháp');await page.route('**/rich.js',r=>r.abort());await page.locator('#create').click();/* A failed load intentionally resets the toggle immediately; click must not assert checked. */await page.locator('#rich-mode').click();await page.locator('#settings-close').click();await expect(page.locator('#status')).toContainText('văn bản thường');await expect(page.locator('#message')).toHaveValue('Giữ bản nháp');await expect(page.locator('#rich-mode')).not.toBeChecked();
 });
 
 test('writing surface keeps options hidden; settings support Escape and restore focus',async({page})=>{await page.goto('/');await expect(page.locator('#settings')).not.toBeVisible();await expect(page.locator('#ttl')).not.toBeVisible();await expect(page.locator('#burn')).not.toBeVisible();await page.locator('#create').click();await expect(page.getByRole('dialog',{name:'Cài đặt cho link này',exact:true})).toBeVisible();await page.keyboard.press('Escape');await expect(page.locator('#settings')).not.toBeVisible();await expect(page.locator('#create')).toBeFocused();await page.locator('#create').click();await page.locator('#settings-close').click();await expect(page.locator('#settings')).not.toBeVisible();});
@@ -258,9 +258,15 @@ test('pasting rich HTML automatically enables safe formatting and roundtrips wit
 
 test('mode animation stays continuous when reversed and retains text and accessibility state',async({page})=>{
  await page.goto('/');await page.locator('#message').fill('Keep my draft');await page.locator('#audio-mode').click();await expect(page.locator('#audio-mode')).toHaveAttribute('aria-pressed','true');await page.waitForTimeout(150);
- const before=await page.locator('#create').boundingBox();await page.locator('#text-mode').click();await page.waitForTimeout(130);const after=await page.locator('#create').boundingBox();
- // Reversal starts at the currently displayed position, not the old destination.
- expect(Math.hypot(before.x-after.x,before.y-after.y)).toBeLessThan(150);
+ // Measure continuity at the actual FLIP reversal, not displacement after an
+ // arbitrary wall-clock delay (which includes valid movement on slower CI).
+ await page.evaluate(()=>{
+  const cancel=Animation.prototype.cancel,animate=Element.prototype.animate;
+  Animation.prototype.cancel=function(...args){if(this.effect?.target?.id==='create')window.reversalBefore=this.effect.target.getBoundingClientRect().toJSON();return cancel.apply(this,args)};
+  Element.prototype.animate=function(...args){const animation=animate.apply(this,args);if(this.id==='create'&&window.reversalBefore){const after=this.getBoundingClientRect();window.reversalJump=Math.hypot(after.x-window.reversalBefore.x,after.y-window.reversalBefore.y)}return animation};
+ });
+ await page.locator('#text-mode').click();await expect(page.locator('#text-mode')).toHaveAttribute('aria-pressed','true');
+ expect(await page.evaluate(()=>window.reversalJump)).toBeLessThan(1);
  await expect(page.locator('#message')).toBeVisible();await expect(page.locator('#message')).toHaveValue('Keep my draft');await expect(page.locator('#audio-mode')).toHaveAttribute('aria-pressed','false');
  await page.waitForTimeout(750);expect(await page.locator('#create').evaluate(el=>el.getAnimations().length)).toBe(0);
 });
@@ -347,6 +353,7 @@ test('anonymous create quota keeps its error visible and preserves the draft; re
 
 test('desktop alternates cursor following with varied emotes without pointer interruptions',async({page})=>{
  await page.clock.install();await page.goto('/');const bot=page.locator('#create');
+ await expect(bot).toHaveAttribute('data-attention','follow');await expect(page.locator('#root')).not.toHaveAttribute('inert');
  await page.evaluate(()=>{window.desktopEmotes=[];new MutationObserver(()=>{const value=document.querySelector('#create').dataset.emote;if(value!=='neutral')window.desktopEmotes.push(value);}).observe(document.querySelector('#create'),{attributes:true,attributeFilter:['data-emote']});});
  await page.mouse.move(20,20);await page.clock.runFor(600);
  await expect(bot).toHaveAttribute('data-attention','follow');await expect(bot).toHaveAttribute('data-emote','neutral');

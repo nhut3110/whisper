@@ -169,3 +169,5 @@ Hosted anonymous anti-spam controls and required server configuration are docume
 - `npm run typecheck`, `npm run build:client`: check TS and build the standalone frontend. `npm run build:beta` still emits Vercel's existing Build Output API layout with its gateway and preview functions; Supabase is unchanged.
 
 The public HTML is rendered at build time, then hydrated once. No user message data enters that build. Plain text does not eagerly load the rich-text parser, sanitizer, recorder or music iframe. The new React/UI entry is about 84 kB gzip; this is additional to the custom controllers. The migration improves component maintenance, not download size. Shadcn attribution is in [references/shadcn](references/shadcn/README.md).
+
+Anonymous expiring rooms are available as the fourth main-screen mode (`/?mode=chat`, 24 h default, 48 h maximum). Text/media drafts and the current room survive mode changes; legacy `/chat` links remain compatible. See [room behavior, privacy boundaries and test setup](docs/CHAT-ROOMS.md). The chat backend is the Supabase Edge/PostgreSQL path; use the local Edge bridge on port 8788 to try it.

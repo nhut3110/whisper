@@ -6,6 +6,7 @@ import {t} from '/i18n.js';
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
 const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
 export function watcher(button){
+ const listeners=new AbortController();
  const body='M30 6 H70 A24 24 0 0 1 94 30 V70 A24 24 0 0 1 70 94 H30 A24 24 0 0 1 6 70 V30 A24 24 0 0 1 30 6 Z';
  button.innerHTML=`<svg class="eyt-ball" viewBox="0 0 100 100" aria-hidden="true"><path class="eyt-body" d="${body}"/><g class="face-rig"><path class="bot-brow" d="M34 31q5-4 10-1m12 0q5-3 10 1"/><g class="eye"><rect class="eyt-eye"/></g><g class="eye"><rect class="eyt-eye"/></g><ellipse class="bot-cheek" cx="30" cy="58" rx="5" ry="2.5"/><ellipse class="bot-cheek" cx="70" cy="58" rx="5" ry="2.5"/><path class="bot-mouth" d="M43 62 Q50 69 57 62"/><g class="anonymous-glasses"><path d="M22 37h23v13q-11 15-23 0Zm33 0h23v13q-11 15-23 0Z"/><path class="glasses-bridge" d="M45 41q5-5 10 0M15 37h7m56 0h7"/><path class="glasses-shine" d="m27 41h5m28 0h5"/></g></g><g class="recording-gear"><path class="headband" d="M9 48V37a41 38 0 0 1 82 0v11"/><rect class="ear-pad" x="3" y="36" width="12" height="26" rx="6"/><rect class="ear-pad" x="85" y="36" width="12" height="26" rx="6"/><path class="mic-boom" d="M91 57v9q0 9-16 9h-8"/><rect class="mic-tip" x="59" y="71" width="14" height="8" rx="4"/></g><g class="performing-gear"><path class="mic-handle" d="m76 85 7-19"/><ellipse class="mic-head" cx="85" cy="61" rx="7" ry="9" transform="rotate(20 85 61)"/><path class="mic-mesh" d="m81 57 8 3m-9 1 8 3"/><path class="mic-hand" d="M85 80q-10-8-15 0"/></g></svg>`;
  const rig=button.querySelector('.face-rig'),eyes=button.querySelectorAll('.eye'),shell=button.querySelector('.eyt-body'),mouth=button.querySelector('.bot-mouth');
@@ -87,16 +88,16 @@ export function watcher(button){
   if(touch){touch=false;button.dataset.emote='neutral';clearTimeout(resetTimer);}
   pointer.x=e.clientX;pointer.y=e.clientY;pointer.known=true;aim();
  };
- window.addEventListener('pointermove',move,{passive:true});
- window.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'||e.pointerType==='pen'){touch=true;pointer.known=false;rest();}},{passive:true});
- document.documentElement.addEventListener('pointerleave',()=>{pointer.known=false;rest();});
+ window.addEventListener('pointermove',move,{passive:true,signal:listeners.signal});
+ window.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'||e.pointerType==='pen'){touch=true;pointer.known=false;rest();}},{passive:true,signal:listeners.signal});
+ document.documentElement.addEventListener('pointerleave',()=>{pointer.known=false;rest();},{signal:listeners.signal});
  function pause(){cancelAnimationFrame(raf);raf=0;prev=0;for(const timer of [phaseTimer,blinkTimer,emoteTimer,resetTimer])clearTimeout(timer);}
  function resume(){if(visible()){button.dataset.emote='neutral';aim();cycle();idleEmote();}}
  const observer=new IntersectionObserver(entries=>{intersecting=entries[0].isIntersecting;pause();resume();});observer.observe(button);
- document.addEventListener('visibilitychange',()=>{pause();if(!document.hidden){phase='front';rest();resume();}});
- window.addEventListener('pagehide',()=>{disposed=true;pause();observer.disconnect();});
+ document.addEventListener('visibilitychange',()=>{pause();if(!document.hidden){phase='front';rest();resume();}},{signal:listeners.signal});
+ window.addEventListener('pagehide',()=>{disposed=true;pause();observer.disconnect();listeners.abort();},{signal:listeners.signal});
  button.dataset.attention='follow';draw(performance.now());cycle();idleEmote();
- return {gear(value){button.dataset.gear=value;},anonymous(on){button.classList.toggle('anonymous',on);button.dataset.emote='neutral';rest();},expression(value){button.dataset.expression=value;button.dataset.emote='neutral';clearTimeout(resetTimer);rest();}};
+ return {dispose(){disposed=true;pause();observer.disconnect();listeners.abort();},gear(value){button.dataset.gear=value;},anonymous(on){button.classList.toggle('anonymous',on);button.dataset.emote='neutral';rest();},expression(value){button.dataset.expression=value;button.dataset.emote='neutral';clearTimeout(resetTimer);rest();}};
 }
 export function wakeSlider(track,output,onChange){
  const n=36,energy=new Float32Array(n),bars=Array.from({length:n},()=>{const s=document.createElement('span');s.className='wks-bar';track.append(s);return s;});

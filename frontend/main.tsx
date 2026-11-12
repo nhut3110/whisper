@@ -41,5 +41,24 @@ function Application() {
 
 const container = document.getElementById('root')
 if (!container) throw new Error('Missing application root')
+// Keep the imperative composer mounted so switching modes never discards a draft.
+let chatRoot:ReturnType<typeof createRoot>|undefined
+let chatPanel:HTMLDivElement|undefined
+let chatModule:Promise<typeof import('./chat/app')>|undefined
+let chatActive=false
+document.addEventListener('whisper:chat-mode',event=>{
+ chatActive=(event as CustomEvent<boolean>).detail
+ if(chatPanel)chatPanel.hidden=!chatActive
+ if(!chatActive&&!chatRoot)return
+ document.getElementById('room-mode')?.setAttribute('aria-busy',String(chatActive&&!chatRoot))
+ chatModule??=import('./chat/app')
+ void chatModule.then(({default:Chat})=>{
+  if(!chatPanel){chatPanel=document.createElement('div');chatPanel.id='chat-panel';container.append(chatPanel);chatRoot=createRoot(chatPanel)}
+  chatPanel.hidden=!chatActive
+  chatRoot!.render(<Chat active={chatActive}/>)
+  document.getElementById('room-mode')?.setAttribute('aria-busy','false')
+ }).catch(()=>{chatModule=undefined;document.getElementById('room-mode')?.setAttribute('aria-busy','false');document.dispatchEvent(new Event('whisper:chat-error'))})
+})
+if(location.pathname==='/chat'||location.pathname==='/chat/')history.replaceState(null,'','/?mode=chat'+location.hash)
 if (container.hasChildNodes()) hydrateRoot(container, <Application />)
 else createRoot(container).render(<Application />)

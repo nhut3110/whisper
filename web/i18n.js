@@ -252,3 +252,5 @@ for(const lang of Object.keys(names))Object.assign(dictionaries[lang],blockEditi
 
 const writingPlaceholders={en:['Type / for blocks…','List item'],vi:['Gõ / để thêm khối…','Mục danh sách'],zh:['输入 / 添加内容…','列表项'],es:['Escribe / para añadir bloques…','Elemento'],fr:['Tapez / pour ajouter un bloc…','Élément'],de:['/ für Blöcke eingeben…','Listenelement'],pt:['Digite / para adicionar blocos…','Item'],ja:['/ でブロックを追加…','リスト項目'],ko:['/ 를 입력해 블록 추가…','목록 항목'],ru:['Введите / для блоков…','Пункт списка'],ar:['اكتب / لإضافة كتل…','عنصر قائمة'],hi:['ब्लॉक के लिए / लिखें…','सूची आइटम'],id:['Ketik / untuk blok…','Item daftar'],th:['พิมพ์ / เพื่อเพิ่มบล็อก…','รายการ'],it:['Digita / per aggiungere blocchi…','Voce elenco'],tr:['Bloklar için / yazın…','Liste öğesi']};
 for(const lang of Object.keys(names)){const labels=writingPlaceholders[lang]||writingPlaceholders.en;Object.assign(dictionaries[lang],{phParagraph:labels[0],phList:labels[1]});}
+
+for(const lang of Object.keys(names))dictionaries[lang].chat=lang==='vi'?'Trò chuyện':'Chat';

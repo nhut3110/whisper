@@ -12,13 +12,15 @@
  apply();
  system.addEventListener('change',()=>{if(!preference)apply();});
  document.addEventListener('whisper:mounted',()=>{
-  apply();document.getElementById('theme-toggle').addEventListener('click',async()=>{
+  apply();document.getElementById('theme-toggle')?.addEventListener('click',()=>document.dispatchEvent(new Event('whisper:theme-toggle')));
+ });
+ document.addEventListener('whisper:theme-toggle',async()=>{
    preference=(preference||root.dataset.theme)==='dark'?'light':'dark';
    try{localStorage.setItem('whisper-theme',preference);}catch{}
    const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
    transition?.skipTransition();
    if(reduced){apply();return;}
-   const bot=document.getElementById('create'),rect=bot.getBoundingClientRect(),x=rect.x+rect.width/2,y=rect.y+rect.height/2;
+   const bot=document.body.classList.contains('integrated-chat')?document.querySelector('.chat-companion .eyt'):document.getElementById('create'),rect=bot?.getBoundingClientRect()||{x:innerWidth-48,y:innerHeight-48,width:0,height:0},x=rect.x+rect.width/2,y=rect.y+rect.height/2;
    clearTimeout(castingTimer);document.body.classList.add('theme-casting');
    castingTimer=setTimeout(()=>document.body.classList.remove('theme-casting'),750);
    // Capture both same-origin documents in one snapshot; synchronizing the
@@ -30,6 +32,5 @@
     const radius=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
     await root.animate({clipPath:[`circle(0px at ${x}px ${y}px)`,`circle(${radius}px at ${x}px ${y}px)`]},{duration:650,easing:'cubic-bezier(.22,1,.36,1)',pseudoElement:'::view-transition-new(root)'}).finished;
    }catch{}finally{if(transition===own)transition=null;}
-  });
  });
 })();

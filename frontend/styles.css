@@ -2,6 +2,7 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 @import "../web/style.css";
+@import "./scrollbars.css";
 @source "./**/*.{ts,tsx}";
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 @theme inline {
@@ -11,6 +12,11 @@
   --color-primary-foreground: var(--on-accent);
   --color-secondary: var(--hover);
   --color-secondary-foreground: var(--ink);
+  --color-muted: var(--hover);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--ink);
+  --color-popover: var(--surface);
+  --color-popover-foreground: var(--ink);
   --color-muted-foreground: var(--muted);
   --color-accent: var(--hover);
   --color-accent-foreground: var(--ink);
@@ -231,3 +237,12 @@ body:has(#compose[hidden]) #table-caret-tools,body:has(#text-editor[hidden]) #ta
 #rich-editor>div:is(:empty,:has(>br:only-child))::before{content:var(--ph-paragraph);position:absolute;inset-inline-start:0;top:0;color:var(--placeholder);pointer-events:none;user-select:none}
 
 #rich-editor>:is(p,div):only-child:is(:empty,:has(>br:only-child))::before{content:var(--write-placeholder)}
+
+/* Chat is the fourth composer mode; the shared header stays mounted. */
+#chat-panel[hidden]{display:none!important}
+.integrated-chat #root{display:flex;flex-direction:column;height:100dvh;overflow:hidden}
+.integrated-chat #root>.workspace,.integrated-chat #share-dock,.integrated-chat #copy-draft,.integrated-chat #copy-all{display:none!important}
+.integrated-chat #root>.site-header{position:relative;flex-shrink:0}
+.integrated-chat #chat-panel{flex:1;min-height:0;display:flex;flex-direction:column}
+.integrated-chat #chat-panel>.chat-app,.integrated-chat #chat-panel .chat-app{height:100%;min-height:0;flex:1}
+@media(max-width:380px){.header-actions{gap:3px}.mode-switch .icon-button{width:32px;padding:7px}.site-header{gap:8px;padding-inline:12px}}

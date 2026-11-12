@@ -10,7 +10,7 @@ import search from './experiments/deezer-preview/search.mjs'
 
 let serving = false
 export default defineConfig({
-  root: 'frontend', publicDir: false,
+  root: 'frontend', publicDir: '../public',
   resolve: { alias: { '@': path.resolve('frontend') }, dedupe: ['react','react-dom'] },
   optimizeDeps: {include:['react','react-dom','react-dom/client','@radix-ui/react-context-menu']},
   plugins: [react(), tailwindcss(), {
@@ -49,6 +49,7 @@ export default defineConfig({
   server: {host: '127.0.0.1', port: 5173, strictPort: true,
     fs: {allow:[path.resolve('.')], deny:['**/.env','**/.env.*','**/*.{crt,pem}','**/.git/**','**/.private/**','**/*.db','**/*.db-*']},
     proxy: {
+      '/api/rooms': {target:'http://localhost:8788',configure(proxy){proxy.on('proxyReq',(outgoing,request)=>{if(['http://localhost:5173','http://127.0.0.1:5173'].includes(request.headers.origin))outgoing.setHeader('Origin','http://localhost:8788')})}},
       '/api': {target:'http://localhost:8787',configure(proxy) {
         // Only the two local Vite origins are adapted to the local Rust server.
         proxy.on('proxyReq',(outgoing,request)=>{

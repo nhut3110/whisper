@@ -1,0 +1,8 @@
+/* Whisper: compact Messenger-like layout, without a nested card or empty side rail. */
+:host{height:100%;min-height:0;border-radius:0;--border-radius:0;--font-size:13px}
+#root{width:100%!important;height:100%;min-height:0;border-radius:0;--padding:12px;--sidebar-width:16px;--duration:120ms}
+nav{flex-shrink:0}
+
+
+.category button[aria-selected=false] .background{opacity:0}
+.category button .background{border-radius:8px}

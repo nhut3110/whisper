@@ -46,3 +46,18 @@ test('hosted music search stops on shared budget rejection and uses signed ident
  assert.equal((await invoke(allowed,{path:'/music-beta/search?q=x',method:'GET'})).statusCode,400);
  assert.equal((await invoke(allowed,{path:'/music-beta/search?q=test'})).statusCode,405);
 });
+
+test('chat gateway only admits known room routes and bounds encrypted file envelopes',async()=>{
+ let calls=0;const gateway=gatewayHandler({secret,origin,upstream,fetcher:async(url,options)=>{calls++;assert.match(url,/\/rooms(?:\/|$)/);const client=await readClient(secret,new Request(url,{method:'POST',headers:options.headers}));assert.ok(client);return new Response('{}');}});
+ const id='a'.repeat(43);for(const suffix of ['join','sync','send','edit','delete','react','file','leave','destroy'])assert.equal((await invoke(gateway,{path:`/api/rooms/${id}/${suffix}`})).statusCode,200);
+ assert.equal((await invoke(gateway,{path:'/api/rooms'})).statusCode,200);assert.equal((await invoke(gateway,{path:`/gateway?path=rooms/${id}/send`})).statusCode,200);
+ for(const path of [`/api/rooms/${id}/admin`,`/api/rooms/short/sync`])assert.equal((await invoke(gateway,{path})).statusCode,404);
+ assert.equal((await invoke(gateway,{path:`/api/rooms/${id}/send`,parts:['x'.repeat(380001)]})).statusCode,413);assert.equal(calls,11);
+});
+
+test('link preview requires active room access, uses a signed membership check and has its own request budget',async()=>{
+ const id='a'.repeat(43),parts=[JSON.stringify({member:'b'.repeat(43),url:'https://example.com'})];let previews=0;
+ const gateway=gatewayHandler({secret,origin,upstream,fetcher:async(url,options)=>{assert.equal(url,upstream+`/rooms/${id}/sync`);assert.deepEqual(JSON.parse(options.body),{member:"b".repeat(43),seen:0,typing:false});assert.ok(await readClient(secret,new Request(url,{method:'POST',headers:options.headers})));return new Response('{}')},previewer:async()=>{previews++;return {title:'Example'}}});
+ const path=`/api/rooms/${id}/preview`;for(let n=0;n<12;n++)assert.equal((await invoke(gateway,{path,parts})).statusCode,200);assert.equal((await invoke(gateway,{path,parts})).statusCode,429);assert.equal(previews,12);
+ const denied=gatewayHandler({secret,origin,upstream,fetcher:async()=>new Response('{}',{status:403}),previewer:async()=>{throw Error('Must not fetch')}});assert.equal((await invoke(denied,{path,parts})).statusCode,403);
+});

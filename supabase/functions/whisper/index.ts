@@ -8,7 +8,7 @@ Deno.serve(handler({
   origin: Deno.env.get('APP_ORIGIN')!,
   pepper: Deno.env.get('PIN_PEPPER')!,
   async rpc(action, payload) {
-    const res = await fetch(`${url}/rest/v1/rpc/hush_api`, {
+    const res = await fetch(`${url}/rest/v1/rpc/${action.startsWith('chat_')?'hush_chat_api':'hush_api'}`, {
       method:'POST', headers:{'Content-Type':'application/json',apikey:key,Authorization:`Bearer ${key}`},
       body:JSON.stringify({action,payload}), signal:AbortSignal.timeout(10000),
     });

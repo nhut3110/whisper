@@ -1,0 +1,13 @@
+import {forwardRef,useImperativeHandle,useLayoutEffect,useRef} from 'react'
+import {customEmoji} from './index'
+export type ComposerHandle={focus:()=>void,insert:(v:string)=>void}
+function read(node:Node):string{if(node instanceof HTMLImageElement)return node.dataset.emoji||'';if(node.nodeType===Node.TEXT_NODE)return node.textContent||'';if(node.nodeName==='BR')return '\n';return Array.from(node.childNodes).map((c,i)=>(i>0&&['DIV','P'].includes(c.nodeName)?'\n':'')+read(c)).join('')}
+function fragment(text:string){const f=document.createDocumentFragment();for(const part of text.split(/(:[a-z][a-z0-9_]{0,95}:)/g)){const e=customEmoji(part);if(e){const img=document.createElement('img');img.src=e.src;img.alt=part;img.dataset.emoji=part;img.className='chat-custom-emoji';img.draggable=false;f.append(img)}else f.append(document.createTextNode(part))}return f}
+export const EmojiComposer=forwardRef<ComposerHandle,{value:string,onChange:(s:string)=>void,placeholder:string}>(({value,onChange,placeholder},ref)=>{
+ const box=useRef<HTMLDivElement>(null);const saved=useRef<Range|null>(null)
+ const capture=()=>{const s=getSelection();if(s?.rangeCount&&box.current?.contains(s.anchorNode))saved.current=s.getRangeAt(0).cloneRange()}
+ const insert=(v:string)=>{const el=box.current;if(!el||read(el).length+v.length>4000)return;el.focus();const range=saved.current&&el.contains(saved.current.startContainer)?saved.current:document.createRange();if(!saved.current||!el.contains(range.startContainer)){range.selectNodeContents(el);range.collapse(false)}range.deleteContents();const f=fragment(v);const last=f.lastChild;range.insertNode(f);if(last){range.setStartAfter(last);range.collapse(true);const s=getSelection();s?.removeAllRanges();s?.addRange(range)}capture();onChange(read(el))}
+ useImperativeHandle(ref,()=>({focus:()=>box.current?.focus(),insert}))
+ useLayoutEffect(()=>{if(box.current&&read(box.current)!==value){box.current.replaceChildren(fragment(value));saved.current=null}},[value])
+ return <div ref={box} className="chat-emoji-composer" data-slot="input-group-control" contentEditable suppressContentEditableWarning role="textbox" aria-multiline="true" aria-label={placeholder} data-placeholder={placeholder} onInput={()=>{const s=read(box.current!);if(s.length>4000){box.current!.replaceChildren(fragment(s.slice(0,4000)))}capture();onChange(s.slice(0,4000))}} onKeyUp={capture} onPointerUp={capture} onBlur={capture} onPaste={e=>{e.preventDefault();insert(e.clipboardData.getData('text/plain').slice(0,4000-read(box.current!).length))}} onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.nativeEvent.isComposing){e.preventDefault();box.current?.closest('form')?.requestSubmit()}}}/>
+})

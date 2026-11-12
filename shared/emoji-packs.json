@@ -1,0 +1,75 @@
+[
+  {
+    "id": "whisper",
+    "name": "Whisper.",
+    "origin": "https://github.com/nhut3110/whisper",
+    "attribution": "Whisper project contributors",
+    "license": "Original Whisper mascot emoji. Copyright Whisper project contributors. Licensed under MIT.",
+    "emojis": [
+      {
+        "id": "whisper_hello",
+        "name": "hello",
+        "src": "/emoji-packs/whisper/23c4010381d1429b7ec7ad72.png",
+        "sha256": "23c4010381d1429b7ec7ad72ea3889652369b527c022643c37e146c275583688",
+        "keywords": [
+          "whisper",
+          "hello"
+        ],
+        "animated": false
+      }
+    ]
+  },
+  {
+    "id": "pepe_preview",
+    "name": "Pepe",
+    "origin": "https://emoji.gg/pack/195211-pepe",
+    "attribution": "RATARFAIR〖CHAMP〗 via Emoji.gg; original creators retain rights",
+    "license": "Local evaluation sample from the user-requested community pack https://emoji.gg/pack/195211-pepe (31 emoji), uploaded by RATARFAIR〖CHAMP〗. Only four publicly displayed preview assets were accessible: 868020-pepewine.png, 943635-pepehappy.png, 689168-pepestare.png, 538944-pepereeeee.png, from cdn3.emoji.gg/emojis/.\nImported at the project owner's explicit request for personal/local testing. No blanket open-source or commercial redistribution license is asserted. Original artwork remains owned by its respective rights holders. Review rights before a public release. The full ZIP is not included: its interactive download was inaccessible behind a repeating Cloudflare challenge/login flow.",
+    "emojis": [
+      {
+        "id": "pepe_preview_happy",
+        "name": "happy",
+        "src": "/emoji-packs/pepe_preview/7f16e685c4f89d8aa320edd0.png",
+        "sha256": "7f16e685c4f89d8aa320edd033d44a6661dfd7b1d37c825a1534fe4235f8e4eb",
+        "keywords": [
+          "pepe_preview",
+          "happy"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_preview_reeeee",
+        "name": "reeeee",
+        "src": "/emoji-packs/pepe_preview/1d4f7743eb69297a92f5d7ec.png",
+        "sha256": "1d4f7743eb69297a92f5d7ecbaf124c4e2acce77ebe865f72ae1a96cf4f3ff81",
+        "keywords": [
+          "pepe_preview",
+          "reeeee"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_preview_stare",
+        "name": "stare",
+        "src": "/emoji-packs/pepe_preview/9f60bc31cbc60d75a39fe692.png",
+        "sha256": "9f60bc31cbc60d75a39fe692448d135b52050495e78ecc5e40c960562e7bdaa9",
+        "keywords": [
+          "pepe_preview",
+          "stare"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_preview_wine",
+        "name": "wine",
+        "src": "/emoji-packs/pepe_preview/197f0362358e8f9c5e3d7aca.png",
+        "sha256": "197f0362358e8f9c5e3d7acac2afcd9731ca55759184331adcb7f0995a8e0b43",
+        "keywords": [
+          "pepe_preview",
+          "wine"
+        ],
+        "animated": false
+      }
+    ]
+  }
+]

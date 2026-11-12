@@ -1,3 +1,4 @@
+import {chatRequest} from './chat.ts';
 import {readClient} from './gateway.ts';
 type Payload = Record<string, unknown>;
 export type Result = { status: number; body: unknown };
@@ -66,13 +67,14 @@ export function handler(config: { origin: string; pepper: string; gatewaySecret?
     }
     if (req.method !== 'POST') return reply(405, {error:errors.bad});
     const match = path.match(/^\/messages\/([^/]+)\/(metadata|open|revoke)$/);
-    const action = path === '/music-budget' ? 'music_guard' : path === '/challenges' ? 'challenge' : path === '/messages' ? 'create' : match?.[2];
+    const action = /^\/rooms(?:\/|$)/.test(path) ? 'chat' : path === '/music-budget' ? 'music_guard' : path === '/challenges' ? 'challenge' : path === '/messages' ? 'create' : match?.[2];
     if (!action) return reply(404, {error:errors.gone});
     try {
       const client=config.gatewaySecret?await readClient(config.gatewaySecret,req):null;
       if(config.gatewaySecret&&!client)return reply(403,{error:'Gateway required'});
       const identity=client?{owner_hash:client.owner,network_hash:client.network}:{};
-      if(client){const guard=await config.rpc('guard',identity);if(guard.status!==200){headers['Retry-After']='60';return reply(guard.status,guard.body);}}
+      if(client&&action!=='chat'){const guard=await config.rpc('guard',identity);if(guard.status!==200){headers['Retry-After']='60';return reply(guard.status,guard.body);}}
+      if(action==='chat'){const result=await chatRequest(path,await body(req,380000),config.rpc,identity);if(result.status===429)headers['Retry-After']='60';return reply(result.status,result.body);}
       if(action==='music_guard'){if(!client)return reply(403,{error:'Gateway required'});const r=await config.rpc(action,identity);if(r.status===429)headers['Retry-After']='60';return reply(r.status,r.body);}
       const v = await body(req,action==='create'?maxBody:4096); let payload: Payload;
       if (action === 'challenge') {

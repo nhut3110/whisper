@@ -1,0 +1,150 @@
+-- Anonymous rooms. Only the signed gateway/service role may execute the RPC.
+CREATE TABLE public.whisper_rooms(
+ id text PRIMARY KEY, access_hash text NOT NULL, owner_hash text NOT NULL,
+ expires_at timestamptz NOT NULL, max_members integer NOT NULL CHECK(max_members BETWEEN 2 AND 12),
+ max_messages integer NOT NULL CHECK(max_messages BETWEEN 10 AND 1000),
+ mode text NOT NULL CHECK(mode IN ('total','rolling')), keep integer NOT NULL CHECK(keep BETWEEN 1 AND 200),
+ sent integer NOT NULL DEFAULT 0
+);
+CREATE INDEX whisper_rooms_expiry ON public.whisper_rooms(expires_at);
+CREATE TABLE public.whisper_members(
+ room text REFERENCES public.whisper_rooms(id) ON DELETE CASCADE,
+ member_hash text NOT NULL, name text NOT NULL, host boolean NOT NULL DEFAULT false,
+ seen integer NOT NULL DEFAULT 0, active_at timestamptz NOT NULL DEFAULT now(), typing_at timestamptz,
+ PRIMARY KEY(room,member_hash)
+);
+CREATE TABLE public.whisper_chat_messages(
+ room text REFERENCES public.whisper_rooms(id) ON DELETE CASCADE, seq integer NOT NULL,
+ member_hash text NOT NULL, nonce text NOT NULL, ciphertext text NOT NULL, iv text NOT NULL,
+ reply integer, file text, file_iv text, sent_at timestamptz NOT NULL DEFAULT now(), edited boolean NOT NULL DEFAULT false,
+ PRIMARY KEY(room,seq), UNIQUE(room,member_hash,nonce)
+);
+CREATE TABLE public.whisper_reactions(
+ room text NOT NULL, seq integer NOT NULL, member_hash text NOT NULL, emoji text NOT NULL,
+ PRIMARY KEY(room,seq,member_hash,emoji),
+ FOREIGN KEY(room,seq) REFERENCES public.whisper_chat_messages(room,seq) ON DELETE CASCADE
+);
+ALTER TABLE public.whisper_rooms ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.whisper_members ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.whisper_chat_messages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.whisper_reactions ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON public.whisper_rooms,public.whisper_members,public.whisper_chat_messages,public.whisper_reactions FROM PUBLIC,anon,authenticated;
+CREATE FUNCTION public.hush_chat_api(action text,payload jsonb)
+RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path='' AS $$
+DECLARE
+ p alias for payload; r public.whisper_rooms; m public.whisper_members;
+ room_id text:=p->>'id'; member text:=p->>'member_hash'; owner text:=p->>'owner_hash'; network text:=p->>'network_hash';
+ n integer; target integer; data jsonb; items jsonb; people jsonb;
+BEGIN
+ IF coalesce(owner,'') !~ '^[a-f0-9]{64}$' OR coalesce(network,'') !~ '^[a-f0-9]{64}$'
+ OR coalesce(member,'') !~ '^[a-f0-9]{64}$' OR coalesce(room_id,'') !~ '^[A-Za-z0-9_-]{43}$' THEN
+  RETURN jsonb_build_object('status',403,'body',jsonb_build_object('code','denied'));
+ END IF;
+ IF NOT public.hush_take_budget('chat:global',2000,60)
+ OR NOT public.hush_take_budget('chat:owner:'||owner,120,60)
+ OR NOT public.hush_take_budget('chat:network:'||network,300,60) THEN
+  RETURN jsonb_build_object('status',429,'body',jsonb_build_object('code','rateLimit'));
+ END IF;
+ IF action='chat_create' THEN
+  PERFORM pg_advisory_xact_lock(83110643);
+  DELETE FROM public.whisper_rooms WHERE expires_at<=clock_timestamp();
+  IF (SELECT count(*) FROM public.whisper_rooms)>=50 OR (SELECT count(*) FROM public.whisper_rooms WHERE owner_hash=owner)>=2
+  OR NOT public.hush_take_budget('chat:create:'||owner,5,3600)
+  OR NOT public.hush_take_budget('chat:create-network:'||network,10,3600)
+  OR NOT public.hush_take_budget('chat:create-global',100,86400) THEN
+   RETURN jsonb_build_object('status',429,'body',jsonb_build_object('code','roomLimit'));
+  END IF;
+  IF coalesce(p->>'access_hash','') !~ '^[a-f0-9]{64}$' OR (p->>'ttl')::integer NOT BETWEEN 300 AND 172800
+   OR char_length(p->>'name') NOT BETWEEN 1 AND 32 THEN
+   RETURN jsonb_build_object('status',400,'body',jsonb_build_object('code','invalid'));
+  END IF;
+  INSERT INTO public.whisper_rooms(id,access_hash,owner_hash,expires_at,max_members,max_messages,mode,keep)
+  VALUES(room_id,p->>'access_hash',owner,clock_timestamp()+make_interval(secs=>(p->>'ttl')::integer),(p->>'max_members')::integer,(p->>'max_messages')::integer,p->>'mode',(p->>'keep')::integer);
+  INSERT INTO public.whisper_members(room,member_hash,name,host) VALUES(room_id,member,p->>'name',true);
+  RETURN jsonb_build_object('status',201,'body',jsonb_build_object('ok',true));
+ END IF;
+ -- The room row serializes joins, sends, edits, deletion and trimming.
+ SELECT * INTO r FROM public.whisper_rooms WHERE id=room_id FOR UPDATE;
+ IF NOT FOUND THEN RETURN jsonb_build_object('status',410,'body',jsonb_build_object('code','roomGone')); END IF;
+ IF r.expires_at<=clock_timestamp() THEN
+  DELETE FROM public.whisper_rooms WHERE id=room_id;
+  RETURN jsonb_build_object('status',410,'body',jsonb_build_object('code','roomGone'));
+ END IF;
+ SELECT * INTO m FROM public.whisper_members WHERE room=room_id AND member_hash=member;
+ IF action='chat_join' THEN
+  IF r.access_hash<>coalesce(p->>'access_hash','') THEN RETURN jsonb_build_object('status',403,'body',jsonb_build_object('code','denied')); END IF;
+  IF m.member_hash IS NULL THEN
+   IF (SELECT count(*) FROM public.whisper_members WHERE room=room_id)>=r.max_members THEN
+    RETURN jsonb_build_object('status',409,'body',jsonb_build_object('code','roomFull'));
+   END IF;
+   INSERT INTO public.whisper_members(room,member_hash,name) VALUES(room_id,member,p->>'name');
+  END IF;
+  RETURN jsonb_build_object('status',200,'body',jsonb_build_object('ok',true));
+ END IF;
+ IF m.member_hash IS NULL THEN RETURN jsonb_build_object('status',403,'body',jsonb_build_object('code','denied')); END IF;
+ IF action='chat_destroy' THEN
+  IF NOT m.host THEN RETURN jsonb_build_object('status',403,'body',jsonb_build_object('code','denied')); END IF;
+  DELETE FROM public.whisper_rooms WHERE id=room_id;
+ ELSIF action='chat_leave' THEN
+  IF m.host THEN DELETE FROM public.whisper_rooms WHERE id=room_id;
+  ELSE
+   DELETE FROM public.whisper_reactions WHERE room=room_id AND member_hash=member;
+   DELETE FROM public.whisper_members WHERE room=room_id AND member_hash=member;
+  END IF;
+ ELSIF action='chat_send' THEN
+  SELECT seq INTO n FROM public.whisper_chat_messages WHERE room=room_id AND member_hash=member AND nonce=p->>'nonce';
+  IF FOUND THEN RETURN jsonb_build_object('status',200,'body',jsonb_build_object('seq',n)); END IF;
+  IF r.mode='total' AND r.sent>=r.max_messages THEN RETURN jsonb_build_object('status',409,'body',jsonb_build_object('code','messageLimit')); END IF;
+  IF r.sent>=1000000 OR NOT public.hush_take_budget('chat:send:'||room_id||':'||member,20,60) THEN
+   RETURN jsonb_build_object('status',429,'body',jsonb_build_object('code','rateLimit'));
+  END IF;
+  IF octet_length(coalesce(p->>'file',''))>350000 OR octet_length(p->>'ciphertext')>22000
+  OR (SELECT coalesce(sum(octet_length(ciphertext)+coalesce(octet_length(file),0)),0) FROM public.whisper_chat_messages WHERE room=room_id)
+    +octet_length(p->>'ciphertext')+octet_length(coalesce(p->>'file',''))>2097152 THEN
+   RETURN jsonb_build_object('status',413,'body',jsonb_build_object('code','storageLimit'));
+  END IF;
+  target:=(p->>'reply')::integer;
+  IF target IS NOT NULL AND NOT EXISTS(SELECT FROM public.whisper_chat_messages WHERE room=room_id AND seq=target) THEN target:=NULL; END IF;
+  UPDATE public.whisper_rooms SET sent=sent+1 WHERE id=room_id RETURNING sent INTO n;
+  INSERT INTO public.whisper_chat_messages(room,seq,member_hash,nonce,ciphertext,iv,reply,file,file_iv)
+  VALUES(room_id,n,member,p->>'nonce',p->>'ciphertext',p->>'iv',target,p->>'file',p->>'file_iv');
+  IF r.mode='rolling' THEN DELETE FROM public.whisper_chat_messages WHERE room=room_id AND seq<=n-r.keep; END IF;
+  UPDATE public.whisper_members SET typing_at=NULL,active_at=clock_timestamp() WHERE room=room_id AND member_hash=member;
+  RETURN jsonb_build_object('status',201,'body',jsonb_build_object('seq',n));
+ ELSIF action IN ('chat_edit','chat_delete','chat_file','chat_react') THEN
+  target:=(p->>'seq')::integer;
+  IF NOT EXISTS(SELECT FROM public.whisper_chat_messages WHERE room=room_id AND seq=target) THEN
+   RETURN jsonb_build_object('status',404,'body',jsonb_build_object('code','messageGone'));
+  END IF;
+  IF action IN ('chat_edit','chat_delete') THEN
+   IF NOT EXISTS(SELECT FROM public.whisper_chat_messages WHERE room=room_id AND seq=target AND member_hash=member) THEN
+    RETURN jsonb_build_object('status',403,'body',jsonb_build_object('code','denied'));
+   END IF;
+   IF action='chat_delete' THEN DELETE FROM public.whisper_chat_messages WHERE room=room_id AND seq=target;
+   ELSE UPDATE public.whisper_chat_messages SET ciphertext=p->>'ciphertext',iv=p->>'iv',edited=true WHERE room=room_id AND seq=target; END IF;
+  ELSIF action='chat_file' THEN
+   SELECT jsonb_build_object('file',file,'iv',file_iv) INTO data FROM public.whisper_chat_messages WHERE room=room_id AND seq=target;
+   RETURN jsonb_build_object('status',200,'body',data);
+  ELSE
+   IF coalesce(p->>'emoji','') NOT IN ('❤️','😂','😮','😢','👍','🔥') THEN RETURN jsonb_build_object('status',400,'body',jsonb_build_object('code','invalid')); END IF;
+   DELETE FROM public.whisper_reactions WHERE room=room_id AND seq=target AND member_hash=member AND emoji=p->>'emoji';
+   IF NOT FOUND THEN INSERT INTO public.whisper_reactions VALUES(room_id,target,member,p->>'emoji'); END IF;
+  END IF;
+ ELSIF action='chat_sync' THEN
+  UPDATE public.whisper_members SET seen=greatest(seen,least((p->>'seen')::integer,r.sent)),active_at=clock_timestamp(),
+   typing_at=CASE WHEN (p->>'typing')::boolean THEN clock_timestamp() ELSE NULL END WHERE room=room_id AND member_hash=member;
+  SELECT coalesce(jsonb_agg(jsonb_build_object('id',left(member_hash,16),'name',name,'host',host,'seen',seen,'online',active_at>clock_timestamp()-interval '15 seconds',
+   'typing',typing_at>clock_timestamp()-interval '6 seconds') ORDER BY host DESC,name),'[]'::jsonb) INTO people FROM public.whisper_members WHERE room=room_id;
+  SELECT coalesce(jsonb_agg(jsonb_build_object('seq',c.seq,'sender',left(c.member_hash,16),'ciphertext',c.ciphertext,'iv',c.iv,'reply',c.reply,'sent_at',c.sent_at,'edited',c.edited,
+   'reactions',(SELECT coalesce(jsonb_agg(jsonb_build_object('emoji',emoji,'member',left(member_hash,16))),'[]'::jsonb) FROM public.whisper_reactions WHERE room=room_id AND seq=c.seq)) ORDER BY c.seq),'[]'::jsonb)
+   INTO items FROM public.whisper_chat_messages c WHERE c.room=room_id;
+  RETURN jsonb_build_object('status',200,'body',jsonb_build_object('me',left(member,16),'expires_at',r.expires_at,'max_members',r.max_members,'max_messages',r.max_messages,'mode',r.mode,'keep',r.keep,'sent',r.sent,'members',people,'messages',items));
+ ELSE RETURN jsonb_build_object('status',404,'body',jsonb_build_object('code','invalid'));
+ END IF;
+ RETURN jsonb_build_object('status',200,'body',jsonb_build_object('ok',true));
+END;
+$$;
+REVOKE ALL ON FUNCTION public.hush_chat_api(text,jsonb) FROM PUBLIC,anon,authenticated;
+GRANT EXECUTE ON FUNCTION public.hush_chat_api(text,jsonb) TO service_role;
+-- No reads after expires_at; physical removal happens independently within a minute.
+SELECT cron.schedule('whisper-room-expiry','* * * * *', $$DELETE FROM public.whisper_rooms WHERE expires_at<=clock_timestamp()$$);

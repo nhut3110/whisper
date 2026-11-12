@@ -25,7 +25,7 @@ const headers={
  'Cache-Control':'no-store, max-age=0','Pragma':'no-cache','Referrer-Policy':'no-referrer',
  'X-Content-Type-Options':'nosniff','X-Frame-Options':'DENY','Permissions-Policy':'camera=(), microphone=(self), geolocation=()',
  'Strict-Transport-Security':'max-age=31536000',
- 'Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self'; media-src blob:; frame-src 'self'; font-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; object-src 'none'",
+ 'Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' blob:; media-src blob:; frame-src 'self'; font-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; object-src 'none'",
 };
 const gatewayDir=`${out}/functions/gateway.func`;
 await mkdir(gatewayDir,{recursive:true});
@@ -53,8 +53,9 @@ await writeFile(`${out}/config.json`,JSON.stringify({version:3,routes:[
  {src:'/health',dest:`${upstream}/health`},
  {src:'/s/([A-Za-z0-9_-]{16})',dest:'/share?handle=$1'},
  {handle:'filesystem'},
+ {src:'/chat/?',dest:'/index.html'},
  {src:'/m/[^/]+',dest:'/index.html'},
  {src:'/revoke/[^/]+',dest:'/index.html'},
 ]},null,2)+'\n');
-// Only a fixed allowlist of public frontend files is ever copied, never env/DB/tests.
+// Vite copies the dedicated public directory plus the explicit client asset list, never env/DB/tests.
 console.log('Built Whisper frontend and isolated share-preview function.');

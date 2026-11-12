@@ -25,6 +25,6 @@ for(const file of (await readdir('supabase/migrations')).filter(f=>/^\d+_.*\.sql
  INSERT INTO whisper_deploy.migrations(version,sha256) VALUES (${quote(version)},${quote(sha)}); COMMIT;`);
  console.log(`Applied: ${file}`);
 }
-const health=await query("SELECT jobname,active FROM cron.job WHERE jobname IN ('hush-expiry','whisper-housekeeping') ORDER BY jobname");
-if(health.length!==2||health.some(j=>!j.active))throw new Error('Expiry jobs missing or inactive');
-console.log('Both independent expiry jobs are active.');
+const health=await query("SELECT jobname,active FROM cron.job WHERE jobname IN ('hush-expiry','whisper-housekeeping','whisper-room-expiry') ORDER BY jobname");
+if(health.length!==3||health.some(j=>!j.active))throw new Error('Expiry jobs missing or inactive');
+console.log('All expiry jobs are active.');

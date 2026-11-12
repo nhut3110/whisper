@@ -1,15 +1,11 @@
 import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select'
-import { BrandMark } from '@/components/brand-mark'
+import { SiteHeader } from '@/components/site-header'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 export function Header() {
   return (
     <>
-      <header>
-        <a className="brand" href="/" aria-label="Whisper.">
-          <BrandMark className="brand-mark" />
-        </a>
-        <div className="header-actions">
+      <SiteHeader>
           <Button id="theme-toggle" className="icon-button" type="button" aria-label="Theme" aria-pressed="false" variant="ghost">
             <svg className="moon-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M20 14.2A8.5 8.5 0 0 1 9.8 4 8.5 8.5 0 1 0 20 14.2Z" />
@@ -60,10 +56,10 @@ export function Header() {
                   <ellipse cx="18" cy="16" rx="3" ry="2.5" />
                 </svg>
               </Button>
+              <Button id="room-mode" className="icon-button" type="button" data-i18n-aria-label="chat" data-i18n-title="chat" aria-pressed="false" variant="ghost"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v12H9l-5 4V4Z"/></svg></Button>
             </div>
           </nav>
-        </div>
-      </header>
+      </SiteHeader>
     </>
   )
 }
