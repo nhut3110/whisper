@@ -177,3 +177,32 @@ Prepared the integrated Text / Voice / Music / Chat selector, encrypted room API
 The broader Rust-backed browser run passed 95 cases and exposed three failures caused by the new chat router interpreting `/revoke/...#r=...` as a room invitation. Routing is now restricted to the root pathname. A freshly recompiled seven-case rerun passed all three failed flows, both animation tests that failed in the last hosted CI run, rich-load fallback and mobile header controls. The broader run's 25 skipped cases include chat/hosted-only flows tested separately; this is not a claim that the initial broad run was entirely green. Rendered shared-header layouts were inspected at 320 px and desktop. Physical devices and Safari remain unverified.
 
 Read-only production checks found the personal Vercel commit status successful and both production health endpoints returning 200. Supabase project `hzzmzskqmgowntzqfxrd` is ACTIVE_HEALTHY. Its six applied migration checksums match local source. Four migrations remain pending: chat rooms, emoji catalog, the Whisper emoji pack and the four-asset Pepe preview pack. No migration, commit, push or deployment was performed during preparation. Existing deployment-secret values were checked absent from public source files. Release requires the user's push approval and a subsequent live end-to-end check after CI/backend deployment.
+
+## Chat responsiveness — 2026-11-12 (local changes, not deployed)
+
+Live measurement with one disposable room and two Chromium contexts found send
+responses of 942–1091 ms, one reaction response of 997 ms, and sync responses of
+576–1346 ms. These are individual observations from this test client, not latency
+percentiles. The old client awaited mutation and then another sync before painting.
+Remote participants also wait for the existing 3-second polling cycle.
+
+A read-only production gateway request returned `x-vercel-id: hkg1::iad1::…`;
+Supabase Management API confirmed the personal project is in `ap-south-1`.
+`vercel.json` now selects the single `bom1` region. Vercel documents this option
+for Hobby at https://vercel.com/docs/project-configuration/vercel-json#regions .
+The region change needs deployment and new measurements before claiming an API
+latency improvement.
+
+The client now paints pending sends/edits, reactions and deletions before awaiting
+the API, commits acknowledged results locally and refreshes in the background.
+Pending overlays survive polls; acknowledged sequence numbers/ciphertext reconcile
+sends without duplicates. Rejected operations roll back and restore drafts without
+losing text typed while waiting. The existing nonce still handles a lost response.
+Message menus are non-modal when their trigger is removed. Room errors now
+float without shifting messages/actions when a background sync clears the error. Network and server authorization/encryption are unchanged.
+
+New browser cases hold actual mutation responses across a poll, assert immediate
+updates and one message, reject mutations to verify rollback, and check original
+and subsequent drafts survive a failed send. Existing two-context tests cover
+reply, reaction, file, edit/delete and lost-response retry. This is Chromium testing;
+no physical-phone or Safari result is claimed. Production QC data was destroyed.

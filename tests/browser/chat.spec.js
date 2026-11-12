@@ -297,3 +297,38 @@ test('chat is the fourth mode on the main screen and preserves both drafts and t
  for(const width of [320,390,1280]){await page.setViewportSize({width,height:844});await expect(page.locator('#room-mode')).toBeInViewport();await expect(page.getByRole('button',{name:'Gửi',exact:true})).toBeInViewport();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth&&document.documentElement.scrollHeight<=innerHeight)).toBe(true);await page.screenshot({path:`/tmp/whisper-integrated-chat-${width}.png`})}
  await page.reload();await expect(page.locator('.chat-room')).toBeVisible();await expect(page.locator('.chat-message-text')).toHaveText('Room survives mode changes');expect(errors).toEqual([]);
 });
+
+test('optimistic send react edit delete appear before responses; rejected actions roll back',async({page})=>{
+ await create(page);
+ const held=[];
+ let reject=false;
+ await page.route(/\/api\/rooms\/[^/]+\/(send|react|edit|delete)$/,async route=>{
+  if(reject){await route.fulfill({status:403,json:{code:'denied'}});return;}
+  const response=await route.fetch();
+  await new Promise(resolve=>held.push(async()=>{await route.fulfill({response});resolve()}));
+ });
+ const release=async()=>{await expect.poll(()=>held.length).toBe(1);await held.shift()();};
+ await send(page,'Immediate message');
+ await expect(page.locator('.chat-message[data-pending=true]')).toContainText('Immediate message');
+ // The committed send may arrive through polling before its own response.
+ await page.waitForTimeout(3400);await expect(page.locator('.chat-message')).toHaveCount(1);
+ await release();await expect(page.locator('.chat-message[data-pending]')).toHaveCount(0);
+ const react=async()=>{await page.locator('.chat-message').first().locator('[data-slot=bubble-content]').hover();await page.getByRole('button',{name:'Thả cảm xúc',exact:true}).click();await page.locator('.chat-quick-emojis').getByRole('button',{name:'👍',exact:true}).click()};
+ await react();await expect(page.locator('.chat-reactions')).toContainText('👍');await page.waitForTimeout(3400);await expect(page.locator('.chat-reactions')).toContainText('👍');await release();
+ const menu=async(name)=>{await page.locator('.chat-message').first().locator('[data-slot=bubble-content]').hover();await page.getByRole('button',{name:'Thao tác tin nhắn',exact:true}).click();await page.getByRole('menuitem',{name,exact:true}).click()};
+ await menu('Sửa');await page.getByRole('textbox',{name:'Nói gì đó nhé…'}).fill('Immediate edit');await page.getByRole('button',{name:'Lưu',exact:true}).click();await expect(page.locator('.chat-message-text')).toHaveText('Immediate edit');await release();await expect(page.locator('.chat-message[data-pending]')).toHaveCount(0);
+ reject=true;await react();await expect(page.getByRole('alert')).toBeVisible();await expect(page.locator('.chat-reactions')).toContainText('👍');
+ await menu('Xoá');await expect(page.getByRole('alert')).toBeVisible();await expect(page.locator('.chat-message-text')).toHaveText('Immediate edit');
+ reject=false;await menu('Xoá');await expect(page.locator('.chat-message')).toHaveCount(0);await release();await expect(page.locator('.chat-message')).toHaveCount(0);
+ reject=true;await page.getByRole('textbox',{name:'Nói gì đó nhé…'}).fill('Rejected send');await page.getByRole('button',{name:'Gửi',exact:true}).click();await expect(page.getByRole('alert')).toBeVisible();await expect(page.locator('.chat-message')).toHaveCount(0);await expect(page.getByRole('textbox',{name:'Nói gì đó nhé…'})).toHaveText('Rejected send');
+});
+
+test('failed optimistic send preserves both the original and the next draft',async({page})=>{
+ await create(page);let release;const gate=new Promise(resolve=>{release=resolve});
+ await page.route('**/api/rooms/*/send',async route=>{await gate;await route.fulfill({status:403,json:{code:'denied'}})},{times:1});
+ try{
+  await send(page,'Unsent original');await page.getByRole('textbox',{name:'Nói gì đó nhé…'}).fill('Next draft');release();
+  await expect(page.getByRole('alert')).toBeVisible();await expect(page.locator('.chat-message')).toHaveCount(0);
+  await expect(page.getByRole('textbox',{name:'Nói gì đó nhé…'})).toHaveText('Unsent original\nNext draft');
+ }finally{release()}
+});

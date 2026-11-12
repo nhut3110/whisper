@@ -28,7 +28,7 @@ type Session={id:string,access:string,key:string,member:string,name:string,joine
 type Person={id:string,name:string,host:boolean,seen:number,online:boolean,typing:boolean}
 type Item={seq:number,sender:string,ciphertext:string,iv:string,reply:number|null,sent_at:string,edited:boolean,reactions:{emoji:string,member:string}[]}
 type Content={text:string,file?:FileInfo}
-type Message=Item&{content:Content}
+type Message=Item&{content:Content,pending?:boolean}
 type State={me:string,expires_at:string,max_members:number,max_messages:number,mode:'total'|'rolling',keep:number,sent:number,members:Person[],messages:Message[]}
 type Modal={kind:'link',url:string}|{kind:'destroy'|'leave'|'file',seq?:number}
 const encoder=new TextEncoder();
@@ -77,16 +77,25 @@ export default function Chat({active=true}:{active?:boolean}={}){
  const [text,setText]=useState('');const [reply,setReply]=useState<Message|null>(null);const [edit,setEdit]=useState<Message|null>(null);const [file,setFile]=useState<{info:FileInfo,bytes:Uint8Array}|null>(null);
  const [busy,setBusy]=useState(false);const [gone,setGone]=useState(false);const [modal,setModal]=useState<Modal|null>(null);const [now,setNow]=useState(Date.now());const [pulse,setPulse]=useState(0);
  const lastSnapshot=useRef('');
+ const authoritative=useRef<State|null>(null);
+ const optimistic=useRef(new Map<string,(state:State)=>State>());
+ const actionLocks=useRef(new Set<number>());
+ const syncTask=useRef<Promise<void>|null>(null);
+ const paint=()=>{let next=authoritative.current;for(const apply of optimistic.current.values())if(next)next=apply(next);setState(next)};
  const previewCache=useRef(new Map<string,Promise<PreviewData>>());
  useEffect(()=>{if(gone)previewCache.current.clear();return()=>previewCache.current.clear()},[session?.id,gone]);
  const loadPreview=useCallback((url:string)=>{if(!session||gone)return Promise.resolve({});let pending=previewCache.current.get(url);if(!pending){pending=request(session,'preview',{url}).catch(()=>({}));if(previewCache.current.size>=8)previewCache.current.delete(previewCache.current.keys().next().value!);previewCache.current.set(url,pending)}return pending},[session?.id,session?.member,gone]);
  const emojiCounts=useRef(new WeakMap<Content,number>());const cache=useRef(new Map<number,{fingerprint:string,content:Content}>());const typing=useRef(0);const seen=useRef(0);const log=useRef<HTMLDivElement>(null);const compose=useRef<ComposerHandle>(null);const upload=useRef<HTMLInputElement>(null);const pendingSend=useRef<{body:string,reply:number|null,bytes:Uint8Array|undefined,nonce:string}|null>(null);const syncing=useRef(false);const live=useRef(true);const generation=useRef(0);
  useEffect(()=>{if(active)document.body.classList.add('chat-page');if(active)document.documentElement.lang=lang;const timer=setInterval(()=>setNow(Date.now()),30000);return()=>{clearInterval(timer);document.body.classList.remove('chat-page')}},[lang,active]);
- useEffect(()=>{live.current=true;return()=>{live.current=false}},[]);
+ useEffect(()=>{live.current=true;return()=>{live.current=false;optimistic.current.clear();authoritative.current=null;pendingSend.current=null}},[]);
  useEffect(()=>{if(!notice)return;const id=setTimeout(()=>setNotice(''),4500);return()=>clearTimeout(id)},[notice]);
  const persist=(s:Session)=>{sessionStorage.setItem(store,JSON.stringify(s));history.replaceState(null,'','/?mode=chat');setSession(s)};
- const fail=(e:unknown)=>{const code=e instanceof APIError?e.code:'network';if(code==='roomGone'){generation.current++;pendingSend.current=null;setGone(true);cache.current.clear();setState(null);setText('');setFile(null);setReply(null);setEdit(null);setModal(null);sessionStorage.removeItem(store)}else setError(code)};
- const sync=async(s:Session)=>{
+ const fail=(e:unknown)=>{const code=e instanceof APIError?e.code:'network';if(code==='roomGone'){generation.current++;pendingSend.current=null;optimistic.current.clear();authoritative.current=null;setGone(true);cache.current.clear();setState(null);setText('');setFile(null);setReply(null);setEdit(null);setModal(null);sessionStorage.removeItem(store)}else setError(code)};
+ const sync=async(s:Session,fresh=false):Promise<void>=>{
+  if(syncTask.current){await syncTask.current;if(fresh)return sync(s);return;}
+  const task=syncOnce(s);syncTask.current=task;try{await task}finally{if(syncTask.current===task)syncTask.current=null}
+ };
+ const syncOnce=async(s:Session)=>{
   if(syncing.current||!live.current||document.hidden)return;
   syncing.current=true;const revision=generation.current;
   try{
@@ -100,7 +109,7 @@ export default function Chat({active=true}:{active?:boolean}={}){
    }));
    if(!live.current||revision!==generation.current)return;
    const retained=new Set(messages.map(m=>m.seq));for(const n of cache.current.keys())if(!retained.has(n))cache.current.delete(n);
-   lastSnapshot.current=snapshot;setState({...r,messages});setError('');
+   lastSnapshot.current=snapshot;authoritative.current={...r,messages};paint();setError('');
    if(nearBottom)seen.current=r.sent;
   }catch(e){if(live.current)fail(e)}finally{syncing.current=false}
  };
@@ -112,7 +121,7 @@ export default function Chat({active=true}:{active?:boolean}={}){
   return()=>{stopped=true;clearTimeout(timer);document.removeEventListener('visibilitychange',visible)};
  // Session identity is stable until join/leave; keep timers independent of typing renders.
  },[session?.id,session?.joined,gone,pulse,active]);
- useEffect(()=>{if(!state||gone)return;const timer=setTimeout(()=>{generation.current++;pendingSend.current=null;setGone(true);setState(null);setText('');setFile(null);setReply(null);setEdit(null);setModal(null);cache.current.clear();sessionStorage.removeItem(store)},Math.max(0,Date.parse(state.expires_at)-Date.now()));return()=>clearTimeout(timer)},[state?.expires_at,gone]);
+ useEffect(()=>{if(!state||gone)return;const timer=setTimeout(()=>{generation.current++;pendingSend.current=null;optimistic.current.clear();authoritative.current=null;setGone(true);setState(null);setText('');setFile(null);setReply(null);setEdit(null);setModal(null);cache.current.clear();sessionStorage.removeItem(store)},Math.max(0,Date.parse(state.expires_at)-Date.now()));return()=>clearTimeout(timer)},[state?.expires_at,gone]);
  async function enter(e:FormEvent){
   e.preventDefault();if(busy)return;setBusy(true);setError('');
   const s:Session=session||{id:random(),key:random(),access:random(),member:random(),name:'',joined:false};s.name=name.trim()||`Guest ${Math.floor(Math.random()*900)+100}`;
@@ -124,18 +133,36 @@ export default function Chat({active=true}:{active?:boolean}={}){
   }catch(e){fail(e)}finally{setBusy(false)}
  }
  async function send(e:FormEvent){
-  e.preventDefault();if(!session||busy||(!text.trim()&&!file))return;if(text.length>4000){setError('msgLimit');return}setBusy(true);setError('');
+  e.preventDefault();if(!session||busy||!state||(!text.trim()&&!file))return;if(text.length>4000){setError('msgLimit');return}setBusy(true);setError('');
+  const content:Content={text:text.trim(),...(file?{file:file.info}:edit?.content.file?{file:edit.content.file}:{})};
+  const serialized=JSON.stringify(content),editing=edit,replying=reply,attached=file,draft=text;
+  if(!editing&&(!pendingSend.current||pendingSend.current.body!==serialized||pendingSend.current.reply!==(replying?.seq??null)||pendingSend.current.bytes!==attached?.bytes))pendingSend.current={body:serialized,reply:replying?.seq??null,bytes:attached?.bytes,nonce:crypto.randomUUID().replaceAll('-','')};
+  const id=editing?'edit:'+editing.seq:'send:'+pendingSend.current!.nonce;
+  const temp=-(Date.now());
+  const item:Message={seq:temp,sender:state.me,ciphertext:'',iv:'',reply:replying?.seq??null,sent_at:new Date().toISOString(),edited:false,reactions:[],content,pending:true};
+  optimistic.current.set(id,current=>({...current,messages:editing?current.messages.map(m=>m.seq===editing.seq?{...m,content,edited:true,pending:true}:m):current.messages.some(m=>item.ciphertext&&m.ciphertext===item.ciphertext)?current.messages:[...current.messages,item]}));paint();
+  setText('');setFile(null);setEdit(null);setReply(null);typing.current=0;compose.current?.focus();
   try{
-   const content:Content={text:text.trim(),...(file?{file:file.info}:edit?.content.file?{file:edit.content.file}:{})};
-   const serialized=JSON.stringify(content);
-   if(!edit&&(!pendingSend.current||pendingSend.current.body!==serialized||pendingSend.current.reply!==(reply?.seq??null)||pendingSend.current.bytes!==file?.bytes))pendingSend.current={body:serialized,reply:reply?.seq??null,bytes:file?.bytes,nonce:crypto.randomUUID().replaceAll('-','')};
    const encrypted=await encrypt(encoder.encode(serialized),session.key,session.id);
-   const attachment=file?await encrypt(file.bytes,session.key,session.id,'file'):null;
-   await request(session,edit?'edit':'send',{...encrypted,...(edit?{seq:edit.seq}:{nonce:pendingSend.current!.nonce,reply:reply?.seq??null,file:attachment?.ciphertext??null,file_iv:attachment?.iv??null})});
-   pendingSend.current=null;setText(current=>current===text?'':current);setFile(current=>current===file?null:current);setEdit(current=>current===edit?null:current);setReply(current=>current===reply?null:current);typing.current=0;await sync(session);compose.current?.focus();
-  }catch(e){fail(e)}finally{setBusy(false)}
+   Object.assign(item,encrypted);
+   const attachment=attached?await encrypt(attached.bytes,session.key,session.id,'file'):null;
+   const result=await request(session,editing?'edit':'send',{...encrypted,...(editing?{seq:editing.seq}:{nonce:pendingSend.current!.nonce,reply:replying?.seq??null,file:attachment?.ciphertext??null,file_iv:attachment?.iv??null})});
+   // Commit the acknowledged item locally, without waiting for another network trip.
+   generation.current++;lastSnapshot.current='';
+   const base=authoritative.current;
+   if(base){const acknowledged={...item,...encrypted,sent_at:editing?.sent_at??item.sent_at,reactions:editing?.reactions??item.reactions,seq:result.seq??editing?.seq??temp,pending:false,edited:!!editing};
+    authoritative.current={...base,sent:editing?base.sent:Math.max(base.sent,acknowledged.seq),messages:editing?base.messages.map(m=>m.seq===editing.seq?acknowledged:m):base.messages.some(m=>m.seq===acknowledged.seq)?base.messages:[...base.messages,acknowledged]};}
+   pendingSend.current=null;optimistic.current.delete(id);paint();void sync(session,true);
+  }catch(e){optimistic.current.delete(id);paint();if(!(e instanceof APIError&&e.code==='roomGone')){setText(current=>current&&draft?draft+'\n'+current:current||draft);setFile(current=>current||attached);setEdit(current=>current||editing);setReply(current=>current||replying)}fail(e)}finally{setBusy(false)}
  }
- async function action(kind:string,data:Record<string,unknown>){if(!session)return;try{await request(session,kind,data);await sync(session)}catch(e){fail(e)}}
+ async function action(kind:string,data:Record<string,unknown>){
+  if(!session||!state)return;const seq=Number(data.seq);if(actionLocks.current.has(seq))return;actionLocks.current.add(seq);setError('');
+  const id=kind+':'+seq;
+  const emoji=String(data.emoji),remove=state.messages.find(m=>m.seq===seq)?.reactions.some(r=>r.member===state.me&&r.emoji===emoji);
+  const apply=(current:State):State=>({...current,messages:kind==='delete'?current.messages.filter(m=>m.seq!==seq):current.messages.map(m=>{if(m.seq!==seq)return m;return {...m,reactions:remove?m.reactions.filter(r=>!(r.member===current.me&&r.emoji===emoji)):[...m.reactions.filter(r=>!(r.member===current.me&&r.emoji===emoji)),{member:current.me,emoji}]}})});
+  optimistic.current.set(id,apply);paint();
+  try{await request(session,kind,data);generation.current++;lastSnapshot.current='';if(authoritative.current)authoritative.current=apply(authoritative.current);optimistic.current.delete(id);paint();void sync(session,true)}catch(e){optimistic.current.delete(id);paint();fail(e)}finally{actionLocks.current.delete(seq)}
+ }
  async function attachment(seq:number){
   if(!session||!state)return;setBusy(true);
   try{
@@ -149,7 +176,7 @@ export default function Chat({active=true}:{active?:boolean}={}){
   if(!session||!modal)return;
   if(modal.kind==='link'){window.open(modal.url,'_blank','noopener,noreferrer');setModal(null);return}
   if(modal.kind==='file'){await attachment(modal.seq!);return}
-  setBusy(true);try{await request(session,modal.kind);generation.current++;pendingSend.current=null;sessionStorage.removeItem(store);cache.current.clear();setState(null);setSession(null);setGone(true);setText('');setFile(null);setModal(null)}catch(e){fail(e)}finally{setBusy(false)}
+  setBusy(true);try{await request(session,modal.kind);generation.current++;pendingSend.current=null;optimistic.current.clear();authoritative.current=null;sessionStorage.removeItem(store);cache.current.clear();setState(null);setSession(null);setGone(true);setText('');setFile(null);setModal(null)}catch(e){fail(e)}finally{setBusy(false)}
  }
  const errorText=error?(t[({roomFull:'full',roomGone:'gone'} as Record<string,string>)[error] as keyof typeof t]||t[error as keyof typeof t]||t.network):'';
  const self=state?.members.find(m=>m.id===state.me);const locked=state?.mode==='total'&&state.sent>=state.max_messages;
@@ -174,7 +201,7 @@ export default function Chat({active=true}:{active?:boolean}={}){
   const linkOnly=urls.length===1&&/^https?:\/\/[^\s<>]+$/.test(m.content.text.trim())&&!m.content.file;
   const fileOnly=!!m.content.file&&!m.content.text.trim();
   return <MessageScrollerItem key={m.seq} messageId={String(m.seq)} className={grouped?'chat-row chat-row-grouped':'chat-row'}>
-   <MessageFrame align={mine?'end':'start'} data-seq={m.seq} data-group-start={!grouped} data-group-end={groupEnd} className={'chat-message'+(mine?' chat-mine':'')}>
+   <MessageFrame align={mine?'end':'start'} data-seq={m.seq} data-pending={m.pending||undefined} data-group-start={!grouped} data-group-end={groupEnd} className={'chat-message'+(mine?' chat-mine':'')}>
     <MessageContent>
      {!mine&&!grouped&&<MessageHeader>{sender}</MessageHeader>}
      {m.reply&&<div className="chat-reply-context"><small><Reply/>{sender} · {t.reply}</small><button className="chat-reply-quote" onClick={()=>document.querySelector(`[data-seq="${m.reply}"]`)?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'})}><EmojiText text={original?.content.text.slice(0,120)||original?.content.file?.name||t.replyGone}/></button></div>}
@@ -193,9 +220,9 @@ export default function Chat({active=true}:{active?:boolean}={}){
       {!!counts.length&&<BubbleReactions className="chat-reactions translate-y-0" align="end"><Popover><PopoverTrigger asChild><button aria-label={counts.map(r=>r.emoji+' '+r.total).join(', ')} aria-pressed={counts.some(r=>r.mine)}><span className="chat-reaction-icons" key={counts.map(r=>r.emoji+':'+r.total).join('|')}>{counts.slice(0,3).map(r=><span key={r.emoji}><EmojiGlyph value={r.emoji}/></span>)}</span>{m.reactions.length>1&&<span className="chat-reaction-count">{m.reactions.length}</span>}</button></PopoverTrigger><PopoverContent className="chat-reaction-people" align="end" side="top"><h2>{t.reactions}<span>{m.reactions.length}</span></h2>{m.reactions.map(r=>{const member=state.members.find(p=>p.id===r.member);return <div className="chat-reaction-person" key={r.member+'-'+r.emoji}><ParticipantAvatar name={member?.name||'Guest'} id={r.member}/><span>{r.member===state.me?t.you:member?.name||'Guest'}</span>{r.member===state.me?<PopoverClose asChild><Button variant="ghost" size="icon-sm" aria-label={t.removeReaction} onClick={()=>void action('react',{seq:m.seq,emoji:r.emoji})}><EmojiGlyph value={r.emoji}/></Button></PopoverClose>:<span><EmojiGlyph value={r.emoji}/></span>}</div>})}</PopoverContent></Popover></BubbleReactions>}
      </Bubble>
 
-    <div className="chat-message-actions">
+    <div className="chat-message-actions" inert={m.pending||undefined}>
      <EmojiMenu lang={lang} quick align={mine?'end':'start'} onSelect={emoji=>void action('react',{seq:m.seq,emoji})}><Button className="chat-react-picker" variant="ghost" size="icon-sm" aria-label={t.react}><SmilePlus/></Button></EmojiMenu>
-     <DropdownMenu><DropdownMenuTrigger asChild><Button variant="ghost" size="icon-sm" aria-label={t.actions}><MoreHorizontal/></Button></DropdownMenuTrigger><DropdownMenuContent align={mine?'end':'start'}>
+     <DropdownMenu modal={false}><DropdownMenuTrigger asChild><Button variant="ghost" size="icon-sm" aria-label={t.actions}><MoreHorizontal/></Button></DropdownMenuTrigger><DropdownMenuContent align={mine?'end':'start'}>
       <DropdownMenuItem onSelect={()=>{setReply(m);setEdit(null);setTimeout(()=>compose.current?.focus(),0)}}><Reply/>{t.reply}</DropdownMenuItem>
       <DropdownMenuItem onSelect={()=>{void navigator.clipboard.writeText(m.content.text).then(()=>setNotice(t.messageCopied)).catch(()=>setError('network'))}} disabled={!m.content.text}><Copy/>{t.copy}</DropdownMenuItem>
       {mine&&<><DropdownMenuSeparator/><DropdownMenuItem onSelect={()=>{setEdit(m);setText(m.content.text);setReply(null);setFile(null);setTimeout(()=>compose.current?.focus(),0)}}><Pencil/>{t.edit}</DropdownMenuItem><DropdownMenuItem variant="destructive" onSelect={()=>void action('delete',{seq:m.seq})}><Trash2/>{t.delete}</DropdownMenuItem></>}
@@ -205,7 +232,7 @@ export default function Chat({active=true}:{active?:boolean}={}){
      <MessageFooter className="chat-message-footer">
       <time className="chat-message-time" dateTime={m.sent_at}>{new Date(m.sent_at).toLocaleTimeString(lang,{hour:'2-digit',minute:'2-digit'})}</time>
       {m.edited&&<span className="chat-message-time">{t.edited}</span>}
-      {mine&&groupEnd&&<span className="chat-receipt" title={state.members.some(p=>p.id!==state.me&&p.seen>=m.seq)?t.seen:t.sent}>{state.members.some(p=>p.id!==state.me&&p.seen>=m.seq)?<CheckCheck/>:<Check/>}<span className="sr-only">{state.members.some(p=>p.id!==state.me&&p.seen>=m.seq)?t.seen:t.sent}</span></span>}
+      {mine&&groupEnd&&<span className="chat-receipt" title={m.pending?'…':state.members.some(p=>p.id!==state.me&&p.seen>=m.seq)?t.seen:t.sent}>{m.pending?<Clock3/>:state.members.some(p=>p.id!==state.me&&p.seen>=m.seq)?<CheckCheck/>:<Check/>}<span className="sr-only">{state.members.some(p=>p.id!==state.me&&p.seen>=m.seq)?t.seen:t.sent}</span></span>}
      </MessageFooter>
     </MessageContent>
 
