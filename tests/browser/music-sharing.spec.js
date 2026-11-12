@@ -29,6 +29,10 @@ test('music reference is encrypted, shared, freshly resolved, played and burned'
 test('mobile layout and mode switching pause playback and preserve text draft',async({page})=>{
  await page.setViewportSize({width:390,height:844});await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/');await page.locator('#message').fill('Bản nháp');await page.locator('#music-mode').click();
  const frame=page.frameLocator('#music-frame');await frame.locator('#query').fill('rick');await frame.locator('#submit').click();await frame.locator('#results button').click();await expect(frame.locator('#intro-line')).toBeHidden({timeout:3000});
+ // Wait for the scheduled autoplay attempt before deciding whether a manual
+ // click is needed; otherwise autoplay can start between the read and click,
+ // turning that click into Pause on faster CI runners.
+ await expect(frame.locator('#selected')).toHaveAttribute('data-intro','ready');
  if(await frame.locator('#audio').evaluate(a=>a.paused))await frame.locator('#play-toggle').click();await expect(frame.locator('#selected')).toHaveClass(/is-playing/);
  await page.screenshot({path:'test-results/music-integrated-mobile.png',fullPage:true});
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);expect(await frame.locator('html').evaluate(e=>e.scrollWidth<=innerWidth)).toBe(true);
