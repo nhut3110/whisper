@@ -3,6 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "check:local": "node scripts/check.mjs",
+    "check:ci": "node scripts/check.mjs --ci",
     "build": "node scripts/build-web.mjs",
     "test:edge": "node --test --test-concurrency=1 --experimental-test-coverage tests/edge/*.test.ts",
     "test": "node --test --experimental-test-coverage tests/*.test.js",
