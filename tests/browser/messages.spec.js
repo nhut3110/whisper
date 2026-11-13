@@ -136,6 +136,9 @@ test('mobile partial slide returns home; keyboard alternative confirms and timed
 });
 
 test('long text beyond the old 32 KiB limit roundtrips',async({page})=>{
+ // This stress fixture lays out 4,000 lines. Shared CI took 27s filling it
+ // before the actual encrypted roundtrip; keep a per-case budget, no retries.
+ test.setTimeout(60000);
  const text='A private long message 🐚\n'.repeat(4000);const v=await create(page,{text,burn:false});await open(page,v.link);await expect(page.locator('#reading')).toBeVisible();await expect(page.locator('#plaintext')).toHaveText(text);
 });
 test('thought bubbles appear, pause and rotate without blocking the editor',async({page})=>{

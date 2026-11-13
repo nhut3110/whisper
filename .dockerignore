@@ -5,3 +5,9 @@ node_modules
 coverage
 test-results
 .git
+
+.private
+.vercel
+dist
+
+.env.*

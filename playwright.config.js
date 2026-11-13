@@ -5,7 +5,7 @@ import path from 'node:path';
 const root=path.join(os.homedir(),'.agent-browser/browsers');
 const cached=fs.existsSync(root)?fs.readdirSync(root).find(n=>n.startsWith('chrome-')):null;
 const candidate=cached?path.join(root,cached,'Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing'):null;
-const executablePath=process.env.CHROME_PATH||(candidate&&fs.existsSync(candidate)?candidate:undefined);
+const executablePath=process.env.WHISPER_PINNED_BROWSER==='1'?undefined:process.env.CHROME_PATH||(candidate&&fs.existsSync(candidate)?candidate:undefined);
 fs.mkdirSync('coverage',{recursive:true});
 export default defineConfig({
   testDir:'./tests/browser',workers:1,fullyParallel:false,timeout:30000,

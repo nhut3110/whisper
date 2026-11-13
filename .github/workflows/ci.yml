@@ -6,39 +6,11 @@ permissions:
   contents: read
 jobs:
   test:
-    runs-on: ubuntu-24.04
-    services:
-      postgres:
-        image: postgres:17
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: test-only
-          POSTGRES_DB: hush_test
-        ports: ["5432:5432"]
-        options: >-
-          --health-cmd "pg_isready -U postgres"
-          --health-interval 5s --health-timeout 5s --health-retries 10
+    runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
-        with:
-          components: rustfmt, clippy, llvm-tools-preview
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: npm
-      - run: cargo install cargo-llvm-cov --locked
-      - name: Use preinstalled runner Chrome
-        shell: bash
-        run: |
-          chrome_path="$(command -v google-chrome || command -v google-chrome-stable || true)"
-          test -n "$chrome_path" || { echo "::error::Runner Chrome missing"; exit 1; }
-          "$chrome_path" --version
-          echo "CHROME_PATH=$chrome_path" >> "$GITHUB_ENV"
-      - name: Shared local and CI release gate
-        run: npm run check:ci
-        env:
-          TEST_DATABASE_URL: postgresql://postgres:test-only@localhost:5432/hush_test
+      - name: Same Linux release gate as local
+        run: node scripts/check-container.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

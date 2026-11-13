@@ -1,6 +1,6 @@
 // One release gate for local development and GitHub Actions. Never deploys/pushes.
 import {spawn,execFileSync} from 'node:child_process';
-import {mkdirSync,writeFileSync,createWriteStream,rmSync} from 'node:fs';
+import {mkdirSync,writeFileSync,createWriteStream,rmSync,readFileSync} from 'node:fs';
 import net from 'node:net';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -38,7 +38,7 @@ try{
  command('cargo',['llvm-cov','--version']);
  if(ci){
   const url=new URL(process.env.TEST_DATABASE_URL||'');
-  if(!['localhost','127.0.0.1'].includes(url.hostname)||url.pathname!=='/hush_test')throw Error('CI requires a loopback disposable hush_test database.');
+  if(!(process.env.WHISPER_CHECK_CONTAINER==='1'?['postgres']:['localhost','127.0.0.1']).includes(url.hostname)||url.pathname!=='/hush_test')throw Error('CI requires a loopback disposable hush_test database.');
   env.TEST_DATABASE_URL=url.href;
  }else{
   // Always create a fresh database. Ignore caller DB URLs, including production.
@@ -51,6 +51,9 @@ try{
   if(!ready)throw Error('Disposable PostgreSQL did not become ready.');
  }
  await run('dependencies','npm',['ci']);
+ const versions={node:process.version,platform:process.platform,arch:process.arch,rust:command('rustc',['--version']),coverage:command('cargo',['llvm-cov','--version']),pinnedBrowser:env.WHISPER_PINNED_BROWSER==='1',browsers:JSON.parse(readFileSync('node_modules/playwright-core/browsers.json','utf8')).browsers.filter(browser=>browser.name.startsWith('chromium'))};
+ console.log('Check environment:',JSON.stringify(versions));
+ writeFileSync(path.join(dir,'environment.json'),JSON.stringify(versions,null,2));
  await run('typecheck','npm',['run','typecheck']);
  await run('client-build','npm',['run','build:client']);
  await run('rust-format','cargo',['fmt','--check']);

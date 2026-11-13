@@ -1,0 +1,41 @@
+services:
+  postgres:
+    image: postgres:17
+    platform: linux/arm64
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: test-only
+      POSTGRES_DB: hush_test
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U postgres -d hush_test]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    networks: [checks]
+  checks:
+    build:
+      context: .
+      dockerfile: Dockerfile.checks
+    platform: linux/arm64
+    cpus: 2
+    mem_limit: 7g
+    shm_size: 1g
+    working_dir: /app
+    environment:
+      TEST_DATABASE_URL: postgresql://postgres:test-only@postgres:5432/hush_test
+      WHISPER_CHECK_CONTAINER: '1'
+    volumes:
+      - ./coverage:/app/coverage
+      - ./test-results:/app/test-results
+      - dependencies:/app/node_modules
+      - rust-target:/app/target
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: [node, scripts/check.mjs, --ci]
+    networks: [checks]
+networks:
+  checks:
+volumes:
+  dependencies:
+  rust-target:

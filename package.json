@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "check:linux": "node scripts/check-container.mjs",
     "check:local": "node scripts/check.mjs",
     "check:ci": "node scripts/check.mjs --ci",
     "build": "node scripts/build-web.mjs",

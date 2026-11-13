@@ -206,3 +206,30 @@ updates and one message, reject mutations to verify rollback, and check original
 and subsequent drafts survive a failed send. Existing two-context tests cover
 reply, reaction, file, edit/delete and lost-response retry. This is Chromium testing;
 no physical-phone or Safari result is claimed. Production QC data was destroyed.
+
+
+## Linux release gate parity — 2026-11-13 (not pushed)
+
+The old local gate reused macOS/cached Chrome while CI used Ubuntu's preinstalled
+Chrome and an unpinned Rust stable toolchain. A common command list did not imply
+a common runtime. The first CI attempt on 831028d timed out at the 4,000-line
+fixture: trace measured 27.3 seconds inside `fill`, leaving too little of the
+30-second test budget for sharing/opening. Attempt two passed on the same SHA;
+Supabase deploy 43245381948 succeeded. This was a flaky runtime budget, not evidence
+of a new chat API failure.
+
+`npm run check:linux` and the proposed GitHub workflow now invoke one Compose
+entrypoint, pinned Ubuntu Noble/Playwright image, Node 24.22.1, Rust 1.99.1,
+cargo-llvm-cov 0.9.1 and Playwright Chromium revision 1254. Both use Linux ARM64,
+2 CPU/7 GB RAM, fresh Postgres and browser servers, with no automatic test retry.
+ARM64 avoids a rustc SIGSEGV observed under amd64 emulation on this Apple Silicon
+machine; the public GitHub runner is `ubuntu-24.04-arm`. Physical CPU and network
+remain different. No credential or Git mounts enter the test container.
+
+Full local Linux run `coverage/checks/2026-11-13T01-55-10-453Z` passed all 16 steps,
+including 98 Rust browser cases, 9 Edge flows, 21 chat cases and 6 music cases.
+The full suite's long-text case took 20 seconds. A repeated Linux stress run also
+reached 30.4 seconds, reproducing the old timeout boundary locally. That single
+test has a 60-second budget; its payload, gestures and assertions are unchanged.
+Runtime/browser versions are saved in environment.json. These workflow changes
+remain local pending explicit push approval; no new remote result is claimed.
