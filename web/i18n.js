@@ -254,3 +254,5 @@ const writingPlaceholders={en:['Type / for blocks…','List item'],vi:['Gõ / đ
 for(const lang of Object.keys(names)){const labels=writingPlaceholders[lang]||writingPlaceholders.en;Object.assign(dictionaries[lang],{phParagraph:labels[0],phList:labels[1]});}
 
 for(const lang of Object.keys(names))dictionaries[lang].chat=lang==='vi'?'Trò chuyện':'Chat';
+
+for(const lang of Object.keys(dictionaries))Object.assign(dictionaries[lang],lang==='vi'?{scanCode:'Quét mã',showCode:'Hiện mã chia sẻ'}:{scanCode:'Scan code',showCode:'Show share code'});

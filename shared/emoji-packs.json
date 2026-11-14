@@ -71,5 +71,5305 @@
         "animated": false
       }
     ]
+  },
+  {
+    "id": "pepe_195211",
+    "name": "Pepe Classic",
+    "origin": "https://emoji.gg/pack/195211-pepe",
+    "attribution": "RATARFAIR【CHAMP】 via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 31 emoji are retained. No open-source or commercial redistribution license is asserted; original creators retain artwork rights.\nImport normalization: 4/31 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: 1780e5aad759ab68cd032f292f57b5fc7b2b12e3eca50bf65915c54ef6c60f7c.",
+    "emojis": [
+      {
+        "id": "pepe_195211_974580_pepeok",
+        "name": "974580 pepeok",
+        "src": "/emoji-packs/pepe_195211/528aed27f1c0c66a48e098f8.png",
+        "sha256": "528aed27f1c0c66a48e098f8bf889fe5d549d2cd91b02d6cda6b22000e2861cb",
+        "keywords": [
+          "pepe_195211",
+          "974580_pepeok"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_195211_689168_pepestare",
+        "name": "689168 pepestare",
+        "src": "/emoji-packs/pepe_195211/6f2cf9df7bba00e28877401c.png",
+        "sha256": "6f2cf9df7bba00e28877401c3f816a42745fefc7d5d82488ad118da6d997fa67",
+        "keywords": [
+          "pepe_195211",
+          "689168_pepestare"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_195211_868020_pepewine",
+        "name": "868020 pepewine",
+        "src": "/emoji-packs/pepe_195211/99f0c907b1c01ffef5ee3819.png",
+        "sha256": "99f0c907b1c01ffef5ee381997b99f4943e84423facbfc97b57e2bc89e12ab5f",
+        "keywords": [
+          "pepe_195211",
+          "868020_pepewine"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_195211_538944_pepereeeee",
+        "name": "538944 pepereeeee",
+        "src": "/emoji-packs/pepe_195211/9c7146c6cb95d2eea519c59c.png",
+        "sha256": "9c7146c6cb95d2eea519c59c9e577b1712a3d624c1577de3a649b65a1139783f",
+        "keywords": [
+          "pepe_195211",
+          "538944_pepereeeee"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_195211_543655_pepe",
+        "name": "543655 pepe",
+        "src": "/emoji-packs/pepe_195211/fb825b8c65d88566c42c9c14.png",
+        "sha256": "fb825b8c65d88566c42c9c1441a4e98910edbdbb9f6250830991041c0b8c1c8a",
+        "keywords": [
+          "pepe_195211",
+          "543655_pepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_195211_121286_crying",
+        "name": "121286 crying",
+        "src": "/emoji-packs/pepe_195211/3075ec2d00001012a971043f.png",
+        "sha256": "3075ec2d00001012a971043fce0558e9cbd6bf873f66b3590b1a4f8f24b393f3",
+        "keywords": [
+          "pepe_195211",
+          "121286_crying"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_195211_257891_cigpepe",
+        "name": "257891 cigpepe",
+        "src": "/emoji-packs/pepe_195211/eee732f5d3474c37ff70fbe9.gif",
+        "sha256": "eee732f5d3474c37ff70fbe9a2bfe53af4a06c46c39389556c770158128079de",
+        "keywords": [
+          "pepe_195211",
+          "257891_cigpepe"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_195211_635522_pepechair",
+        "name": "635522 pepechair",
+        "src": "/emoji-packs/pepe_195211/a600fd637b6e0751ae2b4de7.gif",
+        "sha256": "a600fd637b6e0751ae2b4de7ffc2d68ea5222eea5e6c218c8b4996ee3151954b",
+        "keywords": [
+          "pepe_195211",
+          "635522_pepechair"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_195211_431882_pepeclap",
+        "name": "431882 pepeclap",
+        "src": "/emoji-packs/pepe_195211/bcad413bb55c4bcfa3926dda.gif",
+        "sha256": "bcad413bb55c4bcfa3926ddad2dfb16bf301c5322173eb2993d372080ab0890e",
+        "keywords": [
+          "pepe_195211",
+          "431882_pepeclap"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_195211_149743_pepeheart",
+        "name": "149743 pepeheart",
+        "src": "/emoji-packs/pepe_195211/f3ad4c5282052b6d1848d266.png",
+        "sha256": "f3ad4c5282052b6d1848d26642c42288cdee3eb17a2f7fe3bb958049ac749a23",
+        "keywords": [
+          "pepe_195211",
+          "149743_pepeheart"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_195211_334476_gamer",
+        "name": "334476 gamer",
+        "src": "/emoji-packs/pepe_195211/65cddd0e5912dad14463f876.png",
+        "sha256": "65cddd0e5912dad14463f87695d5a956a345a09421ca1e26b0329d6adc4aee6e",
+        "keywords": [
+          "pepe_195211",
+          "334476_gamer"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_195211_588971_pepeuwu",
+        "name": "588971 pepeuwu",
+        "src": "/emoji-packs/pepe_195211/860d21ab3553f6082abafec6.gif",
+        "sha256": "860d21ab3553f6082abafec6b838716433547e1a5f9c300d4f321f7eabe50c51",
+        "keywords": [
+          "pepe_195211",
+          "588971_pepeuwu"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_195211_399137_mlady",
+        "name": "399137 mlady",
+        "src": "/emoji-packs/pepe_195211/1c15be9108b498e264bab1dd.gif",
+        "sha256": "1c15be9108b498e264bab1ddf103bf821bbec37ce2de6d8d0d0338c13cd69e6a",
+        "keywords": [
+          "pepe_195211",
+          "399137_mlady"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_195211_702336_kingpepe",
+        "name": "702336 kingpepe",
+        "src": "/emoji-packs/pepe_195211/1565b744e522fa299b133808.png",
+        "sha256": "1565b744e522fa299b13380810304775467a643c08d226be8a5620d3d8e2a5a8",
+        "keywords": [
+          "pepe_195211",
+          "702336_kingpepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_195211_618704_pepeokay",
+        "name": "618704 pepeokay",
+        "src": "/emoji-packs/pepe_195211/a872cc6ae4b73bd2c66b83a8.png",
+        "sha256": "a872cc6ae4b73bd2c66b83a8bcecdd70c97dc9b73d8f71f14c75d496d5509cb5",
+        "keywords": [
+          "pepe_195211",
+          "618704_pepeokay"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_195211_828203_peperich",
+        "name": "828203 peperich",
+        "src": "/emoji-packs/pepe_195211/3281f375d20c48586308b37d.gif",
+        "sha256": "3281f375d20c48586308b37dff9dd750797eb48aca46a1a9b1fffcc8421b4e83",
+        "keywords": [
+          "pepe_195211",
+          "828203_peperich"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_195211_534045_pepesleep",
+        "name": "534045 pepesleep",
+        "src": "/emoji-packs/pepe_195211/d930cecad6a3a56eb4018ba0.png",
+        "sha256": "d930cecad6a3a56eb4018ba0270a7b31969e0fd1374aea7400ae4f0e4b69777a",
+        "keywords": [
+          "pepe_195211",
+          "534045_pepesleep"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_195211_830563_pepe",
+        "name": "830563 pepe",
+        "src": "/emoji-packs/pepe_195211/eac1e414cc19016b87b549e1.png",
+        "sha256": "eac1e414cc19016b87b549e160dc5d75cfedad9c984fa833a205a649061264af",
+        "keywords": [
+          "pepe_195211",
+          "830563_pepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_195211_733150_kingpepe",
+        "name": "733150 kingpepe",
+        "src": "/emoji-packs/pepe_195211/191bedc2377103d6257d9522.png",
+        "sha256": "191bedc2377103d6257d9522a7c0d3224f9ba19c9689a9fa33a2c6d829301313",
+        "keywords": [
+          "pepe_195211",
+          "733150_kingpepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_195211_353772_karentyping",
+        "name": "353772 karentyping",
+        "src": "/emoji-packs/pepe_195211/9fd64587c9e197514b850ab2.gif",
+        "sha256": "9fd64587c9e197514b850ab2553c8fec1248cf63be5669a85fdf7f1b680e0c8c",
+        "keywords": [
+          "pepe_195211",
+          "353772_karentyping"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_195211_236705_pepedumb",
+        "name": "236705 pepedumb",
+        "src": "/emoji-packs/pepe_195211/c061f3c97029a3f6a54fc84d.png",
+        "sha256": "c061f3c97029a3f6a54fc84d1fdad197a84d0b4d16be609ba208d0719d9c53a1",
+        "keywords": [
+          "pepe_195211",
+          "236705_pepedumb"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_195211_456311_pepesweat",
+        "name": "456311 pepesweat",
+        "src": "/emoji-packs/pepe_195211/4a60fc14d5f1ee6502469fd5.gif",
+        "sha256": "4a60fc14d5f1ee6502469fd51b10bafb22a6c42d96a0bb8b763b2e54cf9f850b",
+        "keywords": [
+          "pepe_195211",
+          "456311_pepesweat"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_195211_304977_pepehang",
+        "name": "304977 pepehang",
+        "src": "/emoji-packs/pepe_195211/643b4f74f18774505713ddb1.png",
+        "sha256": "643b4f74f18774505713ddb18fef81ab864bac5016db27cffad3ada3432fd437",
+        "keywords": [
+          "pepe_195211",
+          "304977_pepehang"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_195211_467372_pepehitharder",
+        "name": "467372 pepehitharder",
+        "src": "/emoji-packs/pepe_195211/514b4d476085bdda6f0d3027.png",
+        "sha256": "514b4d476085bdda6f0d3027018ac08ede8440474e16df0112f5aeebca79e4ad",
+        "keywords": [
+          "pepe_195211",
+          "467372_pepehitharder"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_195211_423801_pepeshred",
+        "name": "423801 pepeshred",
+        "src": "/emoji-packs/pepe_195211/2c403a649ac14e94be3c6765.png",
+        "sha256": "2c403a649ac14e94be3c6765ad92a5f861d3d1954195de9aaa8e37a612ff7a06",
+        "keywords": [
+          "pepe_195211",
+          "423801_pepeshred"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_195211_291367_pepevodka",
+        "name": "291367 pepevodka",
+        "src": "/emoji-packs/pepe_195211/1ae4166b5dab3fcdcebd5551.png",
+        "sha256": "1ae4166b5dab3fcdcebd5551c082057a05d2631c40f7a6d34c88bf1046e1f15e",
+        "keywords": [
+          "pepe_195211",
+          "291367_pepevodka"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_195211_207091_pepewow",
+        "name": "207091 pepewow",
+        "src": "/emoji-packs/pepe_195211/a940f90a542e98605bb921a0.gif",
+        "sha256": "a940f90a542e98605bb921a0d25113e7f9f01dd02b2fc6fec551e035159c867d",
+        "keywords": [
+          "pepe_195211",
+          "207091_pepewow"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_195211_583748_pepeooo",
+        "name": "583748 pepeooo",
+        "src": "/emoji-packs/pepe_195211/02a9c96f6ec4bd6336f74bec.png",
+        "sha256": "02a9c96f6ec4bd6336f74bec71d405e49169a397a7a87b71cce20f45896ca060",
+        "keywords": [
+          "pepe_195211",
+          "583748_pepeooo"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_195211_859431_sus",
+        "name": "859431 sus",
+        "src": "/emoji-packs/pepe_195211/fd2d8f9dbb114a1443287b0d.png",
+        "sha256": "fd2d8f9dbb114a1443287b0d828aec42e5fa38d7ae027e13f03a939cd47017e9",
+        "keywords": [
+          "pepe_195211",
+          "859431_sus"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_195211_690612_pepelmao",
+        "name": "690612 pepelmao",
+        "src": "/emoji-packs/pepe_195211/880b7a17217fedb806af4cab.gif",
+        "sha256": "880b7a17217fedb806af4cabcfda680ac1352c1e641782417d9f12f07520d0f2",
+        "keywords": [
+          "pepe_195211",
+          "690612_pepelmao"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_195211_943635_pepehappy",
+        "name": "943635 pepehappy",
+        "src": "/emoji-packs/pepe_195211/14451be612e49f9d3bf8bc2d.png",
+        "sha256": "14451be612e49f9d3bf8bc2df6fa89ffe735221a11a92409dc237037ced52a44",
+        "keywords": [
+          "pepe_195211",
+          "943635_pepehappy"
+        ],
+        "animated": false
+      }
+    ]
+  },
+  {
+    "id": "pepe_248040",
+    "name": "Pepe Collection",
+    "origin": "https://emoji.gg/pack/248040-premium-pepe-collection-vol-1",
+    "attribution": "xchasex via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 32 emoji are retained. No open-source or commercial redistribution license is asserted; original creators retain artwork rights.\nImport normalization: 3/32 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: 13f3d416f13646d324a201cfc3df34524253faa9c128b80b8899243c714cad86.",
+    "emojis": [
+      {
+        "id": "pepe_248040_211095_urgay",
+        "name": "211095 urgay",
+        "src": "/emoji-packs/pepe_248040/ad2e997c5a2195fa3a73f4d8.png",
+        "sha256": "ad2e997c5a2195fa3a73f4d81588a9bcafb5ef47a91afa8ec5f4a1a53473fb7c",
+        "keywords": [
+          "pepe_248040",
+          "211095_urgay"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_618704_pepeokay",
+        "name": "618704 pepeokay",
+        "src": "/emoji-packs/pepe_248040/a872cc6ae4b73bd2c66b83a8.png",
+        "sha256": "a872cc6ae4b73bd2c66b83a8bcecdd70c97dc9b73d8f71f14c75d496d5509cb5",
+        "keywords": [
+          "pepe_248040",
+          "618704_pepeokay"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_661856_pepeterminator",
+        "name": "661856 pepeterminator",
+        "src": "/emoji-packs/pepe_248040/07d9040583251a8afdc7c7e0.png",
+        "sha256": "07d9040583251a8afdc7c7e0eee64edee09e10011691bdd302313466498dae9b",
+        "keywords": [
+          "pepe_248040",
+          "661856_pepeterminator"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_149743_pepeheart",
+        "name": "149743 pepeheart",
+        "src": "/emoji-packs/pepe_248040/f3ad4c5282052b6d1848d266.png",
+        "sha256": "f3ad4c5282052b6d1848d26642c42288cdee3eb17a2f7fe3bb958049ac749a23",
+        "keywords": [
+          "pepe_248040",
+          "149743_pepeheart"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_572264_pepewizard",
+        "name": "572264 pepewizard",
+        "src": "/emoji-packs/pepe_248040/677994704cc8a730b99c41e6.png",
+        "sha256": "677994704cc8a730b99c41e62683599440d026e816e67628e5fe915129501636",
+        "keywords": [
+          "pepe_248040",
+          "572264_pepewizard"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_828203_peperich",
+        "name": "828203 peperich",
+        "src": "/emoji-packs/pepe_248040/3281f375d20c48586308b37d.gif",
+        "sha256": "3281f375d20c48586308b37dff9dd750797eb48aca46a1a9b1fffcc8421b4e83",
+        "keywords": [
+          "pepe_248040",
+          "828203_peperich"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_248040_606832_pepesadbusiness",
+        "name": "606832 pepesadbusiness",
+        "src": "/emoji-packs/pepe_248040/137c3cab27e333580721f1c9.png",
+        "sha256": "137c3cab27e333580721f1c9d9ce75130e42257ce500a71fac95dd3c6414cdfa",
+        "keywords": [
+          "pepe_248040",
+          "606832_pepesadbusiness"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_830563_pepe",
+        "name": "830563 pepe",
+        "src": "/emoji-packs/pepe_248040/eac1e414cc19016b87b549e1.png",
+        "sha256": "eac1e414cc19016b87b549e160dc5d75cfedad9c984fa833a205a649061264af",
+        "keywords": [
+          "pepe_248040",
+          "830563_pepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_805840_lol",
+        "name": "805840 lol",
+        "src": "/emoji-packs/pepe_248040/f752ee71b49c4dc4366f2dc4.png",
+        "sha256": "f752ee71b49c4dc4366f2dc4db70e1fbac4a6edf98538294379eacf31d0af92d",
+        "keywords": [
+          "pepe_248040",
+          "805840_lol"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_353953_pepeyeababy",
+        "name": "353953 pepeyeababy",
+        "src": "/emoji-packs/pepe_248040/0c5a18ce4ee90f8003b83a7c.png",
+        "sha256": "0c5a18ce4ee90f8003b83a7cdac1f9182d795a4c4fbbadfe3be1c9f0794a5b7a",
+        "keywords": [
+          "pepe_248040",
+          "353953_pepeyeababy"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_296989_pepewantsome",
+        "name": "296989 pepewantsome",
+        "src": "/emoji-packs/pepe_248040/45b002e2b380f869bda34dab.png",
+        "sha256": "45b002e2b380f869bda34dabcecf74a9e8b1aa9a4ab6b50f9c3e81f97f331e57",
+        "keywords": [
+          "pepe_248040",
+          "296989_pepewantsome"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_299092_pepetaco",
+        "name": "299092 pepetaco",
+        "src": "/emoji-packs/pepe_248040/cfbb011f78e5feec7a989c34.png",
+        "sha256": "cfbb011f78e5feec7a989c34bf66c9ed4c54e0a54522dca6f31796ce4b78b2e4",
+        "keywords": [
+          "pepe_248040",
+          "299092_pepetaco"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_164525_pepemusk",
+        "name": "164525 pepemusk",
+        "src": "/emoji-packs/pepe_248040/9eda0c73371d274278b26cc5.png",
+        "sha256": "9eda0c73371d274278b26cc549ffd8714ffb8a65aa7321d7860ad25d3b9ab068",
+        "keywords": [
+          "pepe_248040",
+          "164525_pepemusk"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_35866_pepemagician",
+        "name": "35866 pepemagician",
+        "src": "/emoji-packs/pepe_248040/154f8259ba9011495c911384.png",
+        "sha256": "154f8259ba9011495c911384d09fb1de0b9d4fd9bccdbbc6a9ba9c6b5cf29789",
+        "keywords": [
+          "pepe_248040",
+          "35866_pepemagician"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_857271_pepetriumph",
+        "name": "857271 pepetriumph",
+        "src": "/emoji-packs/pepe_248040/545ed3db4ec6ab386c212132.png",
+        "sha256": "545ed3db4ec6ab386c21213206a20c4cbad4e0f19e8817f7b99ba74bcd4da003",
+        "keywords": [
+          "pepe_248040",
+          "857271_pepetriumph"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_452187_pepecamp",
+        "name": "452187 pepecamp",
+        "src": "/emoji-packs/pepe_248040/e078ca30b15114f7641dc822.png",
+        "sha256": "e078ca30b15114f7641dc8221907180ebb608f9e860c02e57abe62ebf9bb9797",
+        "keywords": [
+          "pepe_248040",
+          "452187_pepecamp"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_351249_pepejohnwick",
+        "name": "351249 pepejohnwick",
+        "src": "/emoji-packs/pepe_248040/07dc74c5c25c8b4ac14a8f21.png",
+        "sha256": "07dc74c5c25c8b4ac14a8f21b08e637ca20b09155834863fd227f191f263de1f",
+        "keywords": [
+          "pepe_248040",
+          "351249_pepejohnwick"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_34096_pepehmmcoffee",
+        "name": "34096 pepehmmcoffee",
+        "src": "/emoji-packs/pepe_248040/9bd98a0beb6f757285a9b9f3.png",
+        "sha256": "9bd98a0beb6f757285a9b9f32c5e6ec37596507545f7c992e71caf28d355aeb2",
+        "keywords": [
+          "pepe_248040",
+          "34096_pepehmmcoffee"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_5997_pepe_point",
+        "name": "5997 pepe point",
+        "src": "/emoji-packs/pepe_248040/dd287c8a5a807caaabddd2e3.png",
+        "sha256": "dd287c8a5a807caaabddd2e3f3e8647db7ae8e1a00063d896d0efe93f14cce4f",
+        "keywords": [
+          "pepe_248040",
+          "5997_pepe_point"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_304977_pepehang",
+        "name": "304977 pepehang",
+        "src": "/emoji-packs/pepe_248040/643b4f74f18774505713ddb1.png",
+        "sha256": "643b4f74f18774505713ddb18fef81ab864bac5016db27cffad3ada3432fd437",
+        "keywords": [
+          "pepe_248040",
+          "304977_pepehang"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_857799_pepesmoking",
+        "name": "857799 pepesmoking",
+        "src": "/emoji-packs/pepe_248040/d4d29c0f9ca9e6cc0789d957.gif",
+        "sha256": "d4d29c0f9ca9e6cc0789d95748369850a4a3752d0db05f2c22cc699c46782077",
+        "keywords": [
+          "pepe_248040",
+          "857799_pepesmoking"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_248040_644141_chaipiyoge",
+        "name": "644141 chaipiyoge",
+        "src": "/emoji-packs/pepe_248040/9bd98a0beb6f757285a9b9f3.png",
+        "sha256": "9bd98a0beb6f757285a9b9f32c5e6ec37596507545f7c992e71caf28d355aeb2",
+        "keywords": [
+          "pepe_248040",
+          "644141_chaipiyoge"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_721035_pepefomo",
+        "name": "721035 pepefomo",
+        "src": "/emoji-packs/pepe_248040/ecc20b76f6f9734eb5234d2b.png",
+        "sha256": "ecc20b76f6f9734eb5234d2b4478a2e86b48e830a9f3333deefd2ac956abb5e7",
+        "keywords": [
+          "pepe_248040",
+          "721035_pepefomo"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_375064_pepemindblown",
+        "name": "375064 pepemindblown",
+        "src": "/emoji-packs/pepe_248040/7a3fbf7ad07c03c47ddff3b1.png",
+        "sha256": "7a3fbf7ad07c03c47ddff3b17cc38db3271f6d4b451ee67f45f768baa81163ef",
+        "keywords": [
+          "pepe_248040",
+          "375064_pepemindblown"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_714948_pepeplusone",
+        "name": "714948 pepeplusone",
+        "src": "/emoji-packs/pepe_248040/aedbdb268d002d8c73f6b66c.png",
+        "sha256": "aedbdb268d002d8c73f6b66ccb4346ca040a5ea6c07b64db65d5a4e15a0d8430",
+        "keywords": [
+          "pepe_248040",
+          "714948_pepeplusone"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_883709_pepedepressed",
+        "name": "883709 pepedepressed",
+        "src": "/emoji-packs/pepe_248040/a7cfcaa9d97517c826393a30.png",
+        "sha256": "a7cfcaa9d97517c826393a308c0d82b2f513cbd0887bded6192aae09fe8f025b",
+        "keywords": [
+          "pepe_248040",
+          "883709_pepedepressed"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_868020_pepewine",
+        "name": "868020 pepewine",
+        "src": "/emoji-packs/pepe_248040/99f0c907b1c01ffef5ee3819.png",
+        "sha256": "99f0c907b1c01ffef5ee381997b99f4943e84423facbfc97b57e2bc89e12ab5f",
+        "keywords": [
+          "pepe_248040",
+          "868020_pepewine"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_896812_jellyblush",
+        "name": "896812 jellyblush",
+        "src": "/emoji-packs/pepe_248040/0f8fd4c1f42c651a30e50692.png",
+        "sha256": "0f8fd4c1f42c651a30e506929a0f87edfe6192e6c0c42246631c996295b3dff4",
+        "keywords": [
+          "pepe_248040",
+          "896812_jellyblush"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_121286_crying",
+        "name": "121286 crying",
+        "src": "/emoji-packs/pepe_248040/3075ec2d00001012a971043f.png",
+        "sha256": "3075ec2d00001012a971043fce0558e9cbd6bf873f66b3590b1a4f8f24b393f3",
+        "keywords": [
+          "pepe_248040",
+          "121286_crying"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_4605_pepegenius",
+        "name": "4605 pepegenius",
+        "src": "/emoji-packs/pepe_248040/54f5896645157c2ff51405e0.png",
+        "sha256": "54f5896645157c2ff51405e0c1d19d3ce0169b84f65efb268af27615f8712fa8",
+        "keywords": [
+          "pepe_248040",
+          "4605_pepegenius"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_85322_sad",
+        "name": "85322 sad",
+        "src": "/emoji-packs/pepe_248040/f730d92ba2f0e529578e0c19.png",
+        "sha256": "f730d92ba2f0e529578e0c19fe057a2dc87817315cde4c01213d350fb80b918d",
+        "keywords": [
+          "pepe_248040",
+          "85322_sad"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_248040_257891_cigpepe",
+        "name": "257891 cigpepe",
+        "src": "/emoji-packs/pepe_248040/eee732f5d3474c37ff70fbe9.gif",
+        "sha256": "eee732f5d3474c37ff70fbe9a2bfe53af4a06c46c39389556c770158128079de",
+        "keywords": [
+          "pepe_248040",
+          "257891_cigpepe"
+        ],
+        "animated": true
+      }
+    ]
+  },
+  {
+    "id": "pepe_312867",
+    "name": "Pepe · garbi_37",
+    "origin": "https://emoji.gg/pack/312867-pepe",
+    "attribution": "garbi_37 via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 30 emoji are retained. No open-source or commercial redistribution license is asserted; original creators retain artwork rights.\nImport normalization: 2/30 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: 4640257ca8f9b27a3d224080ff0e60ca109ff14e47added5f4d54edd40525e9e.",
+    "emojis": [
+      {
+        "id": "pepe_312867_334476_gamer",
+        "name": "334476 gamer",
+        "src": "/emoji-packs/pepe_312867/65cddd0e5912dad14463f876.png",
+        "sha256": "65cddd0e5912dad14463f87695d5a956a345a09421ca1e26b0329d6adc4aee6e",
+        "keywords": [
+          "pepe_312867",
+          "334476_gamer"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_312867_733150_kingpepe",
+        "name": "733150 kingpepe",
+        "src": "/emoji-packs/pepe_312867/191bedc2377103d6257d9522.png",
+        "sha256": "191bedc2377103d6257d9522a7c0d3224f9ba19c9689a9fa33a2c6d829301313",
+        "keywords": [
+          "pepe_312867",
+          "733150_kingpepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_312867_408164_pepecook",
+        "name": "408164 pepecook",
+        "src": "/emoji-packs/pepe_312867/9f46692deec6882a5ddc5bd0.png",
+        "sha256": "9f46692deec6882a5ddc5bd0f5410bfe3d9b65d5be29bf20cb746b881dd5e1bd",
+        "keywords": [
+          "pepe_312867",
+          "408164_pepecook"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_312867_24137_okpepe",
+        "name": "24137 okpepe",
+        "src": "/emoji-packs/pepe_312867/3758eecaba105750f5551d3d.gif",
+        "sha256": "3758eecaba105750f5551d3d05869bd0ea9366957c230ea0a48dd678cfe087c3",
+        "keywords": [
+          "pepe_312867",
+          "24137_okpepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_312867_121286_crying",
+        "name": "121286 crying",
+        "src": "/emoji-packs/pepe_312867/3075ec2d00001012a971043f.png",
+        "sha256": "3075ec2d00001012a971043fce0558e9cbd6bf873f66b3590b1a4f8f24b393f3",
+        "keywords": [
+          "pepe_312867",
+          "121286_crying"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_312867_120458_pepecross",
+        "name": "120458 pepecross",
+        "src": "/emoji-packs/pepe_312867/7d3e7fae926612c057712300.png",
+        "sha256": "7d3e7fae926612c0577123005ef664530dc08ed52cb8f065bb90ae5f338a343f",
+        "keywords": [
+          "pepe_312867",
+          "120458_pepecross"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_312867_182109_pepeperfect",
+        "name": "182109 pepeperfect",
+        "src": "/emoji-packs/pepe_312867/1eaee439a30c87e9e9966b25.png",
+        "sha256": "1eaee439a30c87e9e9966b25d4abfc3adbaecd568300c649666711398b92e65e",
+        "keywords": [
+          "pepe_312867",
+          "182109_pepeperfect"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_312867_414574_pepepumpkin",
+        "name": "414574 pepepumpkin",
+        "src": "/emoji-packs/pepe_312867/eaddeb01512abd5d90f731e7.png",
+        "sha256": "eaddeb01512abd5d90f731e776b9aab5b819e21e7a700a8a22b33ea23b60d388",
+        "keywords": [
+          "pepe_312867",
+          "414574_pepepumpkin"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_312867_828203_peperich",
+        "name": "828203 peperich",
+        "src": "/emoji-packs/pepe_312867/3281f375d20c48586308b37d.gif",
+        "sha256": "3281f375d20c48586308b37dff9dd750797eb48aca46a1a9b1fffcc8421b4e83",
+        "keywords": [
+          "pepe_312867",
+          "828203_peperich"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_312867_149743_pepeheart",
+        "name": "149743 pepeheart",
+        "src": "/emoji-packs/pepe_312867/f3ad4c5282052b6d1848d266.png",
+        "sha256": "f3ad4c5282052b6d1848d26642c42288cdee3eb17a2f7fe3bb958049ac749a23",
+        "keywords": [
+          "pepe_312867",
+          "149743_pepeheart"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_312867_533891_pepeblob",
+        "name": "533891 pepeblob",
+        "src": "/emoji-packs/pepe_312867/0733087faf32544cd3289c96.gif",
+        "sha256": "0733087faf32544cd3289c96a6ac2b11e774607827a2b90fed4e646bce496f12",
+        "keywords": [
+          "pepe_312867",
+          "533891_pepeblob"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_312867_798781_nou",
+        "name": "798781 nou",
+        "src": "/emoji-packs/pepe_312867/89c76d1700a5f5d42f5d1175.png",
+        "sha256": "89c76d1700a5f5d42f5d117596917da0756e92cb3c3b923fefb3277f62b737ee",
+        "keywords": [
+          "pepe_312867",
+          "798781_nou"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_312867_702336_kingpepe",
+        "name": "702336 kingpepe",
+        "src": "/emoji-packs/pepe_312867/1565b744e522fa299b133808.png",
+        "sha256": "1565b744e522fa299b13380810304775467a643c08d226be8a5620d3d8e2a5a8",
+        "keywords": [
+          "pepe_312867",
+          "702336_kingpepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_312867_635522_pepechair",
+        "name": "635522 pepechair",
+        "src": "/emoji-packs/pepe_312867/a600fd637b6e0751ae2b4de7.gif",
+        "sha256": "a600fd637b6e0751ae2b4de7ffc2d68ea5222eea5e6c218c8b4996ee3151954b",
+        "keywords": [
+          "pepe_312867",
+          "635522_pepechair"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_312867_224803_pepehalloweenrobe",
+        "name": "224803 pepehalloweenrobe",
+        "src": "/emoji-packs/pepe_312867/8b031d711c85f7b20d237c88.png",
+        "sha256": "8b031d711c85f7b20d237c8877a95ca61a51eeec6291b027fab2d6f99f9a0a99",
+        "keywords": [
+          "pepe_312867",
+          "224803_pepehalloweenrobe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_312867_257891_cigpepe",
+        "name": "257891 cigpepe",
+        "src": "/emoji-packs/pepe_312867/eee732f5d3474c37ff70fbe9.gif",
+        "sha256": "eee732f5d3474c37ff70fbe9a2bfe53af4a06c46c39389556c770158128079de",
+        "keywords": [
+          "pepe_312867",
+          "257891_cigpepe"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_312867_896812_jellyblush",
+        "name": "896812 jellyblush",
+        "src": "/emoji-packs/pepe_312867/0f8fd4c1f42c651a30e50692.png",
+        "sha256": "0f8fd4c1f42c651a30e506929a0f87edfe6192e6c0c42246631c996295b3dff4",
+        "keywords": [
+          "pepe_312867",
+          "896812_jellyblush"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_312867_501518_pepepumpkin",
+        "name": "501518 pepepumpkin",
+        "src": "/emoji-packs/pepe_312867/05379c656f7e70774dad7477.gif",
+        "sha256": "05379c656f7e70774dad7477847a554a22418939fce79fb326679a9ef217cf52",
+        "keywords": [
+          "pepe_312867",
+          "501518_pepepumpkin"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_312867_932585_pepesignyougotthis",
+        "name": "932585 pepesignyougotthis",
+        "src": "/emoji-packs/pepe_312867/a97d119646800d149e2486f7.png",
+        "sha256": "a97d119646800d149e2486f75621299cf7c5bb567f3f0bf573435975b805a19e",
+        "keywords": [
+          "pepe_312867",
+          "932585_pepesignyougotthis"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_312867_946696_jellywithpepe",
+        "name": "946696 jellywithpepe",
+        "src": "/emoji-packs/pepe_312867/ec2d8d7718ab47bad390e906.png",
+        "sha256": "ec2d8d7718ab47bad390e906acd19f257caccaa8dd4f67b207e8727538cd3a9a",
+        "keywords": [
+          "pepe_312867",
+          "946696_jellywithpepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_312867_974580_pepeok",
+        "name": "974580 pepeok",
+        "src": "/emoji-packs/pepe_312867/528aed27f1c0c66a48e098f8.png",
+        "sha256": "528aed27f1c0c66a48e098f8bf889fe5d549d2cd91b02d6cda6b22000e2861cb",
+        "keywords": [
+          "pepe_312867",
+          "974580_pepeok"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_312867_795083_pepehappy",
+        "name": "795083 pepehappy",
+        "src": "/emoji-packs/pepe_312867/fb825b8c65d88566c42c9c14.png",
+        "sha256": "fb825b8c65d88566c42c9c1441a4e98910edbdbb9f6250830991041c0b8c1c8a",
+        "keywords": [
+          "pepe_312867",
+          "795083_pepehappy"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_312867_235591_peepo_sign_welcome",
+        "name": "235591 peepo sign welcome",
+        "src": "/emoji-packs/pepe_312867/de38c43a0ca08e37eb14caf7.gif",
+        "sha256": "de38c43a0ca08e37eb14caf79b62a55093635eb366559fbc89da42ba3558a96c",
+        "keywords": [
+          "pepe_312867",
+          "235591_peepo_sign_welcome"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_312867_399137_mlady",
+        "name": "399137 mlady",
+        "src": "/emoji-packs/pepe_312867/1c15be9108b498e264bab1dd.gif",
+        "sha256": "1c15be9108b498e264bab1ddf103bf821bbec37ce2de6d8d0d0338c13cd69e6a",
+        "keywords": [
+          "pepe_312867",
+          "399137_mlady"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_312867_121023_pepetyping",
+        "name": "121023 pepetyping",
+        "src": "/emoji-packs/pepe_312867/9fd64587c9e197514b850ab2.gif",
+        "sha256": "9fd64587c9e197514b850ab2553c8fec1248cf63be5669a85fdf7f1b680e0c8c",
+        "keywords": [
+          "pepe_312867",
+          "121023_pepetyping"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_312867_950522_pepehacker",
+        "name": "950522 pepehacker",
+        "src": "/emoji-packs/pepe_312867/0084d3fc32726cf7e23b962f.gif",
+        "sha256": "0084d3fc32726cf7e23b962fbbebf6d858491019673d5bc6620a61e7740b167c",
+        "keywords": [
+          "pepe_312867",
+          "950522_pepehacker"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_312867_431882_pepeclap",
+        "name": "431882 pepeclap",
+        "src": "/emoji-packs/pepe_312867/bcad413bb55c4bcfa3926dda.gif",
+        "sha256": "bcad413bb55c4bcfa3926ddad2dfb16bf301c5322173eb2993d372080ab0890e",
+        "keywords": [
+          "pepe_312867",
+          "431882_pepeclap"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_312867_588971_pepeuwu",
+        "name": "588971 pepeuwu",
+        "src": "/emoji-packs/pepe_312867/860d21ab3553f6082abafec6.gif",
+        "sha256": "860d21ab3553f6082abafec6b838716433547e1a5f9c300d4f321f7eabe50c51",
+        "keywords": [
+          "pepe_312867",
+          "588971_pepeuwu"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_312867_175472_pepelaugh",
+        "name": "175472 pepelaugh",
+        "src": "/emoji-packs/pepe_312867/316b2381bcaf0d989d4fc888.gif",
+        "sha256": "316b2381bcaf0d989d4fc888b01ff8133fc88573baf75b7540ee3dbc9d41e4ba",
+        "keywords": [
+          "pepe_312867",
+          "175472_pepelaugh"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_312867_618704_pepeokay",
+        "name": "618704 pepeokay",
+        "src": "/emoji-packs/pepe_312867/a872cc6ae4b73bd2c66b83a8.png",
+        "sha256": "a872cc6ae4b73bd2c66b83a8bcecdd70c97dc9b73d8f71f14c75d496d5509cb5",
+        "keywords": [
+          "pepe_312867",
+          "618704_pepeokay"
+        ],
+        "animated": false
+      }
+    ]
+  },
+  {
+    "id": "pepe_681621",
+    "name": "Pepe · khokho",
+    "origin": "https://emoji.gg/pack/681621-khokho-pepe",
+    "attribution": "khokho via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 21 emoji are retained. No open-source or commercial redistribution license is asserted; original creators retain artwork rights.\nImport normalization: 0/21 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: 663fa895b410884ff6fa26a9830e268949ab9062cead8d2cc70a408ba120e49c.",
+    "emojis": [
+      {
+        "id": "pepe_681621_5235_peepocomfy",
+        "name": "5235 peepocomfy",
+        "src": "/emoji-packs/pepe_681621/f730d92ba2f0e529578e0c19.png",
+        "sha256": "f730d92ba2f0e529578e0c19fe057a2dc87817315cde4c01213d350fb80b918d",
+        "keywords": [
+          "pepe_681621",
+          "5235_peepocomfy"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_681621_6614_pepe_coffee_stare_sip",
+        "name": "6614 pepe coffee stare sip",
+        "src": "/emoji-packs/pepe_681621/107878049e1edf93f914e942.png",
+        "sha256": "107878049e1edf93f914e94232c85c7263fe9b81297da7f1cb4abf3f1a7d47d7",
+        "keywords": [
+          "pepe_681621",
+          "6614_pepe_coffee_stare_sip"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_681621_86523_stronge",
+        "name": "86523 stronge",
+        "src": "/emoji-packs/pepe_681621/dceadda6311dda938e0aa726.png",
+        "sha256": "dceadda6311dda938e0aa726f7e045d74451fd7479a3f8cce816a3e939b651d2",
+        "keywords": [
+          "pepe_681621",
+          "86523_stronge"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_681621_82761_gayge",
+        "name": "82761 gayge",
+        "src": "/emoji-packs/pepe_681621/e647519814aee0bc383f2b4c.png",
+        "sha256": "e647519814aee0bc383f2b4c2a4b2fafd2c3d19e2baf9a532845116c7e4c0222",
+        "keywords": [
+          "pepe_681621",
+          "82761_gayge"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_681621_3609_peperedeyes",
+        "name": "3609 peperedeyes",
+        "src": "/emoji-packs/pepe_681621/29d1067648d0dc9f090bec4b.png",
+        "sha256": "29d1067648d0dc9f090bec4b68e752e1592519dde527e0c38dedda0c9e76a8da",
+        "keywords": [
+          "pepe_681621",
+          "3609_peperedeyes"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_681621_7991_pepe_angry_fire",
+        "name": "7991 pepe angry fire",
+        "src": "/emoji-packs/pepe_681621/019aed3ba11a140776567ad5.png",
+        "sha256": "019aed3ba11a140776567ad5b39674959e3809ee33d006969d72e906bcdb94ee",
+        "keywords": [
+          "pepe_681621",
+          "7991_pepe_angry_fire"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_681621_4852_kekwpain",
+        "name": "4852 kekwpain",
+        "src": "/emoji-packs/pepe_681621/746f7e9f7081d79c1578e0d3.png",
+        "sha256": "746f7e9f7081d79c1578e0d30378c89027bfc0c3bd2a669fc6343dddf7d267cb",
+        "keywords": [
+          "pepe_681621",
+          "4852_kekwpain"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_681621_28454_pepe",
+        "name": "28454 pepe",
+        "src": "/emoji-packs/pepe_681621/4b235dce50079a7c4a163148.png",
+        "sha256": "4b235dce50079a7c4a163148bc09cac819c4f025b28ea080f5f553b3b91e76bb",
+        "keywords": [
+          "pepe_681621",
+          "28454_pepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_681621_9772_pepe_smug",
+        "name": "9772 pepe smug",
+        "src": "/emoji-packs/pepe_681621/05bdd6ae64db235782a70089.png",
+        "sha256": "05bdd6ae64db235782a700894b15360f5314fd2611523305547857695c85b7a5",
+        "keywords": [
+          "pepe_681621",
+          "9772_pepe_smug"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_681621_6054_pepe_schizo",
+        "name": "6054 pepe schizo",
+        "src": "/emoji-packs/pepe_681621/8da9481cd5ff09f05625a8fa.png",
+        "sha256": "8da9481cd5ff09f05625a8faed41da71148ab834cd3a603fd86d61adcc9800b6",
+        "keywords": [
+          "pepe_681621",
+          "6054_pepe_schizo"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_681621_8790_sleepge",
+        "name": "8790 sleepge",
+        "src": "/emoji-packs/pepe_681621/8539ebdb37076582c3661e53.png",
+        "sha256": "8539ebdb37076582c3661e53604225c13470c24aa491325b0aee66b427fba4be",
+        "keywords": [
+          "pepe_681621",
+          "8790_sleepge"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_681621_1147_wokege",
+        "name": "1147 wokege",
+        "src": "/emoji-packs/pepe_681621/54cf540e70a75d266229ee81.png",
+        "sha256": "54cf540e70a75d266229ee81892dff970ffaf15b1934ae9405d49ddbc1a0261b",
+        "keywords": [
+          "pepe_681621",
+          "1147_wokege"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_681621_5865_urgay",
+        "name": "5865 urgay",
+        "src": "/emoji-packs/pepe_681621/ad2e997c5a2195fa3a73f4d8.png",
+        "sha256": "ad2e997c5a2195fa3a73f4d81588a9bcafb5ef47a91afa8ec5f4a1a53473fb7c",
+        "keywords": [
+          "pepe_681621",
+          "5865_urgay"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_681621_29296_pepeshruge",
+        "name": "29296 pepeshruge",
+        "src": "/emoji-packs/pepe_681621/485353a202a8878269ab291f.png",
+        "sha256": "485353a202a8878269ab291fa89bfcdfaf567dfbb311367ecfc1c6e986ed7f86",
+        "keywords": [
+          "pepe_681621",
+          "29296_pepeshruge"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_681621_7994_pepehmm",
+        "name": "7994 pepehmm",
+        "src": "/emoji-packs/pepe_681621/99b4d4dc7fffa228f72b88f3.png",
+        "sha256": "99b4d4dc7fffa228f72b88f37f893a119416e6a6563476357cf6f7a03a59a036",
+        "keywords": [
+          "pepe_681621",
+          "7994_pepehmm"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_681621_3198_pekek",
+        "name": "3198 pekek",
+        "src": "/emoji-packs/pepe_681621/0a4dc0cf57ca6fb94a75b444.png",
+        "sha256": "0a4dc0cf57ca6fb94a75b444626918c696b60e3538e8ce0bea6871eadd6b0877",
+        "keywords": [
+          "pepe_681621",
+          "3198_pekek"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_681621_41794_kekpepe",
+        "name": "41794 kekpepe",
+        "src": "/emoji-packs/pepe_681621/242fa577a40bcae1428e98eb.png",
+        "sha256": "242fa577a40bcae1428e98ebe313e45e3e15103102f8b4f8503f575ff31b1777",
+        "keywords": [
+          "pepe_681621",
+          "41794_kekpepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_681621_59382_pepesusgesquad",
+        "name": "59382 pepesusgesquad",
+        "src": "/emoji-packs/pepe_681621/47a3300af366db8bc2cd15ff.png",
+        "sha256": "47a3300af366db8bc2cd15ff7a60c27afe00892240de6050bc38808056f4a513",
+        "keywords": [
+          "pepe_681621",
+          "59382_pepesusgesquad"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_681621_5036_maxhonklvl",
+        "name": "5036 maxhonklvl",
+        "src": "/emoji-packs/pepe_681621/0870adf24de8a2d00ffec74c.png",
+        "sha256": "0870adf24de8a2d00ffec74c0dfba961ff723c6d84979f614c16cab8bf0e7a42",
+        "keywords": [
+          "pepe_681621",
+          "5036_maxhonklvl"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_681621_9348_pepe_templatr",
+        "name": "9348 pepe templatr",
+        "src": "/emoji-packs/pepe_681621/462593d8abcc18425fa91fc4.png",
+        "sha256": "462593d8abcc18425fa91fc45e0fb381ef478e70880221d76ead7400668428e3",
+        "keywords": [
+          "pepe_681621",
+          "9348_pepe_templatr"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_681621_5167_okedge",
+        "name": "5167 okedge",
+        "src": "/emoji-packs/pepe_681621/e8ff6850eb6375990c9f50a7.png",
+        "sha256": "e8ff6850eb6375990c9f50a757759a0731fce08f7e255d2121177ca1c14461cc",
+        "keywords": [
+          "pepe_681621",
+          "5167_okedge"
+        ],
+        "animated": false
+      }
+    ]
+  },
+  {
+    "id": "pepe_149567",
+    "name": "Pepe · LarssonBaBY♛",
+    "origin": "https://emoji.gg/pack/149567-pepe",
+    "attribution": "LarssonBaBY♛ via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 18 emoji are retained. No open-source or commercial redistribution license is asserted; original creators retain artwork rights.\nImport normalization: 1/18 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: dbd426702487a31f74586f5013c2647da66e2143b965aae54a35bcf099155be9.",
+    "emojis": [
+      {
+        "id": "pepe_149567_626616_fu",
+        "name": "626616 fu",
+        "src": "/emoji-packs/pepe_149567/529b95501a0d298749de81d2.png",
+        "sha256": "529b95501a0d298749de81d25cf3ab4921346e1c04bfebe023e7105885a9a00b",
+        "keywords": [
+          "pepe_149567",
+          "626616_fu"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_149567_950522_pepehacker",
+        "name": "950522 pepehacker",
+        "src": "/emoji-packs/pepe_149567/0084d3fc32726cf7e23b962f.gif",
+        "sha256": "0084d3fc32726cf7e23b962fbbebf6d858491019673d5bc6620a61e7740b167c",
+        "keywords": [
+          "pepe_149567",
+          "950522_pepehacker"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_149567_413155_pakyu",
+        "name": "413155 pakyu",
+        "src": "/emoji-packs/pepe_149567/57a95e4d9907d33db60d413a.png",
+        "sha256": "57a95e4d9907d33db60d413ac9ca7392d926c0a2e19f659abfa9ca7190ded3d4",
+        "keywords": [
+          "pepe_149567",
+          "413155_pakyu"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_149567_827729_peperain",
+        "name": "827729 peperain",
+        "src": "/emoji-packs/pepe_149567/8ab61d067150a3da0bec9be3.gif",
+        "sha256": "8ab61d067150a3da0bec9be36336a66f4e29df36e95a66578196a26377febcc9",
+        "keywords": [
+          "pepe_149567",
+          "827729_peperain"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_149567_700303_pepepug",
+        "name": "700303 pepepug",
+        "src": "/emoji-packs/pepe_149567/453c520e8ef5533fa6dea269.gif",
+        "sha256": "453c520e8ef5533fa6dea269ce01dcd74f927c431ac509d98c9103fc6534cb3c",
+        "keywords": [
+          "pepe_149567",
+          "700303_pepepug"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_149567_238671_petpetpepe",
+        "name": "238671 petpetpepe",
+        "src": "/emoji-packs/pepe_149567/e01f74f9ac52e187bd85f93c.gif",
+        "sha256": "e01f74f9ac52e187bd85f93c22c317f892af3848ae00515d4b4bf686a40636db",
+        "keywords": [
+          "pepe_149567",
+          "238671_petpetpepe"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_149567_961812_pepeclap",
+        "name": "961812 pepeclap",
+        "src": "/emoji-packs/pepe_149567/85667b27a098b225cb7e3bb1.gif",
+        "sha256": "85667b27a098b225cb7e3bb19c604e3a892fb152baf09ff9d54f21be0893241a",
+        "keywords": [
+          "pepe_149567",
+          "961812_pepeclap"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_149567_352886_crazy_happy",
+        "name": "352886 crazy happy",
+        "src": "/emoji-packs/pepe_149567/f5950f92de1c410b4b7f7595.gif",
+        "sha256": "f5950f92de1c410b4b7f7595c50c5cac946f1ac408faf6e77d762d3b71af3839",
+        "keywords": [
+          "pepe_149567",
+          "352886_crazy_happy"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_149567_508330_dance",
+        "name": "508330 dance",
+        "src": "/emoji-packs/pepe_149567/7654b4552bf508bcc963b6b4.gif",
+        "sha256": "7654b4552bf508bcc963b6b453a2145cae7e78a51e0f77552fce6232a015e3f1",
+        "keywords": [
+          "pepe_149567",
+          "508330_dance"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_149567_368383_sus",
+        "name": "368383 sus",
+        "src": "/emoji-packs/pepe_149567/885ef0ea30e783b74ebb725a.png",
+        "sha256": "885ef0ea30e783b74ebb725a1d125a7dfb37571b216b6fb5e76990b004d2464c",
+        "keywords": [
+          "pepe_149567",
+          "368383_sus"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_149567_558106_madeittingle",
+        "name": "558106 madeittingle",
+        "src": "/emoji-packs/pepe_149567/7abbf2ea201a231bf315d844.png",
+        "sha256": "7abbf2ea201a231bf315d844c909201c3804c585c9f998891928d0ee267649ee",
+        "keywords": [
+          "pepe_149567",
+          "558106_madeittingle"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_149567_946696_jellywithpepe",
+        "name": "946696 jellywithpepe",
+        "src": "/emoji-packs/pepe_149567/ec2d8d7718ab47bad390e906.png",
+        "sha256": "ec2d8d7718ab47bad390e906acd19f257caccaa8dd4f67b207e8727538cd3a9a",
+        "keywords": [
+          "pepe_149567",
+          "946696_jellywithpepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_149567_828203_peperich",
+        "name": "828203 peperich",
+        "src": "/emoji-packs/pepe_149567/3281f375d20c48586308b37d.gif",
+        "sha256": "3281f375d20c48586308b37dff9dd750797eb48aca46a1a9b1fffcc8421b4e83",
+        "keywords": [
+          "pepe_149567",
+          "828203_peperich"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_149567_689168_pepestare",
+        "name": "689168 pepestare",
+        "src": "/emoji-packs/pepe_149567/6f2cf9df7bba00e28877401c.png",
+        "sha256": "6f2cf9df7bba00e28877401c3f816a42745fefc7d5d82488ad118da6d997fa67",
+        "keywords": [
+          "pepe_149567",
+          "689168_pepestare"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_149567_896812_jellyblush",
+        "name": "896812 jellyblush",
+        "src": "/emoji-packs/pepe_149567/0f8fd4c1f42c651a30e50692.png",
+        "sha256": "0f8fd4c1f42c651a30e506929a0f87edfe6192e6c0c42246631c996295b3dff4",
+        "keywords": [
+          "pepe_149567",
+          "896812_jellyblush"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_149567_684503_feet",
+        "name": "684503 feet",
+        "src": "/emoji-packs/pepe_149567/a600fd637b6e0751ae2b4de7.gif",
+        "sha256": "a600fd637b6e0751ae2b4de7ffc2d68ea5222eea5e6c218c8b4996ee3151954b",
+        "keywords": [
+          "pepe_149567",
+          "684503_feet"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_149567_543655_pepe",
+        "name": "543655 pepe",
+        "src": "/emoji-packs/pepe_149567/fb825b8c65d88566c42c9c14.png",
+        "sha256": "fb825b8c65d88566c42c9c1441a4e98910edbdbb9f6250830991041c0b8c1c8a",
+        "keywords": [
+          "pepe_149567",
+          "543655_pepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_149567_257891_cigpepe",
+        "name": "257891 cigpepe",
+        "src": "/emoji-packs/pepe_149567/eee732f5d3474c37ff70fbe9.gif",
+        "sha256": "eee732f5d3474c37ff70fbe9a2bfe53af4a06c46c39389556c770158128079de",
+        "keywords": [
+          "pepe_149567",
+          "257891_cigpepe"
+        ],
+        "animated": true
+      }
+    ]
+  },
+  {
+    "id": "pepe_889455",
+    "name": "Pepe · 🔥《Rishab》🔥",
+    "origin": "https://emoji.gg/pack/889455-pepe",
+    "attribution": "🔥《Rishab》🔥 via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 8 emoji are retained. No open-source or commercial redistribution license is asserted; original creators retain artwork rights.\nImport normalization: 1/8 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: 65e0291fc0cc0a9dfb0b632f10a11f0caa8dcc38016eaa242e1f1eecef011eb7.",
+    "emojis": [
+      {
+        "id": "pepe_889455_534045_pepesleep",
+        "name": "534045 pepesleep",
+        "src": "/emoji-packs/pepe_889455/d930cecad6a3a56eb4018ba0.png",
+        "sha256": "d930cecad6a3a56eb4018ba0270a7b31969e0fd1374aea7400ae4f0e4b69777a",
+        "keywords": [
+          "pepe_889455",
+          "534045_pepesleep"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_889455_635522_pepechair",
+        "name": "635522 pepechair",
+        "src": "/emoji-packs/pepe_889455/a600fd637b6e0751ae2b4de7.gif",
+        "sha256": "a600fd637b6e0751ae2b4de7ffc2d68ea5222eea5e6c218c8b4996ee3151954b",
+        "keywords": [
+          "pepe_889455",
+          "635522_pepechair"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_889455_588971_pepeuwu",
+        "name": "588971 pepeuwu",
+        "src": "/emoji-packs/pepe_889455/860d21ab3553f6082abafec6.gif",
+        "sha256": "860d21ab3553f6082abafec6b838716433547e1a5f9c300d4f321f7eabe50c51",
+        "keywords": [
+          "pepe_889455",
+          "588971_pepeuwu"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_889455_974580_pepeok",
+        "name": "974580 pepeok",
+        "src": "/emoji-packs/pepe_889455/528aed27f1c0c66a48e098f8.png",
+        "sha256": "528aed27f1c0c66a48e098f8bf889fe5d549d2cd91b02d6cda6b22000e2861cb",
+        "keywords": [
+          "pepe_889455",
+          "974580_pepeok"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_889455_236705_pepedumb",
+        "name": "236705 pepedumb",
+        "src": "/emoji-packs/pepe_889455/c061f3c97029a3f6a54fc84d.png",
+        "sha256": "c061f3c97029a3f6a54fc84d1fdad197a84d0b4d16be609ba208d0719d9c53a1",
+        "keywords": [
+          "pepe_889455",
+          "236705_pepedumb"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_889455_795083_pepehappy",
+        "name": "795083 pepehappy",
+        "src": "/emoji-packs/pepe_889455/fb825b8c65d88566c42c9c14.png",
+        "sha256": "fb825b8c65d88566c42c9c1441a4e98910edbdbb9f6250830991041c0b8c1c8a",
+        "keywords": [
+          "pepe_889455",
+          "795083_pepehappy"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_889455_932585_pepesignyougotthis",
+        "name": "932585 pepesignyougotthis",
+        "src": "/emoji-packs/pepe_889455/a97d119646800d149e2486f7.png",
+        "sha256": "a97d119646800d149e2486f75621299cf7c5bb567f3f0bf573435975b805a19e",
+        "keywords": [
+          "pepe_889455",
+          "932585_pepesignyougotthis"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_889455_238671_petpetpepe",
+        "name": "238671 petpetpepe",
+        "src": "/emoji-packs/pepe_889455/e01f74f9ac52e187bd85f93c.gif",
+        "sha256": "e01f74f9ac52e187bd85f93c22c317f892af3848ae00515d4b4bf686a40636db",
+        "keywords": [
+          "pepe_889455",
+          "238671_petpetpepe"
+        ],
+        "animated": true
+      }
+    ]
+  },
+  {
+    "id": "pepe_669237",
+    "name": "Pepe · Raveonette",
+    "origin": "https://emoji.gg/pack/669237-pepes",
+    "attribution": "Raveonette via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 32 emoji are retained. No open-source or commercial redistribution license is asserted; original creators retain artwork rights.\nImport normalization: 1/32 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: 02f917e0fdac45a9f1ee28e8a6b9751309f5f4648b2138e576ed76b6b3148447.",
+    "emojis": [
+      {
+        "id": "pepe_669237_372738_pepegod",
+        "name": "372738 pepegod",
+        "src": "/emoji-packs/pepe_669237/12434aee0f81da8f30fdf6af.png",
+        "sha256": "12434aee0f81da8f30fdf6afe6c2091dacc1e1c69fe256061999f3d4146fe92c",
+        "keywords": [
+          "pepe_669237",
+          "372738_pepegod"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_669237_354789_pepefarmer",
+        "name": "354789 pepefarmer",
+        "src": "/emoji-packs/pepe_669237/1f4fbdea8aeb7a81ac8e88b0.png",
+        "sha256": "1f4fbdea8aeb7a81ac8e88b05b14e0d5b277f0f548826e6dd9f63519872eecff",
+        "keywords": [
+          "pepe_669237",
+          "354789_pepefarmer"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_669237_456311_pepesweat",
+        "name": "456311 pepesweat",
+        "src": "/emoji-packs/pepe_669237/4a60fc14d5f1ee6502469fd5.gif",
+        "sha256": "4a60fc14d5f1ee6502469fd51b10bafb22a6c42d96a0bb8b763b2e54cf9f850b",
+        "keywords": [
+          "pepe_669237",
+          "456311_pepesweat"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_669237_11998_pepe_king",
+        "name": "11998 pepe king",
+        "src": "/emoji-packs/pepe_669237/5b0f21fb5f70fafe27caea72.png",
+        "sha256": "5b0f21fb5f70fafe27caea722ea9bea57cf1547f3c161c0d0023f7a349f471bc",
+        "keywords": [
+          "pepe_669237",
+          "11998_pepe_king"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_669237_82761_gayge",
+        "name": "82761 gayge",
+        "src": "/emoji-packs/pepe_669237/e647519814aee0bc383f2b4c.png",
+        "sha256": "e647519814aee0bc383f2b4c2a4b2fafd2c3d19e2baf9a532845116c7e4c0222",
+        "keywords": [
+          "pepe_669237",
+          "82761_gayge"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_669237_375064_pepemindblown",
+        "name": "375064 pepemindblown",
+        "src": "/emoji-packs/pepe_669237/7a3fbf7ad07c03c47ddff3b1.png",
+        "sha256": "7a3fbf7ad07c03c47ddff3b17cc38db3271f6d4b451ee67f45f768baa81163ef",
+        "keywords": [
+          "pepe_669237",
+          "375064_pepemindblown"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_669237_235591_peepo_sign_welcome",
+        "name": "235591 peepo sign welcome",
+        "src": "/emoji-packs/pepe_669237/de38c43a0ca08e37eb14caf7.gif",
+        "sha256": "de38c43a0ca08e37eb14caf79b62a55093635eb366559fbc89da42ba3558a96c",
+        "keywords": [
+          "pepe_669237",
+          "235591_peepo_sign_welcome"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_669237_29013_pepe_goose",
+        "name": "29013 pepe goose",
+        "src": "/emoji-packs/pepe_669237/fd6ac91e980222b5e6056ddd.png",
+        "sha256": "fd6ac91e980222b5e6056dddcf5f9fefc1f0d36ee1d47615bd75b3b39d2990e2",
+        "keywords": [
+          "pepe_669237",
+          "29013_pepe_goose"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_669237_703342_pepehungry",
+        "name": "703342 pepehungry",
+        "src": "/emoji-packs/pepe_669237/3ce1eb17938a0a416368d118.png",
+        "sha256": "3ce1eb17938a0a416368d1189f8c6e523c09c0926163b7d14fc8fa20ce54f4d1",
+        "keywords": [
+          "pepe_669237",
+          "703342_pepehungry"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_669237_50320_pepe_roastedpepe",
+        "name": "50320 pepe roastedpepe",
+        "src": "/emoji-packs/pepe_669237/d3f66a697f794c02458679da.gif",
+        "sha256": "d3f66a697f794c02458679dab95b165b5c30653c0cfd399b1399e14a8591be8e",
+        "keywords": [
+          "pepe_669237",
+          "50320_pepe_roastedpepe"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_669237_44680_pepeyes",
+        "name": "44680 pepeyes",
+        "src": "/emoji-packs/pepe_669237/80e508d55fc1191f3cedf862.png",
+        "sha256": "80e508d55fc1191f3cedf862e2fe2c5190dc279e75ce39338967fc5e0c841496",
+        "keywords": [
+          "pepe_669237",
+          "44680_pepeyes"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_669237_133158_pepenerd",
+        "name": "133158 pepenerd",
+        "src": "/emoji-packs/pepe_669237/5208e2452a6acab7d3601814.png",
+        "sha256": "5208e2452a6acab7d36018140d5c026d22773bf71c3d505aec77d89fe41c7b53",
+        "keywords": [
+          "pepe_669237",
+          "133158_pepenerd"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_669237_21325_pepeno",
+        "name": "21325 pepeno",
+        "src": "/emoji-packs/pepe_669237/5ff8669b8181c1ad36969537.png",
+        "sha256": "5ff8669b8181c1ad369695373e020f91116f461a7ea7e5673859a41655fdbd11",
+        "keywords": [
+          "pepe_669237",
+          "21325_pepeno"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_669237_5357_pepehappy",
+        "name": "5357 pepehappy",
+        "src": "/emoji-packs/pepe_669237/9f1e00a451bf71fa9cb6cc6f.gif",
+        "sha256": "9f1e00a451bf71fa9cb6cc6f20f29acb20ed12023ee81aff8e4bd4fcf7447629",
+        "keywords": [
+          "pepe_669237",
+          "5357_pepehappy"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_669237_431882_pepeclap",
+        "name": "431882 pepeclap",
+        "src": "/emoji-packs/pepe_669237/bcad413bb55c4bcfa3926dda.gif",
+        "sha256": "bcad413bb55c4bcfa3926ddad2dfb16bf301c5322173eb2993d372080ab0890e",
+        "keywords": [
+          "pepe_669237",
+          "431882_pepeclap"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_669237_828203_peperich",
+        "name": "828203 peperich",
+        "src": "/emoji-packs/pepe_669237/3281f375d20c48586308b37d.gif",
+        "sha256": "3281f375d20c48586308b37dff9dd750797eb48aca46a1a9b1fffcc8421b4e83",
+        "keywords": [
+          "pepe_669237",
+          "828203_peperich"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_669237_93659_pepemoneyrain",
+        "name": "93659 pepemoneyrain",
+        "src": "/emoji-packs/pepe_669237/4b9a6444e251007601593157.gif",
+        "sha256": "4b9a6444e25100760159315725ae6d785c194533fe742ade4f1d15887b5143db",
+        "keywords": [
+          "pepe_669237",
+          "93659_pepemoneyrain"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_669237_304977_pepehang",
+        "name": "304977 pepehang",
+        "src": "/emoji-packs/pepe_669237/643b4f74f18774505713ddb1.png",
+        "sha256": "643b4f74f18774505713ddb18fef81ab864bac5016db27cffad3ada3432fd437",
+        "keywords": [
+          "pepe_669237",
+          "304977_pepehang"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_669237_27577_clown_pepe",
+        "name": "27577 clown pepe",
+        "src": "/emoji-packs/pepe_669237/0b59189d7a3a62fb16923f97.gif",
+        "sha256": "0b59189d7a3a62fb16923f978e4eb2917fde71e2d0fcc1bf55f43a2cc0c2fbec",
+        "keywords": [
+          "pepe_669237",
+          "27577_clown_pepe"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_669237_39565_giraffe",
+        "name": "39565 giraffe",
+        "src": "/emoji-packs/pepe_669237/773b4ceaa00a18a29e47a3d7.gif",
+        "sha256": "773b4ceaa00a18a29e47a3d7ed7a3a5b3b58836537f10f468c49dd1e3573ea8b",
+        "keywords": [
+          "pepe_669237",
+          "39565_giraffe"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_669237_26682_69",
+        "name": "26682 69",
+        "src": "/emoji-packs/pepe_669237/77002ac7280022ff1986cb60.gif",
+        "sha256": "77002ac7280022ff1986cb601f92ec34cb2e8b607f6650ac7e05a17409e23f63",
+        "keywords": [
+          "pepe_669237",
+          "26682_69"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_669237_234383_pepechicken",
+        "name": "234383 pepechicken",
+        "src": "/emoji-packs/pepe_669237/2d0b5258a9df00c774a386ad.png",
+        "sha256": "2d0b5258a9df00c774a386adc03d63427d84632963d566eb2388f5d0103e4e77",
+        "keywords": [
+          "pepe_669237",
+          "234383_pepechicken"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_669237_388490_pepejoy",
+        "name": "388490 pepejoy",
+        "src": "/emoji-packs/pepe_669237/abf2f2f90cb048117e04ac99.png",
+        "sha256": "abf2f2f90cb048117e04ac999b57f78aded4f0fc19d7f4a0d4f215aa6ee1121b",
+        "keywords": [
+          "pepe_669237",
+          "388490_pepejoy"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_669237_54647_pepe_cigarette",
+        "name": "54647 pepe cigarette",
+        "src": "/emoji-packs/pepe_669237/8408f6a8dc7f0eec239a5b9c.gif",
+        "sha256": "8408f6a8dc7f0eec239a5b9c5765129aa6d46a8e7874404b3c40a4ccb37bba96",
+        "keywords": [
+          "pepe_669237",
+          "54647_pepe_cigarette"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_669237_565668_pepescreamspin",
+        "name": "565668 pepescreamspin",
+        "src": "/emoji-packs/pepe_669237/e52281b2e51115bc9ad01a18.gif",
+        "sha256": "e52281b2e51115bc9ad01a1856e1d2de4f4e33d67f37b224b96fd025abaff24c",
+        "keywords": [
+          "pepe_669237",
+          "565668_pepescreamspin"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_669237_618704_pepeokay",
+        "name": "618704 pepeokay",
+        "src": "/emoji-packs/pepe_669237/a872cc6ae4b73bd2c66b83a8.png",
+        "sha256": "a872cc6ae4b73bd2c66b83a8bcecdd70c97dc9b73d8f71f14c75d496d5509cb5",
+        "keywords": [
+          "pepe_669237",
+          "618704_pepeokay"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_669237_33293_pepe_noob",
+        "name": "33293 pepe noob",
+        "src": "/emoji-packs/pepe_669237/0222d3f7ebb1078360884044.gif",
+        "sha256": "0222d3f7ebb10783608840449dc1772803aa4f4dcef523ba9dba7d813df23b93",
+        "keywords": [
+          "pepe_669237",
+          "33293_pepe_noob"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_669237_97130_thinkingpepe",
+        "name": "97130 thinkingpepe",
+        "src": "/emoji-packs/pepe_669237/ec395d620b04a6fbb5b48e97.gif",
+        "sha256": "ec395d620b04a6fbb5b48e97dc8fe0be478dd6b24492e96404ccf39d109a6957",
+        "keywords": [
+          "pepe_669237",
+          "97130_thinkingpepe"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_669237_13647_pepo_laugh",
+        "name": "13647 pepo laugh",
+        "src": "/emoji-packs/pepe_669237/6f66390efa0523230421032b.gif",
+        "sha256": "6f66390efa0523230421032b70cf63a1737106970be9d18be0a91a0875102c1f",
+        "keywords": [
+          "pepe_669237",
+          "13647_pepo_laugh"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_669237_22489_pepepaper",
+        "name": "22489 pepepaper",
+        "src": "/emoji-packs/pepe_669237/e4cce084df53c45ef9d20a28.gif",
+        "sha256": "e4cce084df53c45ef9d20a289123721ec7871358632be43f828dcc411e475b7c",
+        "keywords": [
+          "pepe_669237",
+          "22489_pepepaper"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_669237_761219_pepe_credit_card",
+        "name": "761219 pepe credit card",
+        "src": "/emoji-packs/pepe_669237/090e40bba55a8a6cc64c119e.gif",
+        "sha256": "090e40bba55a8a6cc64c119e1080971761013472344d7afb3c0e4905ca0d2d44",
+        "keywords": [
+          "pepe_669237",
+          "761219_pepe_credit_card"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_669237_570821_pepeninja",
+        "name": "570821 pepeninja",
+        "src": "/emoji-packs/pepe_669237/e7d425966bffe1635261578f.png",
+        "sha256": "e7d425966bffe1635261578f2263c5ae6852e22667a3da9f6dee55eaa2a088ed",
+        "keywords": [
+          "pepe_669237",
+          "570821_pepeninja"
+        ],
+        "animated": false
+      }
+    ]
+  },
+  {
+    "id": "pepe_575735",
+    "name": "Pepe · PixelJomi",
+    "origin": "https://emoji.gg/pack/575735-pepe",
+    "attribution": "PixelJomi via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 30 emoji are retained. No open-source or commercial redistribution license is asserted; original creators retain artwork rights.\nImport normalization: 2/30 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: 39f92c1b606c7bba3c92d764f40687a60e2d72b460a5bd3ea757eae0792110d1.",
+    "emojis": [
+      {
+        "id": "pepe_575735_795083_pepehappy",
+        "name": "795083 pepehappy",
+        "src": "/emoji-packs/pepe_575735/fb825b8c65d88566c42c9c14.png",
+        "sha256": "fb825b8c65d88566c42c9c1441a4e98910edbdbb9f6250830991041c0b8c1c8a",
+        "keywords": [
+          "pepe_575735",
+          "795083_pepehappy"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_575735_827729_peperain",
+        "name": "827729 peperain",
+        "src": "/emoji-packs/pepe_575735/8ab61d067150a3da0bec9be3.gif",
+        "sha256": "8ab61d067150a3da0bec9be36336a66f4e29df36e95a66578196a26377febcc9",
+        "keywords": [
+          "pepe_575735",
+          "827729_peperain"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_575735_408164_pepecook",
+        "name": "408164 pepecook",
+        "src": "/emoji-packs/pepe_575735/9f46692deec6882a5ddc5bd0.png",
+        "sha256": "9f46692deec6882a5ddc5bd0f5410bfe3d9b65d5be29bf20cb746b881dd5e1bd",
+        "keywords": [
+          "pepe_575735",
+          "408164_pepecook"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_575735_352886_crazy_happy",
+        "name": "352886 crazy happy",
+        "src": "/emoji-packs/pepe_575735/f5950f92de1c410b4b7f7595.gif",
+        "sha256": "f5950f92de1c410b4b7f7595c50c5cac946f1ac408faf6e77d762d3b71af3839",
+        "keywords": [
+          "pepe_575735",
+          "352886_crazy_happy"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_575735_535595_monsterenergy",
+        "name": "535595 monsterenergy",
+        "src": "/emoji-packs/pepe_575735/2e6c4cfcaa32c7255be122e4.png",
+        "sha256": "2e6c4cfcaa32c7255be122e4a727cea0bf74d3d9213c59f70b3f36f7cde445e2",
+        "keywords": [
+          "pepe_575735",
+          "535595_monsterenergy"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_575735_121286_crying",
+        "name": "121286 crying",
+        "src": "/emoji-packs/pepe_575735/3075ec2d00001012a971043f.png",
+        "sha256": "3075ec2d00001012a971043fce0558e9cbd6bf873f66b3590b1a4f8f24b393f3",
+        "keywords": [
+          "pepe_575735",
+          "121286_crying"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_575735_974580_pepeok",
+        "name": "974580 pepeok",
+        "src": "/emoji-packs/pepe_575735/528aed27f1c0c66a48e098f8.png",
+        "sha256": "528aed27f1c0c66a48e098f8bf889fe5d549d2cd91b02d6cda6b22000e2861cb",
+        "keywords": [
+          "pepe_575735",
+          "974580_pepeok"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_575735_635522_pepechair",
+        "name": "635522 pepechair",
+        "src": "/emoji-packs/pepe_575735/a600fd637b6e0751ae2b4de7.gif",
+        "sha256": "a600fd637b6e0751ae2b4de7ffc2d68ea5222eea5e6c218c8b4996ee3151954b",
+        "keywords": [
+          "pepe_575735",
+          "635522_pepechair"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_575735_399137_mlady",
+        "name": "399137 mlady",
+        "src": "/emoji-packs/pepe_575735/1c15be9108b498e264bab1dd.gif",
+        "sha256": "1c15be9108b498e264bab1ddf103bf821bbec37ce2de6d8d0d0338c13cd69e6a",
+        "keywords": [
+          "pepe_575735",
+          "399137_mlady"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_575735_800258_komooo",
+        "name": "800258 komooo",
+        "src": "/emoji-packs/pepe_575735/148092a5a0d01a94d57de288.png",
+        "sha256": "148092a5a0d01a94d57de2884213dfcd34395d8588309a6f2bddf9248f62a303",
+        "keywords": [
+          "pepe_575735",
+          "800258_komooo"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_575735_805840_lol",
+        "name": "805840 lol",
+        "src": "/emoji-packs/pepe_575735/f752ee71b49c4dc4366f2dc4.png",
+        "sha256": "f752ee71b49c4dc4366f2dc4db70e1fbac4a6edf98538294379eacf31d0af92d",
+        "keywords": [
+          "pepe_575735",
+          "805840_lol"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_575735_24137_okpepe",
+        "name": "24137 okpepe",
+        "src": "/emoji-packs/pepe_575735/3758eecaba105750f5551d3d.gif",
+        "sha256": "3758eecaba105750f5551d3d05869bd0ea9366957c230ea0a48dd678cfe087c3",
+        "keywords": [
+          "pepe_575735",
+          "24137_okpepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_575735_901688_eu",
+        "name": "901688 eu",
+        "src": "/emoji-packs/pepe_575735/98dfe151cfe9045a7442d219.png",
+        "sha256": "98dfe151cfe9045a7442d219d070562d27c26e40e13254a20afc93670de8114b",
+        "keywords": [
+          "pepe_575735",
+          "901688_eu"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_575735_158890_ohwow",
+        "name": "158890 ohwow",
+        "src": "/emoji-packs/pepe_575735/02a9c96f6ec4bd6336f74bec.png",
+        "sha256": "02a9c96f6ec4bd6336f74bec71d405e49169a397a7a87b71cce20f45896ca060",
+        "keywords": [
+          "pepe_575735",
+          "158890_ohwow"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_575735_497130_dehecho",
+        "name": "497130 dehecho",
+        "src": "/emoji-packs/pepe_575735/b3d1637d475a793fa5ea8868.png",
+        "sha256": "b3d1637d475a793fa5ea8868987a9a1658c7f0e55356f4bfa50a51c034a0c821",
+        "keywords": [
+          "pepe_575735",
+          "497130_dehecho"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_575735_422810_valeu",
+        "name": "422810 valeu",
+        "src": "/emoji-packs/pepe_575735/f81f8f45c637ee74dad29c00.png",
+        "sha256": "f81f8f45c637ee74dad29c0022c9142367121ead55b19abbf8c2d1ff1698751f",
+        "keywords": [
+          "pepe_575735",
+          "422810_valeu"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_575735_718017_pepestaring",
+        "name": "718017 pepestaring",
+        "src": "/emoji-packs/pepe_575735/465d7bfca6785ffe2eeea11d.png",
+        "sha256": "465d7bfca6785ffe2eeea11db35cb1c5edd247e5e0d7b63c0417decfb7023366",
+        "keywords": [
+          "pepe_575735",
+          "718017_pepestaring"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_575735_588971_pepeuwu",
+        "name": "588971 pepeuwu",
+        "src": "/emoji-packs/pepe_575735/860d21ab3553f6082abafec6.gif",
+        "sha256": "860d21ab3553f6082abafec6b838716433547e1a5f9c300d4f321f7eabe50c51",
+        "keywords": [
+          "pepe_575735",
+          "588971_pepeuwu"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_575735_431882_pepeclap",
+        "name": "431882 pepeclap",
+        "src": "/emoji-packs/pepe_575735/bcad413bb55c4bcfa3926dda.gif",
+        "sha256": "bcad413bb55c4bcfa3926ddad2dfb16bf301c5322173eb2993d372080ab0890e",
+        "keywords": [
+          "pepe_575735",
+          "431882_pepeclap"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_575735_950522_pepehacker",
+        "name": "950522 pepehacker",
+        "src": "/emoji-packs/pepe_575735/0084d3fc32726cf7e23b962f.gif",
+        "sha256": "0084d3fc32726cf7e23b962fbbebf6d858491019673d5bc6620a61e7740b167c",
+        "keywords": [
+          "pepe_575735",
+          "950522_pepehacker"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_575735_946696_jellywithpepe",
+        "name": "946696 jellywithpepe",
+        "src": "/emoji-packs/pepe_575735/ec2d8d7718ab47bad390e906.png",
+        "sha256": "ec2d8d7718ab47bad390e906acd19f257caccaa8dd4f67b207e8727538cd3a9a",
+        "keywords": [
+          "pepe_575735",
+          "946696_jellywithpepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_575735_606832_pepesadbusiness",
+        "name": "606832 pepesadbusiness",
+        "src": "/emoji-packs/pepe_575735/137c3cab27e333580721f1c9.png",
+        "sha256": "137c3cab27e333580721f1c9d9ce75130e42257ce500a71fac95dd3c6414cdfa",
+        "keywords": [
+          "pepe_575735",
+          "606832_pepesadbusiness"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_575735_149743_pepeheart",
+        "name": "149743 pepeheart",
+        "src": "/emoji-packs/pepe_575735/f3ad4c5282052b6d1848d266.png",
+        "sha256": "f3ad4c5282052b6d1848d26642c42288cdee3eb17a2f7fe3bb958049ac749a23",
+        "keywords": [
+          "pepe_575735",
+          "149743_pepeheart"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_575735_120458_pepecross",
+        "name": "120458 pepecross",
+        "src": "/emoji-packs/pepe_575735/7d3e7fae926612c057712300.png",
+        "sha256": "7d3e7fae926612c0577123005ef664530dc08ed52cb8f065bb90ae5f338a343f",
+        "keywords": [
+          "pepe_575735",
+          "120458_pepecross"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_575735_182109_pepeperfect",
+        "name": "182109 pepeperfect",
+        "src": "/emoji-packs/pepe_575735/1eaee439a30c87e9e9966b25.png",
+        "sha256": "1eaee439a30c87e9e9966b25d4abfc3adbaecd568300c649666711398b92e65e",
+        "keywords": [
+          "pepe_575735",
+          "182109_pepeperfect"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_575735_792638_hehehe",
+        "name": "792638 hehehe",
+        "src": "/emoji-packs/pepe_575735/316b2381bcaf0d989d4fc888.gif",
+        "sha256": "316b2381bcaf0d989d4fc888b01ff8133fc88573baf75b7540ee3dbc9d41e4ba",
+        "keywords": [
+          "pepe_575735",
+          "792638_hehehe"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_575735_121023_pepetyping",
+        "name": "121023 pepetyping",
+        "src": "/emoji-packs/pepe_575735/9fd64587c9e197514b850ab2.gif",
+        "sha256": "9fd64587c9e197514b850ab2553c8fec1248cf63be5669a85fdf7f1b680e0c8c",
+        "keywords": [
+          "pepe_575735",
+          "121023_pepetyping"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_575735_828203_peperich",
+        "name": "828203 peperich",
+        "src": "/emoji-packs/pepe_575735/3281f375d20c48586308b37d.gif",
+        "sha256": "3281f375d20c48586308b37dff9dd750797eb48aca46a1a9b1fffcc8421b4e83",
+        "keywords": [
+          "pepe_575735",
+          "828203_peperich"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_575735_226892_sapinhu",
+        "name": "226892 sapinhu",
+        "src": "/emoji-packs/pepe_575735/d930cecad6a3a56eb4018ba0.png",
+        "sha256": "d930cecad6a3a56eb4018ba0270a7b31969e0fd1374aea7400ae4f0e4b69777a",
+        "keywords": [
+          "pepe_575735",
+          "226892_sapinhu"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_575735_334476_gamer",
+        "name": "334476 gamer",
+        "src": "/emoji-packs/pepe_575735/65cddd0e5912dad14463f876.png",
+        "sha256": "65cddd0e5912dad14463f87695d5a956a345a09421ca1e26b0329d6adc4aee6e",
+        "keywords": [
+          "pepe_575735",
+          "334476_gamer"
+        ],
+        "animated": false
+      }
+    ]
+  },
+  {
+    "id": "pepe_158770",
+    "name": "Pepe HC",
+    "origin": "https://emoji.gg/pack/158770-pepehc",
+    "attribution": "Vasil Yaniuk via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 28 emoji are retained. No open-source or commercial redistribution license is asserted; original creators retain artwork rights.\nImport normalization: 3/28 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: 16c234765ce44375559fef1a9986b83d563c573d4cba3e4bba9a0bc84409c0c5.",
+    "emojis": [
+      {
+        "id": "pepe_158770_236705_pepedumb",
+        "name": "236705 pepedumb",
+        "src": "/emoji-packs/pepe_158770/c061f3c97029a3f6a54fc84d.png",
+        "sha256": "c061f3c97029a3f6a54fc84d1fdad197a84d0b4d16be609ba208d0719d9c53a1",
+        "keywords": [
+          "pepe_158770",
+          "236705_pepedumb"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_56943_clown_alt",
+        "name": "56943 clown alt",
+        "src": "/emoji-packs/pepe_158770/c993bae20895c8c746889b68.png",
+        "sha256": "c993bae20895c8c746889b68191cd3d48c49d430026a2f97ca4fd645abc92b21",
+        "keywords": [
+          "pepe_158770",
+          "56943_clown_alt"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_987662_pepewaifu",
+        "name": "987662 pepewaifu",
+        "src": "/emoji-packs/pepe_158770/17a4f9e4ffd5650d90867925.png",
+        "sha256": "17a4f9e4ffd5650d90867925669a3d32703b32a3cdfdb7801d4793af76ed7128",
+        "keywords": [
+          "pepe_158770",
+          "987662_pepewaifu"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_572264_pepewizard",
+        "name": "572264 pepewizard",
+        "src": "/emoji-packs/pepe_158770/677994704cc8a730b99c41e6.png",
+        "sha256": "677994704cc8a730b99c41e62683599440d026e816e67628e5fe915129501636",
+        "keywords": [
+          "pepe_158770",
+          "572264_pepewizard"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_408164_pepecook",
+        "name": "408164 pepecook",
+        "src": "/emoji-packs/pepe_158770/9f46692deec6882a5ddc5bd0.png",
+        "sha256": "9f46692deec6882a5ddc5bd0f5410bfe3d9b65d5be29bf20cb746b881dd5e1bd",
+        "keywords": [
+          "pepe_158770",
+          "408164_pepecook"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_714948_pepeplusone",
+        "name": "714948 pepeplusone",
+        "src": "/emoji-packs/pepe_158770/aedbdb268d002d8c73f6b66c.png",
+        "sha256": "aedbdb268d002d8c73f6b66ccb4346ca040a5ea6c07b64db65d5a4e15a0d8430",
+        "keywords": [
+          "pepe_158770",
+          "714948_pepeplusone"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_71945_ughping",
+        "name": "71945 ughping",
+        "src": "/emoji-packs/pepe_158770/aec651e1c96aeb1d279f8319.png",
+        "sha256": "aec651e1c96aeb1d279f8319c02bb3ddef41da834453b062f53ae3be283223b3",
+        "keywords": [
+          "pepe_158770",
+          "71945_ughping"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_467372_pepehitharder",
+        "name": "467372 pepehitharder",
+        "src": "/emoji-packs/pepe_158770/514b4d476085bdda6f0d3027.png",
+        "sha256": "514b4d476085bdda6f0d3027018ac08ede8440474e16df0112f5aeebca79e4ad",
+        "keywords": [
+          "pepe_158770",
+          "467372_pepehitharder"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_53064_pepe_drink",
+        "name": "53064 pepe drink",
+        "src": "/emoji-packs/pepe_158770/debf2c5b33f2f7f04f194c9d.png",
+        "sha256": "debf2c5b33f2f7f04f194c9d8f85a46b1ceb7077b3a5b5d3396e65b279da78be",
+        "keywords": [
+          "pepe_158770",
+          "53064_pepe_drink"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_826493_gottem",
+        "name": "826493 gottem",
+        "src": "/emoji-packs/pepe_158770/734b5c96dfcb92d1bc238726.png",
+        "sha256": "734b5c96dfcb92d1bc238726dfef33da7dbd111b8b2660262e5379f41deeb8ce",
+        "keywords": [
+          "pepe_158770",
+          "826493_gottem"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_5450_pepe_dab",
+        "name": "5450 pepe dab",
+        "src": "/emoji-packs/pepe_158770/9c432f861dc3184c05a61113.png",
+        "sha256": "9c432f861dc3184c05a6111305ec9f92e3e7fedf25e833d4b588c26bcfbf069f",
+        "keywords": [
+          "pepe_158770",
+          "5450_pepe_dab"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_278311_pepegunclub",
+        "name": "278311 pepegunclub",
+        "src": "/emoji-packs/pepe_158770/f468d9b245290d2e84ccb12e.png",
+        "sha256": "f468d9b245290d2e84ccb12e52e35344f1a3b796fded1001ee8993f87c948aa1",
+        "keywords": [
+          "pepe_158770",
+          "278311_pepegunclub"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_283653_pepefire",
+        "name": "283653 pepefire",
+        "src": "/emoji-packs/pepe_158770/2315664d00a0886c1b00409b.png",
+        "sha256": "2315664d00a0886c1b00409b14cff58db5a721ba0392b25c89a3705e450f0415",
+        "keywords": [
+          "pepe_158770",
+          "283653_pepefire"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_541198_pepega",
+        "name": "541198 pepega",
+        "src": "/emoji-packs/pepe_158770/148092a5a0d01a94d57de288.png",
+        "sha256": "148092a5a0d01a94d57de2884213dfcd34395d8588309a6f2bddf9248f62a303",
+        "keywords": [
+          "pepe_158770",
+          "541198_pepega"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_443727_pepemirror",
+        "name": "443727 pepemirror",
+        "src": "/emoji-packs/pepe_158770/0589fb34e1493da6a1b909f2.gif",
+        "sha256": "0589fb34e1493da6a1b909f2fcc53dbcb8dc7aeb828cd552a32615ca70249156",
+        "keywords": [
+          "pepe_158770",
+          "443727_pepemirror"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_158770_334476_gamer",
+        "name": "334476 gamer",
+        "src": "/emoji-packs/pepe_158770/65cddd0e5912dad14463f876.png",
+        "sha256": "65cddd0e5912dad14463f87695d5a956a345a09421ca1e26b0329d6adc4aee6e",
+        "keywords": [
+          "pepe_158770",
+          "334476_gamer"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_291367_pepevodka",
+        "name": "291367 pepevodka",
+        "src": "/emoji-packs/pepe_158770/1ae4166b5dab3fcdcebd5551.png",
+        "sha256": "1ae4166b5dab3fcdcebd5551c082057a05d2631c40f7a6d34c88bf1046e1f15e",
+        "keywords": [
+          "pepe_158770",
+          "291367_pepevodka"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_182109_pepeperfect",
+        "name": "182109 pepeperfect",
+        "src": "/emoji-packs/pepe_158770/1eaee439a30c87e9e9966b25.png",
+        "sha256": "1eaee439a30c87e9e9966b25d4abfc3adbaecd568300c649666711398b92e65e",
+        "keywords": [
+          "pepe_158770",
+          "182109_pepeperfect"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_240240_pepegollum",
+        "name": "240240 pepegollum",
+        "src": "/emoji-packs/pepe_158770/fdeb21d2d0e9232d4917674a.png",
+        "sha256": "fdeb21d2d0e9232d4917674a83a80e879042590d79f5004f7d5607634eb87b14",
+        "keywords": [
+          "pepe_158770",
+          "240240_pepegollum"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_304977_pepehang",
+        "name": "304977 pepehang",
+        "src": "/emoji-packs/pepe_158770/643b4f74f18774505713ddb1.png",
+        "sha256": "643b4f74f18774505713ddb18fef81ab864bac5016db27cffad3ada3432fd437",
+        "keywords": [
+          "pepe_158770",
+          "304977_pepehang"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_351249_pepejohnwick",
+        "name": "351249 pepejohnwick",
+        "src": "/emoji-packs/pepe_158770/07dc74c5c25c8b4ac14a8f21.png",
+        "sha256": "07dc74c5c25c8b4ac14a8f21b08e637ca20b09155834863fd227f191f263de1f",
+        "keywords": [
+          "pepe_158770",
+          "351249_pepejohnwick"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_722296_pepeweeb",
+        "name": "722296 pepeweeb",
+        "src": "/emoji-packs/pepe_158770/9a08072d2638f464ccb8899a.png",
+        "sha256": "9a08072d2638f464ccb8899ac5fd63c51ffd2c224f2fb276ff6e5a532aa0e36a",
+        "keywords": [
+          "pepe_158770",
+          "722296_pepeweeb"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_213464_pepewarrior",
+        "name": "213464 pepewarrior",
+        "src": "/emoji-packs/pepe_158770/47b6434b2be0eefbecae033d.png",
+        "sha256": "47b6434b2be0eefbecae033d4bb7fea0424390369a009053c807f3e61f7dd543",
+        "keywords": [
+          "pepe_158770",
+          "213464_pepewarrior"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_721035_pepefomo",
+        "name": "721035 pepefomo",
+        "src": "/emoji-packs/pepe_158770/ecc20b76f6f9734eb5234d2b.png",
+        "sha256": "ecc20b76f6f9734eb5234d2b4478a2e86b48e830a9f3333deefd2ac956abb5e7",
+        "keywords": [
+          "pepe_158770",
+          "721035_pepefomo"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_76060_pepesadlaugh",
+        "name": "76060 pepesadlaugh",
+        "src": "/emoji-packs/pepe_158770/746f7e9f7081d79c1578e0d3.png",
+        "sha256": "746f7e9f7081d79c1578e0d30378c89027bfc0c3bd2a669fc6343dddf7d267cb",
+        "keywords": [
+          "pepe_158770",
+          "76060_pepesadlaugh"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_52104_debil",
+        "name": "52104 debil",
+        "src": "/emoji-packs/pepe_158770/1368a03ab1f3773d73280399.png",
+        "sha256": "1368a03ab1f3773d73280399c5c2f1ee83b1aab464a7d2d864f8ac4c4ba6ff1a",
+        "keywords": [
+          "pepe_158770",
+          "52104_debil"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_82761_gayge",
+        "name": "82761 gayge",
+        "src": "/emoji-packs/pepe_158770/e647519814aee0bc383f2b4c.png",
+        "sha256": "e647519814aee0bc383f2b4c2a4b2fafd2c3d19e2baf9a532845116c7e4c0222",
+        "keywords": [
+          "pepe_158770",
+          "82761_gayge"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_158770_815161_pepes",
+        "name": "815161 pepes",
+        "src": "/emoji-packs/pepe_158770/74cc58aa72ce4127448fdef7.gif",
+        "sha256": "74cc58aa72ce4127448fdef7368eb08a0b7e46709675e6e23ccca71c99c584d1",
+        "keywords": [
+          "pepe_158770",
+          "815161_pepes"
+        ],
+        "animated": true
+      }
+    ]
+  },
+  {
+    "id": "pepe_416758",
+    "name": "Pepe Starter",
+    "origin": "https://emoji.gg/pack/416758-pepestarterforserver",
+    "attribution": "𝕊𝕒𝕣𝕔𝕒𝕤𝕥𝕚𝕔𝕠 via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 30 emoji are retained. No open-source or commercial redistribution license is asserted; original creators retain artwork rights.\nImport normalization: 1/30 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: 33ee2c37d1a206f9271fa582cd81a7f17f546051b83bd7301500b1a7538ce043.",
+    "emojis": [
+      {
+        "id": "pepe_416758_121286_crying",
+        "name": "121286 crying",
+        "src": "/emoji-packs/pepe_416758/3075ec2d00001012a971043f.png",
+        "sha256": "3075ec2d00001012a971043fce0558e9cbd6bf873f66b3590b1a4f8f24b393f3",
+        "keywords": [
+          "pepe_416758",
+          "121286_crying"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_416758_974580_pepeok",
+        "name": "974580 pepeok",
+        "src": "/emoji-packs/pepe_416758/528aed27f1c0c66a48e098f8.png",
+        "sha256": "528aed27f1c0c66a48e098f8bf889fe5d549d2cd91b02d6cda6b22000e2861cb",
+        "keywords": [
+          "pepe_416758",
+          "974580_pepeok"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_416758_588971_pepeuwu",
+        "name": "588971 pepeuwu",
+        "src": "/emoji-packs/pepe_416758/860d21ab3553f6082abafec6.gif",
+        "sha256": "860d21ab3553f6082abafec6b838716433547e1a5f9c300d4f321f7eabe50c51",
+        "keywords": [
+          "pepe_416758",
+          "588971_pepeuwu"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_416758_133539_fux2",
+        "name": "133539 fux2",
+        "src": "/emoji-packs/pepe_416758/c566778a1d7e1aa4a89f5281.png",
+        "sha256": "c566778a1d7e1aa4a89f528122a7cb4b0e878c867677260118a2293e340c107d",
+        "keywords": [
+          "pepe_416758",
+          "133539_fux2"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_416758_558106_madeittingle",
+        "name": "558106 madeittingle",
+        "src": "/emoji-packs/pepe_416758/7abbf2ea201a231bf315d844.png",
+        "sha256": "7abbf2ea201a231bf315d844c909201c3804c585c9f998891928d0ee267649ee",
+        "keywords": [
+          "pepe_416758",
+          "558106_madeittingle"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_416758_805840_lol",
+        "name": "805840 lol",
+        "src": "/emoji-packs/pepe_416758/f752ee71b49c4dc4366f2dc4.png",
+        "sha256": "f752ee71b49c4dc4366f2dc4db70e1fbac4a6edf98538294379eacf31d0af92d",
+        "keywords": [
+          "pepe_416758",
+          "805840_lol"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_416758_175472_pepelaugh",
+        "name": "175472 pepelaugh",
+        "src": "/emoji-packs/pepe_416758/316b2381bcaf0d989d4fc888.gif",
+        "sha256": "316b2381bcaf0d989d4fc888b01ff8133fc88573baf75b7540ee3dbc9d41e4ba",
+        "keywords": [
+          "pepe_416758",
+          "175472_pepelaugh"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_416758_121023_pepetyping",
+        "name": "121023 pepetyping",
+        "src": "/emoji-packs/pepe_416758/9fd64587c9e197514b850ab2.gif",
+        "sha256": "9fd64587c9e197514b850ab2553c8fec1248cf63be5669a85fdf7f1b680e0c8c",
+        "keywords": [
+          "pepe_416758",
+          "121023_pepetyping"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_416758_249299_strongpepe",
+        "name": "249299 strongpepe",
+        "src": "/emoji-packs/pepe_416758/378a9571806980df628e41ea.gif",
+        "sha256": "378a9571806980df628e41eac515bee0f990eb7f01b81292e5dc0e059dcf8c00",
+        "keywords": [
+          "pepe_416758",
+          "249299_strongpepe"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_416758_316363_thatsmine",
+        "name": "316363 thatsmine",
+        "src": "/emoji-packs/pepe_416758/417eecfe35a605498f537d5c.gif",
+        "sha256": "417eecfe35a605498f537d5cea65fb3f4f7fac83dab9ddf0842a904e87147770",
+        "keywords": [
+          "pepe_416758",
+          "316363_thatsmine"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_416758_352886_crazy_happy",
+        "name": "352886 crazy happy",
+        "src": "/emoji-packs/pepe_416758/f5950f92de1c410b4b7f7595.gif",
+        "sha256": "f5950f92de1c410b4b7f7595c50c5cac946f1ac408faf6e77d762d3b71af3839",
+        "keywords": [
+          "pepe_416758",
+          "352886_crazy_happy"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_416758_238671_petpetpepe",
+        "name": "238671 petpetpepe",
+        "src": "/emoji-packs/pepe_416758/e01f74f9ac52e187bd85f93c.gif",
+        "sha256": "e01f74f9ac52e187bd85f93c22c317f892af3848ae00515d4b4bf686a40636db",
+        "keywords": [
+          "pepe_416758",
+          "238671_petpetpepe"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_416758_877975_praypepe",
+        "name": "877975 praypepe",
+        "src": "/emoji-packs/pepe_416758/df83fef32a7468e09f3caf61.png",
+        "sha256": "df83fef32a7468e09f3caf61e1cee27bd37488ffc0e5dd9dda1464ed678c7f57",
+        "keywords": [
+          "pepe_416758",
+          "877975_praypepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_416758_702336_kingpepe",
+        "name": "702336 kingpepe",
+        "src": "/emoji-packs/pepe_416758/1565b744e522fa299b133808.png",
+        "sha256": "1565b744e522fa299b13380810304775467a643c08d226be8a5620d3d8e2a5a8",
+        "keywords": [
+          "pepe_416758",
+          "702336_kingpepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_416758_581836_uno",
+        "name": "581836 uno",
+        "src": "/emoji-packs/pepe_416758/fd146c0b78efce8555b3f39d.gif",
+        "sha256": "fd146c0b78efce8555b3f39df5913c725fdb5fa543cae3c50c2e9360103383d3",
+        "keywords": [
+          "pepe_416758",
+          "581836_uno"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_416758_24137_okpepe",
+        "name": "24137 okpepe",
+        "src": "/emoji-packs/pepe_416758/3758eecaba105750f5551d3d.gif",
+        "sha256": "3758eecaba105750f5551d3d05869bd0ea9366957c230ea0a48dd678cfe087c3",
+        "keywords": [
+          "pepe_416758",
+          "24137_okpepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_416758_792638_hehehe",
+        "name": "792638 hehehe",
+        "src": "/emoji-packs/pepe_416758/316b2381bcaf0d989d4fc888.gif",
+        "sha256": "316b2381bcaf0d989d4fc888b01ff8133fc88573baf75b7540ee3dbc9d41e4ba",
+        "keywords": [
+          "pepe_416758",
+          "792638_hehehe"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_416758_635522_pepechair",
+        "name": "635522 pepechair",
+        "src": "/emoji-packs/pepe_416758/a600fd637b6e0751ae2b4de7.gif",
+        "sha256": "a600fd637b6e0751ae2b4de7ffc2d68ea5222eea5e6c218c8b4996ee3151954b",
+        "keywords": [
+          "pepe_416758",
+          "635522_pepechair"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_416758_626616_fu",
+        "name": "626616 fu",
+        "src": "/emoji-packs/pepe_416758/529b95501a0d298749de81d2.png",
+        "sha256": "529b95501a0d298749de81d25cf3ab4921346e1c04bfebe023e7105885a9a00b",
+        "keywords": [
+          "pepe_416758",
+          "626616_fu"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_416758_932585_pepesignyougotthis",
+        "name": "932585 pepesignyougotthis",
+        "src": "/emoji-packs/pepe_416758/a97d119646800d149e2486f7.png",
+        "sha256": "a97d119646800d149e2486f75621299cf7c5bb567f3f0bf573435975b805a19e",
+        "keywords": [
+          "pepe_416758",
+          "932585_pepesignyougotthis"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_416758_242762_shhh",
+        "name": "242762 shhh",
+        "src": "/emoji-packs/pepe_416758/aa5e710645c3105a91a0e88f.gif",
+        "sha256": "aa5e710645c3105a91a0e88ff2e298526ff6d55f6afca7d20e493512ca670ded",
+        "keywords": [
+          "pepe_416758",
+          "242762_shhh"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_416758_718017_pepestaring",
+        "name": "718017 pepestaring",
+        "src": "/emoji-packs/pepe_416758/465d7bfca6785ffe2eeea11d.png",
+        "sha256": "465d7bfca6785ffe2eeea11db35cb1c5edd247e5e0d7b63c0417decfb7023366",
+        "keywords": [
+          "pepe_416758",
+          "718017_pepestaring"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_416758_431882_pepeclap",
+        "name": "431882 pepeclap",
+        "src": "/emoji-packs/pepe_416758/bcad413bb55c4bcfa3926dda.gif",
+        "sha256": "bcad413bb55c4bcfa3926ddad2dfb16bf301c5322173eb2993d372080ab0890e",
+        "keywords": [
+          "pepe_416758",
+          "431882_pepeclap"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_416758_827729_peperain",
+        "name": "827729 peperain",
+        "src": "/emoji-packs/pepe_416758/8ab61d067150a3da0bec9be3.gif",
+        "sha256": "8ab61d067150a3da0bec9be36336a66f4e29df36e95a66578196a26377febcc9",
+        "keywords": [
+          "pepe_416758",
+          "827729_peperain"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_416758_182109_pepeperfect",
+        "name": "182109 pepeperfect",
+        "src": "/emoji-packs/pepe_416758/1eaee439a30c87e9e9966b25.png",
+        "sha256": "1eaee439a30c87e9e9966b25d4abfc3adbaecd568300c649666711398b92e65e",
+        "keywords": [
+          "pepe_416758",
+          "182109_pepeperfect"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_416758_422810_valeu",
+        "name": "422810 valeu",
+        "src": "/emoji-packs/pepe_416758/f81f8f45c637ee74dad29c00.png",
+        "sha256": "f81f8f45c637ee74dad29c0022c9142367121ead55b19abbf8c2d1ff1698751f",
+        "keywords": [
+          "pepe_416758",
+          "422810_valeu"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_416758_828203_peperich",
+        "name": "828203 peperich",
+        "src": "/emoji-packs/pepe_416758/3281f375d20c48586308b37d.gif",
+        "sha256": "3281f375d20c48586308b37dff9dd750797eb48aca46a1a9b1fffcc8421b4e83",
+        "keywords": [
+          "pepe_416758",
+          "828203_peperich"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_416758_830563_pepe",
+        "name": "830563 pepe",
+        "src": "/emoji-packs/pepe_416758/eac1e414cc19016b87b549e1.png",
+        "sha256": "eac1e414cc19016b87b549e160dc5d75cfedad9c984fa833a205a649061264af",
+        "keywords": [
+          "pepe_416758",
+          "830563_pepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_416758_955764_raiva",
+        "name": "955764 raiva",
+        "src": "/emoji-packs/pepe_416758/880b7a17217fedb806af4cab.gif",
+        "sha256": "880b7a17217fedb806af4cabcfda680ac1352c1e641782417d9f12f07520d0f2",
+        "keywords": [
+          "pepe_416758",
+          "955764_raiva"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_416758_961812_pepeclap",
+        "name": "961812 pepeclap",
+        "src": "/emoji-packs/pepe_416758/85667b27a098b225cb7e3bb1.gif",
+        "sha256": "85667b27a098b225cb7e3bb19c604e3a892fb152baf09ff9d54f21be0893241a",
+        "keywords": [
+          "pepe_416758",
+          "961812_pepeclap"
+        ],
+        "animated": true
+      }
+    ]
+  },
+  {
+    "id": "pepe_38617",
+    "name": "Pepe · cheetos",
+    "origin": "https://emoji.gg/pack/38617-pepe",
+    "attribution": "cheetos via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 28 emoji are retained. No open-source or commercial redistribution license is asserted; original creators retain artwork rights.\nImport normalization: 2/28 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: ab168edec74433d6f7980747ab49495d1ef28d90dbfc71b0f26f2e76b911bfb1.",
+    "emojis": [
+      {
+        "id": "pepe_38617_827729_peperain",
+        "name": "827729 peperain",
+        "src": "/emoji-packs/pepe_38617/8ab61d067150a3da0bec9be3.gif",
+        "sha256": "8ab61d067150a3da0bec9be36336a66f4e29df36e95a66578196a26377febcc9",
+        "keywords": [
+          "pepe_38617",
+          "827729_peperain"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_38617_795083_pepehappy",
+        "name": "795083 pepehappy",
+        "src": "/emoji-packs/pepe_38617/fb825b8c65d88566c42c9c14.png",
+        "sha256": "fb825b8c65d88566c42c9c1441a4e98910edbdbb9f6250830991041c0b8c1c8a",
+        "keywords": [
+          "pepe_38617",
+          "795083_pepehappy"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_38617_121023_pepetyping",
+        "name": "121023 pepetyping",
+        "src": "/emoji-packs/pepe_38617/9fd64587c9e197514b850ab2.gif",
+        "sha256": "9fd64587c9e197514b850ab2553c8fec1248cf63be5669a85fdf7f1b680e0c8c",
+        "keywords": [
+          "pepe_38617",
+          "121023_pepetyping"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_38617_877975_praypepe",
+        "name": "877975 praypepe",
+        "src": "/emoji-packs/pepe_38617/df83fef32a7468e09f3caf61.png",
+        "sha256": "df83fef32a7468e09f3caf61e1cee27bd37488ffc0e5dd9dda1464ed678c7f57",
+        "keywords": [
+          "pepe_38617",
+          "877975_praypepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_38617_353772_karentyping",
+        "name": "353772 karentyping",
+        "src": "/emoji-packs/pepe_38617/9fd64587c9e197514b850ab2.gif",
+        "sha256": "9fd64587c9e197514b850ab2553c8fec1248cf63be5669a85fdf7f1b680e0c8c",
+        "keywords": [
+          "pepe_38617",
+          "353772_karentyping"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_38617_830563_pepe",
+        "name": "830563 pepe",
+        "src": "/emoji-packs/pepe_38617/eac1e414cc19016b87b549e1.png",
+        "sha256": "eac1e414cc19016b87b549e160dc5d75cfedad9c984fa833a205a649061264af",
+        "keywords": [
+          "pepe_38617",
+          "830563_pepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_38617_618704_pepeokay",
+        "name": "618704 pepeokay",
+        "src": "/emoji-packs/pepe_38617/a872cc6ae4b73bd2c66b83a8.png",
+        "sha256": "a872cc6ae4b73bd2c66b83a8bcecdd70c97dc9b73d8f71f14c75d496d5509cb5",
+        "keywords": [
+          "pepe_38617",
+          "618704_pepeokay"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_38617_702336_kingpepe",
+        "name": "702336 kingpepe",
+        "src": "/emoji-packs/pepe_38617/1565b744e522fa299b133808.png",
+        "sha256": "1565b744e522fa299b13380810304775467a643c08d226be8a5620d3d8e2a5a8",
+        "keywords": [
+          "pepe_38617",
+          "702336_kingpepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_38617_733150_kingpepe",
+        "name": "733150 kingpepe",
+        "src": "/emoji-packs/pepe_38617/191bedc2377103d6257d9522.png",
+        "sha256": "191bedc2377103d6257d9522a7c0d3224f9ba19c9689a9fa33a2c6d829301313",
+        "keywords": [
+          "pepe_38617",
+          "733150_kingpepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_38617_828203_peperich",
+        "name": "828203 peperich",
+        "src": "/emoji-packs/pepe_38617/3281f375d20c48586308b37d.gif",
+        "sha256": "3281f375d20c48586308b37dff9dd750797eb48aca46a1a9b1fffcc8421b4e83",
+        "keywords": [
+          "pepe_38617",
+          "828203_peperich"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_38617_718017_pepestaring",
+        "name": "718017 pepestaring",
+        "src": "/emoji-packs/pepe_38617/465d7bfca6785ffe2eeea11d.png",
+        "sha256": "465d7bfca6785ffe2eeea11db35cb1c5edd247e5e0d7b63c0417decfb7023366",
+        "keywords": [
+          "pepe_38617",
+          "718017_pepestaring"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_38617_182109_pepeperfect",
+        "name": "182109 pepeperfect",
+        "src": "/emoji-packs/pepe_38617/1eaee439a30c87e9e9966b25.png",
+        "sha256": "1eaee439a30c87e9e9966b25d4abfc3adbaecd568300c649666711398b92e65e",
+        "keywords": [
+          "pepe_38617",
+          "182109_pepeperfect"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_38617_149743_pepeheart",
+        "name": "149743 pepeheart",
+        "src": "/emoji-packs/pepe_38617/f3ad4c5282052b6d1848d266.png",
+        "sha256": "f3ad4c5282052b6d1848d26642c42288cdee3eb17a2f7fe3bb958049ac749a23",
+        "keywords": [
+          "pepe_38617",
+          "149743_pepeheart"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_38617_798781_nou",
+        "name": "798781 nou",
+        "src": "/emoji-packs/pepe_38617/89c76d1700a5f5d42f5d1175.png",
+        "sha256": "89c76d1700a5f5d42f5d117596917da0756e92cb3c3b923fefb3277f62b737ee",
+        "keywords": [
+          "pepe_38617",
+          "798781_nou"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_38617_121286_crying",
+        "name": "121286 crying",
+        "src": "/emoji-packs/pepe_38617/3075ec2d00001012a971043f.png",
+        "sha256": "3075ec2d00001012a971043fce0558e9cbd6bf873f66b3590b1a4f8f24b393f3",
+        "keywords": [
+          "pepe_38617",
+          "121286_crying"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_38617_236705_pepedumb",
+        "name": "236705 pepedumb",
+        "src": "/emoji-packs/pepe_38617/c061f3c97029a3f6a54fc84d.png",
+        "sha256": "c061f3c97029a3f6a54fc84d1fdad197a84d0b4d16be609ba208d0719d9c53a1",
+        "keywords": [
+          "pepe_38617",
+          "236705_pepedumb"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_38617_152946_pepecashcow",
+        "name": "152946 pepecashcow",
+        "src": "/emoji-packs/pepe_38617/84c2369d5f5eb39018749ff9.png",
+        "sha256": "84c2369d5f5eb39018749ff976d9eaf6cf57480742738a89fa10395abd560191",
+        "keywords": [
+          "pepe_38617",
+          "152946_pepecashcow"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_38617_431882_pepeclap",
+        "name": "431882 pepeclap",
+        "src": "/emoji-packs/pepe_38617/bcad413bb55c4bcfa3926dda.gif",
+        "sha256": "bcad413bb55c4bcfa3926ddad2dfb16bf301c5322173eb2993d372080ab0890e",
+        "keywords": [
+          "pepe_38617",
+          "431882_pepeclap"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_38617_249299_strongpepe",
+        "name": "249299 strongpepe",
+        "src": "/emoji-packs/pepe_38617/378a9571806980df628e41ea.gif",
+        "sha256": "378a9571806980df628e41eac515bee0f990eb7f01b81292e5dc0e059dcf8c00",
+        "keywords": [
+          "pepe_38617",
+          "249299_strongpepe"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_38617_436131_pepetorchfire",
+        "name": "436131 pepetorchfire",
+        "src": "/emoji-packs/pepe_38617/e08587e79b9686aa9ee997e0.gif",
+        "sha256": "e08587e79b9686aa9ee997e0c39b9bc4a3410534d10af4420be91640f3ebbc44",
+        "keywords": [
+          "pepe_38617",
+          "436131_pepetorchfire"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_38617_120458_pepecross",
+        "name": "120458 pepecross",
+        "src": "/emoji-packs/pepe_38617/7d3e7fae926612c057712300.png",
+        "sha256": "7d3e7fae926612c0577123005ef664530dc08ed52cb8f065bb90ae5f338a343f",
+        "keywords": [
+          "pepe_38617",
+          "120458_pepecross"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_38617_974580_pepeok",
+        "name": "974580 pepeok",
+        "src": "/emoji-packs/pepe_38617/528aed27f1c0c66a48e098f8.png",
+        "sha256": "528aed27f1c0c66a48e098f8bf889fe5d549d2cd91b02d6cda6b22000e2861cb",
+        "keywords": [
+          "pepe_38617",
+          "974580_pepeok"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_38617_24137_okpepe",
+        "name": "24137 okpepe",
+        "src": "/emoji-packs/pepe_38617/3758eecaba105750f5551d3d.gif",
+        "sha256": "3758eecaba105750f5551d3d05869bd0ea9366957c230ea0a48dd678cfe087c3",
+        "keywords": [
+          "pepe_38617",
+          "24137_okpepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_38617_950522_pepehacker",
+        "name": "950522 pepehacker",
+        "src": "/emoji-packs/pepe_38617/0084d3fc32726cf7e23b962f.gif",
+        "sha256": "0084d3fc32726cf7e23b962fbbebf6d858491019673d5bc6620a61e7740b167c",
+        "keywords": [
+          "pepe_38617",
+          "950522_pepehacker"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_38617_408164_pepecook",
+        "name": "408164 pepecook",
+        "src": "/emoji-packs/pepe_38617/9f46692deec6882a5ddc5bd0.png",
+        "sha256": "9f46692deec6882a5ddc5bd0f5410bfe3d9b65d5be29bf20cb746b881dd5e1bd",
+        "keywords": [
+          "pepe_38617",
+          "408164_pepecook"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_38617_175472_pepelaugh",
+        "name": "175472 pepelaugh",
+        "src": "/emoji-packs/pepe_38617/316b2381bcaf0d989d4fc888.gif",
+        "sha256": "316b2381bcaf0d989d4fc888b01ff8133fc88573baf75b7540ee3dbc9d41e4ba",
+        "keywords": [
+          "pepe_38617",
+          "175472_pepelaugh"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_38617_399137_mlady",
+        "name": "399137 mlady",
+        "src": "/emoji-packs/pepe_38617/1c15be9108b498e264bab1dd.gif",
+        "sha256": "1c15be9108b498e264bab1ddf103bf821bbec37ce2de6d8d0d0338c13cd69e6a",
+        "keywords": [
+          "pepe_38617",
+          "399137_mlady"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_38617_606832_pepesadbusiness",
+        "name": "606832 pepesadbusiness",
+        "src": "/emoji-packs/pepe_38617/137c3cab27e333580721f1c9.png",
+        "sha256": "137c3cab27e333580721f1c9d9ce75130e42257ce500a71fac95dd3c6414cdfa",
+        "keywords": [
+          "pepe_38617",
+          "606832_pepesadbusiness"
+        ],
+        "animated": false
+      }
+    ]
+  },
+  {
+    "id": "pepe_419313",
+    "name": "Pepe · __so__",
+    "origin": "https://emoji.gg/pack/419313-pepe",
+    "attribution": "__so__ via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 10 emoji are retained. No open-source or commercial redistribution license is asserted; original creators retain artwork rights.\nImport normalization: 0/10 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: c2bee16c11bf51f7aa9dbb558d5fff13e6216426986eb4d80b2ff0432d9e1e58.",
+    "emojis": [
+      {
+        "id": "pepe_419313_974580_pepeok",
+        "name": "974580 pepeok",
+        "src": "/emoji-packs/pepe_419313/528aed27f1c0c66a48e098f8.png",
+        "sha256": "528aed27f1c0c66a48e098f8bf889fe5d549d2cd91b02d6cda6b22000e2861cb",
+        "keywords": [
+          "pepe_419313",
+          "974580_pepeok"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_419313_795083_pepehappy",
+        "name": "795083 pepehappy",
+        "src": "/emoji-packs/pepe_419313/fb825b8c65d88566c42c9c14.png",
+        "sha256": "fb825b8c65d88566c42c9c1441a4e98910edbdbb9f6250830991041c0b8c1c8a",
+        "keywords": [
+          "pepe_419313",
+          "795083_pepehappy"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_419313_961812_pepeclap",
+        "name": "961812 pepeclap",
+        "src": "/emoji-packs/pepe_419313/85667b27a098b225cb7e3bb1.gif",
+        "sha256": "85667b27a098b225cb7e3bb19c604e3a892fb152baf09ff9d54f21be0893241a",
+        "keywords": [
+          "pepe_419313",
+          "961812_pepeclap"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_419313_798781_nou",
+        "name": "798781 nou",
+        "src": "/emoji-packs/pepe_419313/89c76d1700a5f5d42f5d1175.png",
+        "sha256": "89c76d1700a5f5d42f5d117596917da0756e92cb3c3b923fefb3277f62b737ee",
+        "keywords": [
+          "pepe_419313",
+          "798781_nou"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_419313_877975_praypepe",
+        "name": "877975 praypepe",
+        "src": "/emoji-packs/pepe_419313/df83fef32a7468e09f3caf61.png",
+        "sha256": "df83fef32a7468e09f3caf61e1cee27bd37488ffc0e5dd9dda1464ed678c7f57",
+        "keywords": [
+          "pepe_419313",
+          "877975_praypepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_419313_718017_pepestaring",
+        "name": "718017 pepestaring",
+        "src": "/emoji-packs/pepe_419313/465d7bfca6785ffe2eeea11d.png",
+        "sha256": "465d7bfca6785ffe2eeea11db35cb1c5edd247e5e0d7b63c0417decfb7023366",
+        "keywords": [
+          "pepe_419313",
+          "718017_pepestaring"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_419313_950522_pepehacker",
+        "name": "950522 pepehacker",
+        "src": "/emoji-packs/pepe_419313/0084d3fc32726cf7e23b962f.gif",
+        "sha256": "0084d3fc32726cf7e23b962fbbebf6d858491019673d5bc6620a61e7740b167c",
+        "keywords": [
+          "pepe_419313",
+          "950522_pepehacker"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_419313_431882_pepeclap",
+        "name": "431882 pepeclap",
+        "src": "/emoji-packs/pepe_419313/bcad413bb55c4bcfa3926dda.gif",
+        "sha256": "bcad413bb55c4bcfa3926ddad2dfb16bf301c5322173eb2993d372080ab0890e",
+        "keywords": [
+          "pepe_419313",
+          "431882_pepeclap"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_419313_534045_pepesleep",
+        "name": "534045 pepesleep",
+        "src": "/emoji-packs/pepe_419313/d930cecad6a3a56eb4018ba0.png",
+        "sha256": "d930cecad6a3a56eb4018ba0270a7b31969e0fd1374aea7400ae4f0e4b69777a",
+        "keywords": [
+          "pepe_419313",
+          "534045_pepesleep"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_419313_236705_pepedumb",
+        "name": "236705 pepedumb",
+        "src": "/emoji-packs/pepe_419313/c061f3c97029a3f6a54fc84d.png",
+        "sha256": "c061f3c97029a3f6a54fc84d1fdad197a84d0b4d16be609ba208d0719d9c53a1",
+        "keywords": [
+          "pepe_419313",
+          "236705_pepedumb"
+        ],
+        "animated": false
+      }
+    ]
+  },
+  {
+    "id": "pepe_236069",
+    "name": "Pepe · Ethan_S",
+    "origin": "https://emoji.gg/pack/236069-pepe",
+    "attribution": "Ethan_S via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 24 emoji are retained. No open-source or commercial redistribution license is asserted; original creators retain artwork rights.\nImport normalization: 0/24 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: 55918bf6c7aa98d907023ce0a973c661c188f4517c2f6748f7740fcac40d7b7f.",
+    "emojis": [
+      {
+        "id": "pepe_236069_718017_pepestaring",
+        "name": "718017 pepestaring",
+        "src": "/emoji-packs/pepe_236069/465d7bfca6785ffe2eeea11d.png",
+        "sha256": "465d7bfca6785ffe2eeea11db35cb1c5edd247e5e0d7b63c0417decfb7023366",
+        "keywords": [
+          "pepe_236069",
+          "718017_pepestaring"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_236069_149743_pepeheart",
+        "name": "149743 pepeheart",
+        "src": "/emoji-packs/pepe_236069/f3ad4c5282052b6d1848d266.png",
+        "sha256": "f3ad4c5282052b6d1848d26642c42288cdee3eb17a2f7fe3bb958049ac749a23",
+        "keywords": [
+          "pepe_236069",
+          "149743_pepeheart"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_236069_792638_hehehe",
+        "name": "792638 hehehe",
+        "src": "/emoji-packs/pepe_236069/316b2381bcaf0d989d4fc888.gif",
+        "sha256": "316b2381bcaf0d989d4fc888b01ff8133fc88573baf75b7540ee3dbc9d41e4ba",
+        "keywords": [
+          "pepe_236069",
+          "792638_hehehe"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_236069_121286_crying",
+        "name": "121286 crying",
+        "src": "/emoji-packs/pepe_236069/3075ec2d00001012a971043f.png",
+        "sha256": "3075ec2d00001012a971043fce0558e9cbd6bf873f66b3590b1a4f8f24b393f3",
+        "keywords": [
+          "pepe_236069",
+          "121286_crying"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_236069_588971_pepeuwu",
+        "name": "588971 pepeuwu",
+        "src": "/emoji-packs/pepe_236069/860d21ab3553f6082abafec6.gif",
+        "sha256": "860d21ab3553f6082abafec6b838716433547e1a5f9c300d4f321f7eabe50c51",
+        "keywords": [
+          "pepe_236069",
+          "588971_pepeuwu"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_236069_961812_pepeclap",
+        "name": "961812 pepeclap",
+        "src": "/emoji-packs/pepe_236069/85667b27a098b225cb7e3bb1.gif",
+        "sha256": "85667b27a098b225cb7e3bb19c604e3a892fb152baf09ff9d54f21be0893241a",
+        "keywords": [
+          "pepe_236069",
+          "961812_pepeclap"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_236069_431882_pepeclap",
+        "name": "431882 pepeclap",
+        "src": "/emoji-packs/pepe_236069/bcad413bb55c4bcfa3926dda.gif",
+        "sha256": "bcad413bb55c4bcfa3926ddad2dfb16bf301c5322173eb2993d372080ab0890e",
+        "keywords": [
+          "pepe_236069",
+          "431882_pepeclap"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_236069_471478_pepenervous",
+        "name": "471478 pepenervous",
+        "src": "/emoji-packs/pepe_236069/f51ef1e5b76b0d72105b209d.gif",
+        "sha256": "f51ef1e5b76b0d72105b209df3aef99de199839bb29b3d9578af94f1b4942fad",
+        "keywords": [
+          "pepe_236069",
+          "471478_pepenervous"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_236069_399137_mlady",
+        "name": "399137 mlady",
+        "src": "/emoji-packs/pepe_236069/1c15be9108b498e264bab1dd.gif",
+        "sha256": "1c15be9108b498e264bab1ddf103bf821bbec37ce2de6d8d0d0338c13cd69e6a",
+        "keywords": [
+          "pepe_236069",
+          "399137_mlady"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_236069_974580_pepeok",
+        "name": "974580 pepeok",
+        "src": "/emoji-packs/pepe_236069/528aed27f1c0c66a48e098f8.png",
+        "sha256": "528aed27f1c0c66a48e098f8bf889fe5d549d2cd91b02d6cda6b22000e2861cb",
+        "keywords": [
+          "pepe_236069",
+          "974580_pepeok"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_236069_552046_pepe",
+        "name": "552046 pepe",
+        "src": "/emoji-packs/pepe_236069/dd287c8a5a807caaabddd2e3.png",
+        "sha256": "dd287c8a5a807caaabddd2e3f3e8647db7ae8e1a00063d896d0efe93f14cce4f",
+        "keywords": [
+          "pepe_236069",
+          "552046_pepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_236069_98212_tears",
+        "name": "98212 tears",
+        "src": "/emoji-packs/pepe_236069/907546f2cfbb90d5d724c31e.png",
+        "sha256": "907546f2cfbb90d5d724c31e1dc9e192cd488a32a0397aa6ccde082c0ddb37c9",
+        "keywords": [
+          "pepe_236069",
+          "98212_tears"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_236069_800258_komooo",
+        "name": "800258 komooo",
+        "src": "/emoji-packs/pepe_236069/148092a5a0d01a94d57de288.png",
+        "sha256": "148092a5a0d01a94d57de2884213dfcd34395d8588309a6f2bddf9248f62a303",
+        "keywords": [
+          "pepe_236069",
+          "800258_komooo"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_236069_352886_crazy_happy",
+        "name": "352886 crazy happy",
+        "src": "/emoji-packs/pepe_236069/f5950f92de1c410b4b7f7595.gif",
+        "sha256": "f5950f92de1c410b4b7f7595c50c5cac946f1ac408faf6e77d762d3b71af3839",
+        "keywords": [
+          "pepe_236069",
+          "352886_crazy_happy"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_236069_828203_peperich",
+        "name": "828203 peperich",
+        "src": "/emoji-packs/pepe_236069/3281f375d20c48586308b37d.gif",
+        "sha256": "3281f375d20c48586308b37dff9dd750797eb48aca46a1a9b1fffcc8421b4e83",
+        "keywords": [
+          "pepe_236069",
+          "828203_peperich"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_236069_635522_pepechair",
+        "name": "635522 pepechair",
+        "src": "/emoji-packs/pepe_236069/a600fd637b6e0751ae2b4de7.gif",
+        "sha256": "a600fd637b6e0751ae2b4de7ffc2d68ea5222eea5e6c218c8b4996ee3151954b",
+        "keywords": [
+          "pepe_236069",
+          "635522_pepechair"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_236069_928902_oooo",
+        "name": "928902 oooo",
+        "src": "/emoji-packs/pepe_236069/3fcdadd8eac66cdc34a2a645.png",
+        "sha256": "3fcdadd8eac66cdc34a2a645a6b2013dab22780f5396358e0956dd0a33698281",
+        "keywords": [
+          "pepe_236069",
+          "928902_oooo"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_236069_955764_raiva",
+        "name": "955764 raiva",
+        "src": "/emoji-packs/pepe_236069/880b7a17217fedb806af4cab.gif",
+        "sha256": "880b7a17217fedb806af4cabcfda680ac1352c1e641782417d9f12f07520d0f2",
+        "keywords": [
+          "pepe_236069",
+          "955764_raiva"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_236069_182109_pepeperfect",
+        "name": "182109 pepeperfect",
+        "src": "/emoji-packs/pepe_236069/1eaee439a30c87e9e9966b25.png",
+        "sha256": "1eaee439a30c87e9e9966b25d4abfc3adbaecd568300c649666711398b92e65e",
+        "keywords": [
+          "pepe_236069",
+          "182109_pepeperfect"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_236069_207091_pepewow",
+        "name": "207091 pepewow",
+        "src": "/emoji-packs/pepe_236069/a940f90a542e98605bb921a0.gif",
+        "sha256": "a940f90a542e98605bb921a0d25113e7f9f01dd02b2fc6fec551e035159c867d",
+        "keywords": [
+          "pepe_236069",
+          "207091_pepewow"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_236069_298876_pepebanger",
+        "name": "298876 pepebanger",
+        "src": "/emoji-packs/pepe_236069/6308a23b5ff702c58562b300.gif",
+        "sha256": "6308a23b5ff702c58562b30037d0b858b42f2ce491bac5e9e828c95d7cab5561",
+        "keywords": [
+          "pepe_236069",
+          "298876_pepebanger"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_236069_901688_eu",
+        "name": "901688 eu",
+        "src": "/emoji-packs/pepe_236069/98dfe151cfe9045a7442d219.png",
+        "sha256": "98dfe151cfe9045a7442d219d070562d27c26e40e13254a20afc93670de8114b",
+        "keywords": [
+          "pepe_236069",
+          "901688_eu"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_236069_795083_pepehappy",
+        "name": "795083 pepehappy",
+        "src": "/emoji-packs/pepe_236069/fb825b8c65d88566c42c9c14.png",
+        "sha256": "fb825b8c65d88566c42c9c1441a4e98910edbdbb9f6250830991041c0b8c1c8a",
+        "keywords": [
+          "pepe_236069",
+          "795083_pepehappy"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_236069_334476_gamer",
+        "name": "334476 gamer",
+        "src": "/emoji-packs/pepe_236069/65cddd0e5912dad14463f876.png",
+        "sha256": "65cddd0e5912dad14463f87695d5a956a345a09421ca1e26b0329d6adc4aee6e",
+        "keywords": [
+          "pepe_236069",
+          "334476_gamer"
+        ],
+        "animated": false
+      }
+    ]
+  },
+  {
+    "id": "pepe_896989",
+    "name": "Pepe · Waylon",
+    "origin": "https://emoji.gg/pack/896989-pepe",
+    "attribution": "Waylon via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 6 emoji are retained. No open-source or commercial redistribution license is asserted; original creators retain artwork rights.\nImport normalization: 0/6 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: 5b6cb958b331d8444a6ab2ed3fb30b980e9e042de5db44eb395be0f67e379321.",
+    "emojis": [
+      {
+        "id": "pepe_896989_798781_nou",
+        "name": "798781 nou",
+        "src": "/emoji-packs/pepe_896989/89c76d1700a5f5d42f5d1175.png",
+        "sha256": "89c76d1700a5f5d42f5d117596917da0756e92cb3c3b923fefb3277f62b737ee",
+        "keywords": [
+          "pepe_896989",
+          "798781_nou"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_896989_121023_pepetyping",
+        "name": "121023 pepetyping",
+        "src": "/emoji-packs/pepe_896989/9fd64587c9e197514b850ab2.gif",
+        "sha256": "9fd64587c9e197514b850ab2553c8fec1248cf63be5669a85fdf7f1b680e0c8c",
+        "keywords": [
+          "pepe_896989",
+          "121023_pepetyping"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_896989_149743_pepeheart",
+        "name": "149743 pepeheart",
+        "src": "/emoji-packs/pepe_896989/f3ad4c5282052b6d1848d266.png",
+        "sha256": "f3ad4c5282052b6d1848d26642c42288cdee3eb17a2f7fe3bb958049ac749a23",
+        "keywords": [
+          "pepe_896989",
+          "149743_pepeheart"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_896989_950522_pepehacker",
+        "name": "950522 pepehacker",
+        "src": "/emoji-packs/pepe_896989/0084d3fc32726cf7e23b962f.gif",
+        "sha256": "0084d3fc32726cf7e23b962fbbebf6d858491019673d5bc6620a61e7740b167c",
+        "keywords": [
+          "pepe_896989",
+          "950522_pepehacker"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_896989_182109_pepeperfect",
+        "name": "182109 pepeperfect",
+        "src": "/emoji-packs/pepe_896989/1eaee439a30c87e9e9966b25.png",
+        "sha256": "1eaee439a30c87e9e9966b25d4abfc3adbaecd568300c649666711398b92e65e",
+        "keywords": [
+          "pepe_896989",
+          "182109_pepeperfect"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_896989_431882_pepeclap",
+        "name": "431882 pepeclap",
+        "src": "/emoji-packs/pepe_896989/bcad413bb55c4bcfa3926dda.gif",
+        "sha256": "bcad413bb55c4bcfa3926ddad2dfb16bf301c5322173eb2993d372080ab0890e",
+        "keywords": [
+          "pepe_896989",
+          "431882_pepeclap"
+        ],
+        "animated": true
+      }
+    ]
+  },
+  {
+    "id": "pepe_983085",
+    "name": "Pepe · Mouad Ft",
+    "origin": "https://emoji.gg/pack/983085-pepe",
+    "attribution": "Mouad Ft via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 14 emoji are retained. No open-source or commercial redistribution license is asserted; original creators retain artwork rights.\nImport normalization: 0/14 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: 31bae2440fba486bf6163cb399e9a239aff4a151695973560280d5d0ea7f11f2.",
+    "emojis": [
+      {
+        "id": "pepe_983085_236705_pepedumb",
+        "name": "236705 pepedumb",
+        "src": "/emoji-packs/pepe_983085/c061f3c97029a3f6a54fc84d.png",
+        "sha256": "c061f3c97029a3f6a54fc84d1fdad197a84d0b4d16be609ba208d0719d9c53a1",
+        "keywords": [
+          "pepe_983085",
+          "236705_pepedumb"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_983085_828203_peperich",
+        "name": "828203 peperich",
+        "src": "/emoji-packs/pepe_983085/3281f375d20c48586308b37d.gif",
+        "sha256": "3281f375d20c48586308b37dff9dd750797eb48aca46a1a9b1fffcc8421b4e83",
+        "keywords": [
+          "pepe_983085",
+          "828203_peperich"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_983085_974580_pepeok",
+        "name": "974580 pepeok",
+        "src": "/emoji-packs/pepe_983085/528aed27f1c0c66a48e098f8.png",
+        "sha256": "528aed27f1c0c66a48e098f8bf889fe5d549d2cd91b02d6cda6b22000e2861cb",
+        "keywords": [
+          "pepe_983085",
+          "974580_pepeok"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_983085_121286_crying",
+        "name": "121286 crying",
+        "src": "/emoji-packs/pepe_983085/3075ec2d00001012a971043f.png",
+        "sha256": "3075ec2d00001012a971043fce0558e9cbd6bf873f66b3590b1a4f8f24b393f3",
+        "keywords": [
+          "pepe_983085",
+          "121286_crying"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_983085_334476_gamer",
+        "name": "334476 gamer",
+        "src": "/emoji-packs/pepe_983085/65cddd0e5912dad14463f876.png",
+        "sha256": "65cddd0e5912dad14463f87695d5a956a345a09421ca1e26b0329d6adc4aee6e",
+        "keywords": [
+          "pepe_983085",
+          "334476_gamer"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_983085_795083_pepehappy",
+        "name": "795083 pepehappy",
+        "src": "/emoji-packs/pepe_983085/fb825b8c65d88566c42c9c14.png",
+        "sha256": "fb825b8c65d88566c42c9c1441a4e98910edbdbb9f6250830991041c0b8c1c8a",
+        "keywords": [
+          "pepe_983085",
+          "795083_pepehappy"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_983085_950522_pepehacker",
+        "name": "950522 pepehacker",
+        "src": "/emoji-packs/pepe_983085/0084d3fc32726cf7e23b962f.gif",
+        "sha256": "0084d3fc32726cf7e23b962fbbebf6d858491019673d5bc6620a61e7740b167c",
+        "keywords": [
+          "pepe_983085",
+          "950522_pepehacker"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_983085_120458_pepecross",
+        "name": "120458 pepecross",
+        "src": "/emoji-packs/pepe_983085/7d3e7fae926612c057712300.png",
+        "sha256": "7d3e7fae926612c0577123005ef664530dc08ed52cb8f065bb90ae5f338a343f",
+        "keywords": [
+          "pepe_983085",
+          "120458_pepecross"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_983085_702336_kingpepe",
+        "name": "702336 kingpepe",
+        "src": "/emoji-packs/pepe_983085/1565b744e522fa299b133808.png",
+        "sha256": "1565b744e522fa299b13380810304775467a643c08d226be8a5620d3d8e2a5a8",
+        "keywords": [
+          "pepe_983085",
+          "702336_kingpepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_983085_718017_pepestaring",
+        "name": "718017 pepestaring",
+        "src": "/emoji-packs/pepe_983085/465d7bfca6785ffe2eeea11d.png",
+        "sha256": "465d7bfca6785ffe2eeea11db35cb1c5edd247e5e0d7b63c0417decfb7023366",
+        "keywords": [
+          "pepe_983085",
+          "718017_pepestaring"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_983085_399137_mlady",
+        "name": "399137 mlady",
+        "src": "/emoji-packs/pepe_983085/1c15be9108b498e264bab1dd.gif",
+        "sha256": "1c15be9108b498e264bab1ddf103bf821bbec37ce2de6d8d0d0338c13cd69e6a",
+        "keywords": [
+          "pepe_983085",
+          "399137_mlady"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_983085_798781_nou",
+        "name": "798781 nou",
+        "src": "/emoji-packs/pepe_983085/89c76d1700a5f5d42f5d1175.png",
+        "sha256": "89c76d1700a5f5d42f5d117596917da0756e92cb3c3b923fefb3277f62b737ee",
+        "keywords": [
+          "pepe_983085",
+          "798781_nou"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_983085_121023_pepetyping",
+        "name": "121023 pepetyping",
+        "src": "/emoji-packs/pepe_983085/9fd64587c9e197514b850ab2.gif",
+        "sha256": "9fd64587c9e197514b850ab2553c8fec1248cf63be5669a85fdf7f1b680e0c8c",
+        "keywords": [
+          "pepe_983085",
+          "121023_pepetyping"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_983085_827729_peperain",
+        "name": "827729 peperain",
+        "src": "/emoji-packs/pepe_983085/8ab61d067150a3da0bec9be3.gif",
+        "sha256": "8ab61d067150a3da0bec9be36336a66f4e29df36e95a66578196a26377febcc9",
+        "keywords": [
+          "pepe_983085",
+          "827729_peperain"
+        ],
+        "animated": true
+      }
+    ]
+  },
+  {
+    "id": "pepe_980623",
+    "name": "Ze Frog",
+    "origin": "https://emoji.gg/pack/980623-ze-frog-es-le-pepe",
+    "attribution": "SunBun via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 7 emoji are retained. No open-source or commercial redistribution license is asserted; original creators retain artwork rights.\nImport normalization: 0/7 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: bffdbacf2dfc7d1c4229aee39ad61a38773d2e16175113e46c0c671aaeef2a3a.",
+    "emojis": [
+      {
+        "id": "pepe_980623_733056_sleepypepe",
+        "name": "733056 sleepypepe",
+        "src": "/emoji-packs/pepe_980623/80cc7fad385e8ea882e9a399.png",
+        "sha256": "80cc7fad385e8ea882e9a399b9e40de4bf56792fff49aaa14215b72490bb53b1",
+        "keywords": [
+          "pepe_980623",
+          "733056_sleepypepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_980623_3439_pepe_blushy",
+        "name": "3439 pepe blushy",
+        "src": "/emoji-packs/pepe_980623/d08026195445ed1a260b7537.png",
+        "sha256": "d08026195445ed1a260b753744769e4cc1d67bb6011bb12d71627a47c3fe3dd9",
+        "keywords": [
+          "pepe_980623",
+          "3439_pepe_blushy"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_980623_638973_pepes",
+        "name": "638973 pepes",
+        "src": "/emoji-packs/pepe_980623/9bd98a0beb6f757285a9b9f3.png",
+        "sha256": "9bd98a0beb6f757285a9b9f32c5e6ec37596507545f7c992e71caf28d355aeb2",
+        "keywords": [
+          "pepe_980623",
+          "638973_pepes"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_980623_857990_pepohappy",
+        "name": "857990 pepohappy",
+        "src": "/emoji-packs/pepe_980623/26845671918808bfd655192c.png",
+        "sha256": "26845671918808bfd655192c1f8d9960ef9472c6710764d3215353bfc6e2b715",
+        "keywords": [
+          "pepe_980623",
+          "857990_pepohappy"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_980623_370700_pepe_sad",
+        "name": "370700 pepe sad",
+        "src": "/emoji-packs/pepe_980623/08a620015aa828e6887073f6.png",
+        "sha256": "08a620015aa828e6887073f6156da8ecf6c09746c57ca8d8d17228453a76b74d",
+        "keywords": [
+          "pepe_980623",
+          "370700_pepe_sad"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_980623_477732_pepehug",
+        "name": "477732 pepehug",
+        "src": "/emoji-packs/pepe_980623/d19d4b013688ecd28f6abbc9.png",
+        "sha256": "d19d4b013688ecd28f6abbc966bcccfedd30c6da06037bb81cdc78cffe318ca3",
+        "keywords": [
+          "pepe_980623",
+          "477732_pepehug"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_980623_47945_pepe_hehe",
+        "name": "47945 pepe hehe",
+        "src": "/emoji-packs/pepe_980623/316b2381bcaf0d989d4fc888.gif",
+        "sha256": "316b2381bcaf0d989d4fc888b01ff8133fc88573baf75b7540ee3dbc9d41e4ba",
+        "keywords": [
+          "pepe_980623",
+          "47945_pepe_hehe"
+        ],
+        "animated": true
+      }
+    ]
+  },
+  {
+    "id": "pepe_829461",
+    "name": "Pepe · Sepi_2013",
+    "origin": "https://emoji.gg/pack/829461-pepe",
+    "attribution": "Sepi_2013 via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 6 emoji are retained. No open-source or commercial redistribution license is asserted; original creators retain artwork rights.\nImport normalization: 0/6 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: d64e96a102252f444055b76aa718b83f872c41cbbb56271ec469bbf6f485fde1.",
+    "emojis": [
+      {
+        "id": "pepe_829461_175472_pepelaugh",
+        "name": "175472 pepelaugh",
+        "src": "/emoji-packs/pepe_829461/316b2381bcaf0d989d4fc888.gif",
+        "sha256": "316b2381bcaf0d989d4fc888b01ff8133fc88573baf75b7540ee3dbc9d41e4ba",
+        "keywords": [
+          "pepe_829461",
+          "175472_pepelaugh"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_829461_950522_pepehacker",
+        "name": "950522 pepehacker",
+        "src": "/emoji-packs/pepe_829461/0084d3fc32726cf7e23b962f.gif",
+        "sha256": "0084d3fc32726cf7e23b962fbbebf6d858491019673d5bc6620a61e7740b167c",
+        "keywords": [
+          "pepe_829461",
+          "950522_pepehacker"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_829461_431882_pepeclap",
+        "name": "431882 pepeclap",
+        "src": "/emoji-packs/pepe_829461/bcad413bb55c4bcfa3926dda.gif",
+        "sha256": "bcad413bb55c4bcfa3926ddad2dfb16bf301c5322173eb2993d372080ab0890e",
+        "keywords": [
+          "pepe_829461",
+          "431882_pepeclap"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_829461_121023_pepetyping",
+        "name": "121023 pepetyping",
+        "src": "/emoji-packs/pepe_829461/9fd64587c9e197514b850ab2.gif",
+        "sha256": "9fd64587c9e197514b850ab2553c8fec1248cf63be5669a85fdf7f1b680e0c8c",
+        "keywords": [
+          "pepe_829461",
+          "121023_pepetyping"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_829461_120458_pepecross",
+        "name": "120458 pepecross",
+        "src": "/emoji-packs/pepe_829461/7d3e7fae926612c057712300.png",
+        "sha256": "7d3e7fae926612c0577123005ef664530dc08ed52cb8f065bb90ae5f338a343f",
+        "keywords": [
+          "pepe_829461",
+          "120458_pepecross"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_829461_828203_peperich",
+        "name": "828203 peperich",
+        "src": "/emoji-packs/pepe_829461/3281f375d20c48586308b37d.gif",
+        "sha256": "3281f375d20c48586308b37dff9dd750797eb48aca46a1a9b1fffcc8421b4e83",
+        "keywords": [
+          "pepe_829461",
+          "828203_peperich"
+        ],
+        "animated": true
+      }
+    ]
+  },
+  {
+    "id": "pepe_281595",
+    "name": "Pepe · Neri For Case",
+    "origin": "https://emoji.gg/pack/281595-pepe",
+    "attribution": "Neri For Case via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 24 emoji are retained. No open-source or commercial redistribution license is asserted; original creators retain artwork rights.\nImport normalization: 2/24 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: 5a712e09914047cf78d486f136b0d154fff24ffae862958a792d64ef97f39d2f.",
+    "emojis": [
+      {
+        "id": "pepe_281595_588971_pepeuwu",
+        "name": "588971 pepeuwu",
+        "src": "/emoji-packs/pepe_281595/860d21ab3553f6082abafec6.gif",
+        "sha256": "860d21ab3553f6082abafec6b838716433547e1a5f9c300d4f321f7eabe50c51",
+        "keywords": [
+          "pepe_281595",
+          "588971_pepeuwu"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_281595_950522_pepehacker",
+        "name": "950522 pepehacker",
+        "src": "/emoji-packs/pepe_281595/0084d3fc32726cf7e23b962f.gif",
+        "sha256": "0084d3fc32726cf7e23b962fbbebf6d858491019673d5bc6620a61e7740b167c",
+        "keywords": [
+          "pepe_281595",
+          "950522_pepehacker"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_281595_618704_pepeokay",
+        "name": "618704 pepeokay",
+        "src": "/emoji-packs/pepe_281595/a872cc6ae4b73bd2c66b83a8.png",
+        "sha256": "a872cc6ae4b73bd2c66b83a8bcecdd70c97dc9b73d8f71f14c75d496d5509cb5",
+        "keywords": [
+          "pepe_281595",
+          "618704_pepeokay"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_281595_702336_kingpepe",
+        "name": "702336 kingpepe",
+        "src": "/emoji-packs/pepe_281595/1565b744e522fa299b133808.png",
+        "sha256": "1565b744e522fa299b13380810304775467a643c08d226be8a5620d3d8e2a5a8",
+        "keywords": [
+          "pepe_281595",
+          "702336_kingpepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_281595_830563_pepe",
+        "name": "830563 pepe",
+        "src": "/emoji-packs/pepe_281595/eac1e414cc19016b87b549e1.png",
+        "sha256": "eac1e414cc19016b87b549e160dc5d75cfedad9c984fa833a205a649061264af",
+        "keywords": [
+          "pepe_281595",
+          "830563_pepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_281595_175472_pepelaugh",
+        "name": "175472 pepelaugh",
+        "src": "/emoji-packs/pepe_281595/316b2381bcaf0d989d4fc888.gif",
+        "sha256": "316b2381bcaf0d989d4fc888b01ff8133fc88573baf75b7540ee3dbc9d41e4ba",
+        "keywords": [
+          "pepe_281595",
+          "175472_pepelaugh"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_281595_182109_pepeperfect",
+        "name": "182109 pepeperfect",
+        "src": "/emoji-packs/pepe_281595/1eaee439a30c87e9e9966b25.png",
+        "sha256": "1eaee439a30c87e9e9966b25d4abfc3adbaecd568300c649666711398b92e65e",
+        "keywords": [
+          "pepe_281595",
+          "182109_pepeperfect"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_281595_733150_kingpepe",
+        "name": "733150 kingpepe",
+        "src": "/emoji-packs/pepe_281595/191bedc2377103d6257d9522.png",
+        "sha256": "191bedc2377103d6257d9522a7c0d3224f9ba19c9689a9fa33a2c6d829301313",
+        "keywords": [
+          "pepe_281595",
+          "733150_kingpepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_281595_249299_strongpepe",
+        "name": "249299 strongpepe",
+        "src": "/emoji-packs/pepe_281595/378a9571806980df628e41ea.gif",
+        "sha256": "378a9571806980df628e41eac515bee0f990eb7f01b81292e5dc0e059dcf8c00",
+        "keywords": [
+          "pepe_281595",
+          "249299_strongpepe"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_281595_436131_pepetorchfire",
+        "name": "436131 pepetorchfire",
+        "src": "/emoji-packs/pepe_281595/e08587e79b9686aa9ee997e0.gif",
+        "sha256": "e08587e79b9686aa9ee997e0c39b9bc4a3410534d10af4420be91640f3ebbc44",
+        "keywords": [
+          "pepe_281595",
+          "436131_pepetorchfire"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_281595_149743_pepeheart",
+        "name": "149743 pepeheart",
+        "src": "/emoji-packs/pepe_281595/f3ad4c5282052b6d1848d266.png",
+        "sha256": "f3ad4c5282052b6d1848d26642c42288cdee3eb17a2f7fe3bb958049ac749a23",
+        "keywords": [
+          "pepe_281595",
+          "149743_pepeheart"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_281595_120458_pepecross",
+        "name": "120458 pepecross",
+        "src": "/emoji-packs/pepe_281595/7d3e7fae926612c057712300.png",
+        "sha256": "7d3e7fae926612c0577123005ef664530dc08ed52cb8f065bb90ae5f338a343f",
+        "keywords": [
+          "pepe_281595",
+          "120458_pepecross"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_281595_383141_pepesmile",
+        "name": "383141 pepesmile",
+        "src": "/emoji-packs/pepe_281595/41774decf480654e237de32d.png",
+        "sha256": "41774decf480654e237de32d867895c36a53fb1211faf6dd54463b19ab1a3b7b",
+        "keywords": [
+          "pepe_281595",
+          "383141_pepesmile"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_281595_236705_pepedumb",
+        "name": "236705 pepedumb",
+        "src": "/emoji-packs/pepe_281595/c061f3c97029a3f6a54fc84d.png",
+        "sha256": "c061f3c97029a3f6a54fc84d1fdad197a84d0b4d16be609ba208d0719d9c53a1",
+        "keywords": [
+          "pepe_281595",
+          "236705_pepedumb"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_281595_431882_pepeclap",
+        "name": "431882 pepeclap",
+        "src": "/emoji-packs/pepe_281595/bcad413bb55c4bcfa3926dda.gif",
+        "sha256": "bcad413bb55c4bcfa3926ddad2dfb16bf301c5322173eb2993d372080ab0890e",
+        "keywords": [
+          "pepe_281595",
+          "431882_pepeclap"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_281595_877975_praypepe",
+        "name": "877975 praypepe",
+        "src": "/emoji-packs/pepe_281595/df83fef32a7468e09f3caf61.png",
+        "sha256": "df83fef32a7468e09f3caf61e1cee27bd37488ffc0e5dd9dda1464ed678c7f57",
+        "keywords": [
+          "pepe_281595",
+          "877975_praypepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_281595_543336_pepescream",
+        "name": "543336 pepescream",
+        "src": "/emoji-packs/pepe_281595/0a94507b648d7f25bcb19763.png",
+        "sha256": "0a94507b648d7f25bcb19763923e1f1e85e632bf989994321cb7173de18288bf",
+        "keywords": [
+          "pepe_281595",
+          "543336_pepescream"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_281595_798781_nou",
+        "name": "798781 nou",
+        "src": "/emoji-packs/pepe_281595/89c76d1700a5f5d42f5d1175.png",
+        "sha256": "89c76d1700a5f5d42f5d117596917da0756e92cb3c3b923fefb3277f62b737ee",
+        "keywords": [
+          "pepe_281595",
+          "798781_nou"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_281595_121023_pepetyping",
+        "name": "121023 pepetyping",
+        "src": "/emoji-packs/pepe_281595/9fd64587c9e197514b850ab2.gif",
+        "sha256": "9fd64587c9e197514b850ab2553c8fec1248cf63be5669a85fdf7f1b680e0c8c",
+        "keywords": [
+          "pepe_281595",
+          "121023_pepetyping"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_281595_828203_peperich",
+        "name": "828203 peperich",
+        "src": "/emoji-packs/pepe_281595/3281f375d20c48586308b37d.gif",
+        "sha256": "3281f375d20c48586308b37dff9dd750797eb48aca46a1a9b1fffcc8421b4e83",
+        "keywords": [
+          "pepe_281595",
+          "828203_peperich"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_281595_304977_pepehang",
+        "name": "304977 pepehang",
+        "src": "/emoji-packs/pepe_281595/643b4f74f18774505713ddb1.png",
+        "sha256": "643b4f74f18774505713ddb18fef81ab864bac5016db27cffad3ada3432fd437",
+        "keywords": [
+          "pepe_281595",
+          "304977_pepehang"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_281595_583748_pepeooo",
+        "name": "583748 pepeooo",
+        "src": "/emoji-packs/pepe_281595/02a9c96f6ec4bd6336f74bec.png",
+        "sha256": "02a9c96f6ec4bd6336f74bec71d405e49169a397a7a87b71cce20f45896ca060",
+        "keywords": [
+          "pepe_281595",
+          "583748_pepeooo"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_281595_690612_pepelmao",
+        "name": "690612 pepelmao",
+        "src": "/emoji-packs/pepe_281595/880b7a17217fedb806af4cab.gif",
+        "sha256": "880b7a17217fedb806af4cabcfda680ac1352c1e641782417d9f12f07520d0f2",
+        "keywords": [
+          "pepe_281595",
+          "690612_pepelmao"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_281595_827729_peperain",
+        "name": "827729 peperain",
+        "src": "/emoji-packs/pepe_281595/8ab61d067150a3da0bec9be3.gif",
+        "sha256": "8ab61d067150a3da0bec9be36336a66f4e29df36e95a66578196a26377febcc9",
+        "keywords": [
+          "pepe_281595",
+          "827729_peperain"
+        ],
+        "animated": true
+      }
+    ]
+  },
+  {
+    "id": "pepe_827352",
+    "name": "Absolute Pepe",
+    "origin": "https://emoji.gg/pack/827352-absolute-pepe",
+    "attribution": "Jarek Veselý via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 17 emoji are retained. No open-source or commercial redistribution license is asserted; original creators retain artwork rights.\nImport normalization: 2/17 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: a9ee73beb6d96849c9fd4dfac68a4fcf409b6b70d39a789d60ef8820bd777bcb.",
+    "emojis": [
+      {
+        "id": "pepe_827352_828203_peperich",
+        "name": "828203 peperich",
+        "src": "/emoji-packs/pepe_827352/3281f375d20c48586308b37d.gif",
+        "sha256": "3281f375d20c48586308b37dff9dd750797eb48aca46a1a9b1fffcc8421b4e83",
+        "keywords": [
+          "pepe_827352",
+          "828203_peperich"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_827352_249299_strongpepe",
+        "name": "249299 strongpepe",
+        "src": "/emoji-packs/pepe_827352/378a9571806980df628e41ea.gif",
+        "sha256": "378a9571806980df628e41eac515bee0f990eb7f01b81292e5dc0e059dcf8c00",
+        "keywords": [
+          "pepe_827352",
+          "249299_strongpepe"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_827352_877975_praypepe",
+        "name": "877975 praypepe",
+        "src": "/emoji-packs/pepe_827352/df83fef32a7468e09f3caf61.png",
+        "sha256": "df83fef32a7468e09f3caf61e1cee27bd37488ffc0e5dd9dda1464ed678c7f57",
+        "keywords": [
+          "pepe_827352",
+          "877975_praypepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_827352_733150_kingpepe",
+        "name": "733150 kingpepe",
+        "src": "/emoji-packs/pepe_827352/191bedc2377103d6257d9522.png",
+        "sha256": "191bedc2377103d6257d9522a7c0d3224f9ba19c9689a9fa33a2c6d829301313",
+        "keywords": [
+          "pepe_827352",
+          "733150_kingpepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_827352_164985_rege",
+        "name": "164985 rege",
+        "src": "/emoji-packs/pepe_827352/5b0f21fb5f70fafe27caea72.png",
+        "sha256": "5b0f21fb5f70fafe27caea722ea9bea57cf1547f3c161c0d0023f7a349f471bc",
+        "keywords": [
+          "pepe_827352",
+          "164985_rege"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_827352_588971_pepeuwu",
+        "name": "588971 pepeuwu",
+        "src": "/emoji-packs/pepe_827352/860d21ab3553f6082abafec6.gif",
+        "sha256": "860d21ab3553f6082abafec6b838716433547e1a5f9c300d4f321f7eabe50c51",
+        "keywords": [
+          "pepe_827352",
+          "588971_pepeuwu"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_827352_149743_pepeheart",
+        "name": "149743 pepeheart",
+        "src": "/emoji-packs/pepe_827352/f3ad4c5282052b6d1848d266.png",
+        "sha256": "f3ad4c5282052b6d1848d26642c42288cdee3eb17a2f7fe3bb958049ac749a23",
+        "keywords": [
+          "pepe_827352",
+          "149743_pepeheart"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_827352_702336_kingpepe",
+        "name": "702336 kingpepe",
+        "src": "/emoji-packs/pepe_827352/1565b744e522fa299b133808.png",
+        "sha256": "1565b744e522fa299b13380810304775467a643c08d226be8a5620d3d8e2a5a8",
+        "keywords": [
+          "pepe_827352",
+          "702336_kingpepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_827352_431882_pepeclap",
+        "name": "431882 pepeclap",
+        "src": "/emoji-packs/pepe_827352/bcad413bb55c4bcfa3926dda.gif",
+        "sha256": "bcad413bb55c4bcfa3926ddad2dfb16bf301c5322173eb2993d372080ab0890e",
+        "keywords": [
+          "pepe_827352",
+          "431882_pepeclap"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_827352_175472_pepelaugh",
+        "name": "175472 pepelaugh",
+        "src": "/emoji-packs/pepe_827352/316b2381bcaf0d989d4fc888.gif",
+        "sha256": "316b2381bcaf0d989d4fc888b01ff8133fc88573baf75b7540ee3dbc9d41e4ba",
+        "keywords": [
+          "pepe_827352",
+          "175472_pepelaugh"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_827352_193014_pixelmoon",
+        "name": "193014 pixelmoon",
+        "src": "/emoji-packs/pepe_827352/021a9dcb1403f10216c1146e.png",
+        "sha256": "021a9dcb1403f10216c1146e119f434c49b10a9df355ef6d3baedba6135a0215",
+        "keywords": [
+          "pepe_827352",
+          "193014_pixelmoon"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_827352_182109_pepeperfect",
+        "name": "182109 pepeperfect",
+        "src": "/emoji-packs/pepe_827352/1eaee439a30c87e9e9966b25.png",
+        "sha256": "1eaee439a30c87e9e9966b25d4abfc3adbaecd568300c649666711398b92e65e",
+        "keywords": [
+          "pepe_827352",
+          "182109_pepeperfect"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_827352_121023_pepetyping",
+        "name": "121023 pepetyping",
+        "src": "/emoji-packs/pepe_827352/9fd64587c9e197514b850ab2.gif",
+        "sha256": "9fd64587c9e197514b850ab2553c8fec1248cf63be5669a85fdf7f1b680e0c8c",
+        "keywords": [
+          "pepe_827352",
+          "121023_pepetyping"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_827352_950522_pepehacker",
+        "name": "950522 pepehacker",
+        "src": "/emoji-packs/pepe_827352/0084d3fc32726cf7e23b962f.gif",
+        "sha256": "0084d3fc32726cf7e23b962fbbebf6d858491019673d5bc6620a61e7740b167c",
+        "keywords": [
+          "pepe_827352",
+          "950522_pepehacker"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_827352_827729_peperain",
+        "name": "827729 peperain",
+        "src": "/emoji-packs/pepe_827352/8ab61d067150a3da0bec9be3.gif",
+        "sha256": "8ab61d067150a3da0bec9be36336a66f4e29df36e95a66578196a26377febcc9",
+        "keywords": [
+          "pepe_827352",
+          "827729_peperain"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_827352_830563_pepe",
+        "name": "830563 pepe",
+        "src": "/emoji-packs/pepe_827352/eac1e414cc19016b87b549e1.png",
+        "sha256": "eac1e414cc19016b87b549e160dc5d75cfedad9c984fa833a205a649061264af",
+        "keywords": [
+          "pepe_827352",
+          "830563_pepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_827352_436131_pepetorchfire",
+        "name": "436131 pepetorchfire",
+        "src": "/emoji-packs/pepe_827352/e08587e79b9686aa9ee997e0.gif",
+        "sha256": "e08587e79b9686aa9ee997e0c39b9bc4a3410534d10af4420be91640f3ebbc44",
+        "keywords": [
+          "pepe_827352",
+          "436131_pepetorchfire"
+        ],
+        "animated": true
+      }
+    ]
+  },
+  {
+    "id": "pepe_937900",
+    "name": "Pepe · Gojo",
+    "origin": "https://emoji.gg/pack/937900-pepe",
+    "attribution": "Gojo via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 16 emoji are retained. No open-source or commercial redistribution license is asserted; original creators retain artwork rights.\nImport normalization: 3/16 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: f25c3b042f709a36d1c9573e2e8d680507bbf93a743ed5be9895b3eb0461db23.",
+    "emojis": [
+      {
+        "id": "pepe_937900_236705_pepedumb",
+        "name": "236705 pepedumb",
+        "src": "/emoji-packs/pepe_937900/c061f3c97029a3f6a54fc84d.png",
+        "sha256": "c061f3c97029a3f6a54fc84d1fdad197a84d0b4d16be609ba208d0719d9c53a1",
+        "keywords": [
+          "pepe_937900",
+          "236705_pepedumb"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_937900_727145_pepeknife",
+        "name": "727145 pepeknife",
+        "src": "/emoji-packs/pepe_937900/2f36621fd803de7a95efd332.png",
+        "sha256": "2f36621fd803de7a95efd33237932133c88487a0cf6cf4e39cb2344e7e8f17dc",
+        "keywords": [
+          "pepe_937900",
+          "727145_pepeknife"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_937900_443727_pepemirror",
+        "name": "443727 pepemirror",
+        "src": "/emoji-packs/pepe_937900/0589fb34e1493da6a1b909f2.gif",
+        "sha256": "0589fb34e1493da6a1b909f2fcc53dbcb8dc7aeb828cd552a32615ca70249156",
+        "keywords": [
+          "pepe_937900",
+          "443727_pepemirror"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_937900_484994_pepefeelssadman",
+        "name": "484994 pepefeelssadman",
+        "src": "/emoji-packs/pepe_937900/3768247beca4018fb30856a2.gif",
+        "sha256": "3768247beca4018fb30856a266bfddab53b26edbddfde39ffe6e774c70526948",
+        "keywords": [
+          "pepe_937900",
+          "484994_pepefeelssadman"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_937900_82576_pepecross",
+        "name": "82576 pepecross",
+        "src": "/emoji-packs/pepe_937900/7d3e7fae926612c057712300.png",
+        "sha256": "7d3e7fae926612c0577123005ef664530dc08ed52cb8f065bb90ae5f338a343f",
+        "keywords": [
+          "pepe_937900",
+          "82576_pepecross"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_937900_857799_pepesmoking",
+        "name": "857799 pepesmoking",
+        "src": "/emoji-packs/pepe_937900/d4d29c0f9ca9e6cc0789d957.gif",
+        "sha256": "d4d29c0f9ca9e6cc0789d95748369850a4a3752d0db05f2c22cc699c46782077",
+        "keywords": [
+          "pepe_937900",
+          "857799_pepesmoking"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_937900_661856_pepeterminator",
+        "name": "661856 pepeterminator",
+        "src": "/emoji-packs/pepe_937900/07d9040583251a8afdc7c7e0.png",
+        "sha256": "07d9040583251a8afdc7c7e0eee64edee09e10011691bdd302313466498dae9b",
+        "keywords": [
+          "pepe_937900",
+          "661856_pepeterminator"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_937900_269965_pepes",
+        "name": "269965 pepes",
+        "src": "/emoji-packs/pepe_937900/cd77f41c3a5bdb05e8bcf543.gif",
+        "sha256": "cd77f41c3a5bdb05e8bcf543dca687d44347b08c23802d76eb05e6bdfc2806a6",
+        "keywords": [
+          "pepe_937900",
+          "269965_pepes"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_937900_877975_praypepe",
+        "name": "877975 praypepe",
+        "src": "/emoji-packs/pepe_937900/df83fef32a7468e09f3caf61.png",
+        "sha256": "df83fef32a7468e09f3caf61e1cee27bd37488ffc0e5dd9dda1464ed678c7f57",
+        "keywords": [
+          "pepe_937900",
+          "877975_praypepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_937900_33293_pepe_noob",
+        "name": "33293 pepe noob",
+        "src": "/emoji-packs/pepe_937900/0222d3f7ebb1078360884044.gif",
+        "sha256": "0222d3f7ebb10783608840449dc1772803aa4f4dcef523ba9dba7d813df23b93",
+        "keywords": [
+          "pepe_937900",
+          "33293_pepe_noob"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_937900_857990_pepohappy",
+        "name": "857990 pepohappy",
+        "src": "/emoji-packs/pepe_937900/26845671918808bfd655192c.png",
+        "sha256": "26845671918808bfd655192c1f8d9960ef9472c6710764d3215353bfc6e2b715",
+        "keywords": [
+          "pepe_937900",
+          "857990_pepohappy"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_937900_304977_pepehang",
+        "name": "304977 pepehang",
+        "src": "/emoji-packs/pepe_937900/643b4f74f18774505713ddb1.png",
+        "sha256": "643b4f74f18774505713ddb18fef81ab864bac5016db27cffad3ada3432fd437",
+        "keywords": [
+          "pepe_937900",
+          "304977_pepehang"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_937900_961812_pepeclap",
+        "name": "961812 pepeclap",
+        "src": "/emoji-packs/pepe_937900/85667b27a098b225cb7e3bb1.gif",
+        "sha256": "85667b27a098b225cb7e3bb19c604e3a892fb152baf09ff9d54f21be0893241a",
+        "keywords": [
+          "pepe_937900",
+          "961812_pepeclap"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_937900_566145_pepebless",
+        "name": "566145 pepebless",
+        "src": "/emoji-packs/pepe_937900/3f92ca21a1fdcee308dfeab9.png",
+        "sha256": "3f92ca21a1fdcee308dfeab9899b1e6e6d35654ba080e605865fba824a602bb1",
+        "keywords": [
+          "pepe_937900",
+          "566145_pepebless"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_937900_11998_pepe_king",
+        "name": "11998 pepe king",
+        "src": "/emoji-packs/pepe_937900/5b0f21fb5f70fafe27caea72.png",
+        "sha256": "5b0f21fb5f70fafe27caea722ea9bea57cf1547f3c161c0d0023f7a349f471bc",
+        "keywords": [
+          "pepe_937900",
+          "11998_pepe_king"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_937900_90284_a_gentlrman_3",
+        "name": "90284 a gentlrman 3",
+        "src": "/emoji-packs/pepe_937900/fab09e26913019a034ac5cb5.png",
+        "sha256": "fab09e26913019a034ac5cb58f4f3c4cb9b3f5faa49893111ad07b54cde4940e",
+        "keywords": [
+          "pepe_937900",
+          "90284_a_gentlrman_3"
+        ],
+        "animated": false
+      }
+    ]
+  },
+  {
+    "id": "pepe_25781",
+    "name": "Pepe · jaharas",
+    "origin": "https://emoji.gg/pack/25781-pepe",
+    "attribution": "jaharas via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 12 emoji are retained. No open-source or commercial redistribution license is asserted; original creators retain artwork rights.\nImport normalization: 1/12 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: b8e92d3e625946909416272b52f02eb2d1d8aa95f40c7d891a82ddf8af6f54d7.",
+    "emojis": [
+      {
+        "id": "pepe_25781_534045_pepesleep",
+        "name": "534045 pepesleep",
+        "src": "/emoji-packs/pepe_25781/d930cecad6a3a56eb4018ba0.png",
+        "sha256": "d930cecad6a3a56eb4018ba0270a7b31969e0fd1374aea7400ae4f0e4b69777a",
+        "keywords": [
+          "pepe_25781",
+          "534045_pepesleep"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_25781_700303_pepepug",
+        "name": "700303 pepepug",
+        "src": "/emoji-packs/pepe_25781/453c520e8ef5533fa6dea269.gif",
+        "sha256": "453c520e8ef5533fa6dea269ce01dcd74f927c431ac509d98c9103fc6534cb3c",
+        "keywords": [
+          "pepe_25781",
+          "700303_pepepug"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_25781_565668_pepescreamspin",
+        "name": "565668 pepescreamspin",
+        "src": "/emoji-packs/pepe_25781/e52281b2e51115bc9ad01a18.gif",
+        "sha256": "e52281b2e51115bc9ad01a1856e1d2de4f4e33d67f37b224b96fd025abaff24c",
+        "keywords": [
+          "pepe_25781",
+          "565668_pepescreamspin"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_25781_883709_pepedepressed",
+        "name": "883709 pepedepressed",
+        "src": "/emoji-packs/pepe_25781/a7cfcaa9d97517c826393a30.png",
+        "sha256": "a7cfcaa9d97517c826393a308c0d82b2f513cbd0887bded6192aae09fe8f025b",
+        "keywords": [
+          "pepe_25781",
+          "883709_pepedepressed"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_25781_238671_petpetpepe",
+        "name": "238671 petpetpepe",
+        "src": "/emoji-packs/pepe_25781/e01f74f9ac52e187bd85f93c.gif",
+        "sha256": "e01f74f9ac52e187bd85f93c22c317f892af3848ae00515d4b4bf686a40636db",
+        "keywords": [
+          "pepe_25781",
+          "238671_petpetpepe"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_25781_9137_gasp",
+        "name": "9137 gasp",
+        "src": "/emoji-packs/pepe_25781/708b906117132e70af781545.png",
+        "sha256": "708b906117132e70af781545cf565ada5c98625bcc3489f4ca820be71f83caee",
+        "keywords": [
+          "pepe_25781",
+          "9137_gasp"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_25781_703342_pepehungry",
+        "name": "703342 pepehungry",
+        "src": "/emoji-packs/pepe_25781/3ce1eb17938a0a416368d118.png",
+        "sha256": "3ce1eb17938a0a416368d1189f8c6e523c09c0926163b7d14fc8fa20ce54f4d1",
+        "keywords": [
+          "pepe_25781",
+          "703342_pepehungry"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_25781_298876_pepebanger",
+        "name": "298876 pepebanger",
+        "src": "/emoji-packs/pepe_25781/6308a23b5ff702c58562b300.gif",
+        "sha256": "6308a23b5ff702c58562b30037d0b858b42f2ce491bac5e9e828c95d7cab5561",
+        "keywords": [
+          "pepe_25781",
+          "298876_pepebanger"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_25781_661856_pepeterminator",
+        "name": "661856 pepeterminator",
+        "src": "/emoji-packs/pepe_25781/07d9040583251a8afdc7c7e0.png",
+        "sha256": "07d9040583251a8afdc7c7e0eee64edee09e10011691bdd302313466498dae9b",
+        "keywords": [
+          "pepe_25781",
+          "661856_pepeterminator"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_25781_299092_pepetaco",
+        "name": "299092 pepetaco",
+        "src": "/emoji-packs/pepe_25781/cfbb011f78e5feec7a989c34.png",
+        "sha256": "cfbb011f78e5feec7a989c34bf66c9ed4c54e0a54522dca6f31796ce4b78b2e4",
+        "keywords": [
+          "pepe_25781",
+          "299092_pepetaco"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_25781_826493_gottem",
+        "name": "826493 gottem",
+        "src": "/emoji-packs/pepe_25781/734b5c96dfcb92d1bc238726.png",
+        "sha256": "734b5c96dfcb92d1bc238726dfef33da7dbd111b8b2660262e5379f41deeb8ce",
+        "keywords": [
+          "pepe_25781",
+          "826493_gottem"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_25781_802462_catheart",
+        "name": "802462 catheart",
+        "src": "/emoji-packs/pepe_25781/aaefad2b0d75d66c8dd8f4b6.png",
+        "sha256": "aaefad2b0d75d66c8dd8f4b66adcbee9a236b9bca33f59207fb2522a28af5f42",
+        "keywords": [
+          "pepe_25781",
+          "802462_catheart"
+        ],
+        "animated": false
+      }
+    ]
+  },
+  {
+    "id": "pepe_232289",
+    "name": "Pepe · piperh__",
+    "origin": "https://emoji.gg/pack/232289-pepe",
+    "attribution": "piperh__ via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 19 emoji retained; no commercial redistribution rights asserted.\nImport normalization: 2/19 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: 73bda82293ecfd6e3b27db87a73025c4a5ea56f6fcdb9e95e1af2dc1c5f7e8be.",
+    "emojis": [
+      {
+        "id": "pepe_232289_120458_pepecross",
+        "name": "120458 pepecross",
+        "src": "/emoji-packs/pepe_232289/7d3e7fae926612c057712300.png",
+        "sha256": "7d3e7fae926612c0577123005ef664530dc08ed52cb8f065bb90ae5f338a343f",
+        "keywords": [
+          "pepe_232289",
+          "120458_pepecross"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_232289_238671_petpetpepe",
+        "name": "238671 petpetpepe",
+        "src": "/emoji-packs/pepe_232289/e01f74f9ac52e187bd85f93c.gif",
+        "sha256": "e01f74f9ac52e187bd85f93c22c317f892af3848ae00515d4b4bf686a40636db",
+        "keywords": [
+          "pepe_232289",
+          "238671_petpetpepe"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_232289_827729_peperain",
+        "name": "827729 peperain",
+        "src": "/emoji-packs/pepe_232289/8ab61d067150a3da0bec9be3.gif",
+        "sha256": "8ab61d067150a3da0bec9be36336a66f4e29df36e95a66578196a26377febcc9",
+        "keywords": [
+          "pepe_232289",
+          "827729_peperain"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_232289_121286_crying",
+        "name": "121286 crying",
+        "src": "/emoji-packs/pepe_232289/3075ec2d00001012a971043f.png",
+        "sha256": "3075ec2d00001012a971043fce0558e9cbd6bf873f66b3590b1a4f8f24b393f3",
+        "keywords": [
+          "pepe_232289",
+          "121286_crying"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_232289_456311_pepesweat",
+        "name": "456311 pepesweat",
+        "src": "/emoji-packs/pepe_232289/4a60fc14d5f1ee6502469fd5.gif",
+        "sha256": "4a60fc14d5f1ee6502469fd51b10bafb22a6c42d96a0bb8b763b2e54cf9f850b",
+        "keywords": [
+          "pepe_232289",
+          "456311_pepesweat"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_232289_706200_pepelook",
+        "name": "706200 pepelook",
+        "src": "/emoji-packs/pepe_232289/b29468d8191f8dc7d3f84f59.png",
+        "sha256": "b29468d8191f8dc7d3f84f59a7a67edb2c6a6901448588b79fcab07419ffd6e6",
+        "keywords": [
+          "pepe_232289",
+          "706200_pepelook"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_232289_436131_pepetorchfire",
+        "name": "436131 pepetorchfire",
+        "src": "/emoji-packs/pepe_232289/e08587e79b9686aa9ee997e0.gif",
+        "sha256": "e08587e79b9686aa9ee997e0c39b9bc4a3410534d10af4420be91640f3ebbc44",
+        "keywords": [
+          "pepe_232289",
+          "436131_pepetorchfire"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_232289_828203_peperich",
+        "name": "828203 peperich",
+        "src": "/emoji-packs/pepe_232289/3281f375d20c48586308b37d.gif",
+        "sha256": "3281f375d20c48586308b37dff9dd750797eb48aca46a1a9b1fffcc8421b4e83",
+        "keywords": [
+          "pepe_232289",
+          "828203_peperich"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_232289_235591_peepo_sign_welcome",
+        "name": "235591 peepo sign welcome",
+        "src": "/emoji-packs/pepe_232289/de38c43a0ca08e37eb14caf7.gif",
+        "sha256": "de38c43a0ca08e37eb14caf79b62a55093635eb366559fbc89da42ba3558a96c",
+        "keywords": [
+          "pepe_232289",
+          "235591_peepo_sign_welcome"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_232289_431882_pepeclap",
+        "name": "431882 pepeclap",
+        "src": "/emoji-packs/pepe_232289/bcad413bb55c4bcfa3926dda.gif",
+        "sha256": "bcad413bb55c4bcfa3926ddad2dfb16bf301c5322173eb2993d372080ab0890e",
+        "keywords": [
+          "pepe_232289",
+          "431882_pepeclap"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_232289_950522_pepehacker",
+        "name": "950522 pepehacker",
+        "src": "/emoji-packs/pepe_232289/0084d3fc32726cf7e23b962f.gif",
+        "sha256": "0084d3fc32726cf7e23b962fbbebf6d858491019673d5bc6620a61e7740b167c",
+        "keywords": [
+          "pepe_232289",
+          "950522_pepehacker"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_232289_182109_pepeperfect",
+        "name": "182109 pepeperfect",
+        "src": "/emoji-packs/pepe_232289/1eaee439a30c87e9e9966b25.png",
+        "sha256": "1eaee439a30c87e9e9966b25d4abfc3adbaecd568300c649666711398b92e65e",
+        "keywords": [
+          "pepe_232289",
+          "182109_pepeperfect"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_232289_249299_strongpepe",
+        "name": "249299 strongpepe",
+        "src": "/emoji-packs/pepe_232289/378a9571806980df628e41ea.gif",
+        "sha256": "378a9571806980df628e41eac515bee0f990eb7f01b81292e5dc0e059dcf8c00",
+        "keywords": [
+          "pepe_232289",
+          "249299_strongpepe"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_232289_479717_pepeblink",
+        "name": "479717 pepeblink",
+        "src": "/emoji-packs/pepe_232289/67059c54b4cbff0f7b7b9690.gif",
+        "sha256": "67059c54b4cbff0f7b7b96909eba1d9fd8a73c7bd00b2ab0a15df278edb8b471",
+        "keywords": [
+          "pepe_232289",
+          "479717_pepeblink"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_232289_700303_pepepug",
+        "name": "700303 pepepug",
+        "src": "/emoji-packs/pepe_232289/453c520e8ef5533fa6dea269.gif",
+        "sha256": "453c520e8ef5533fa6dea269ce01dcd74f927c431ac509d98c9103fc6534cb3c",
+        "keywords": [
+          "pepe_232289",
+          "700303_pepepug"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_232289_896429_pepecheer",
+        "name": "896429 pepecheer",
+        "src": "/emoji-packs/pepe_232289/5de59fd9e62c9329b9dbcf70.gif",
+        "sha256": "5de59fd9e62c9329b9dbcf709da5aaa3153a3128eee52ee988116dc0eac9ccef",
+        "keywords": [
+          "pepe_232289",
+          "896429_pepecheer"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_232289_298876_pepebanger",
+        "name": "298876 pepebanger",
+        "src": "/emoji-packs/pepe_232289/6308a23b5ff702c58562b300.gif",
+        "sha256": "6308a23b5ff702c58562b30037d0b858b42f2ce491bac5e9e828c95d7cab5561",
+        "keywords": [
+          "pepe_232289",
+          "298876_pepebanger"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_232289_207091_pepewow",
+        "name": "207091 pepewow",
+        "src": "/emoji-packs/pepe_232289/a940f90a542e98605bb921a0.gif",
+        "sha256": "a940f90a542e98605bb921a0d25113e7f9f01dd02b2fc6fec551e035159c867d",
+        "keywords": [
+          "pepe_232289",
+          "207091_pepewow"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_232289_471478_pepenervous",
+        "name": "471478 pepenervous",
+        "src": "/emoji-packs/pepe_232289/f51ef1e5b76b0d72105b209d.gif",
+        "sha256": "f51ef1e5b76b0d72105b209df3aef99de199839bb29b3d9578af94f1b4942fad",
+        "keywords": [
+          "pepe_232289",
+          "471478_pepenervous"
+        ],
+        "animated": true
+      }
+    ]
+  },
+  {
+    "id": "pepe_703274",
+    "name": "El Pepe",
+    "origin": "https://emoji.gg/pack/703274-el-pepe",
+    "attribution": "Lucas Quant via Emoji.gg; original creators retain rights",
+    "license": "Complete pack downloaded from the logged-in Emoji.gg listing at the project owner request on 2026-11-13 for personal/local evaluation. All 20 emoji retained; no commercial redistribution rights asserted.\nImport normalization: 2/20 images resized/re-encoded to app limits; all emoji and animation frames retained. Original ZIP SHA256: 63c7243b3a9d7245eb391cfff5f8d7d07930135847b77f7d84b1df53d44374cb.",
+    "emojis": [
+      {
+        "id": "pepe_703274_961812_pepeclap",
+        "name": "961812 pepeclap",
+        "src": "/emoji-packs/pepe_703274/85667b27a098b225cb7e3bb1.gif",
+        "sha256": "85667b27a098b225cb7e3bb19c604e3a892fb152baf09ff9d54f21be0893241a",
+        "keywords": [
+          "pepe_703274",
+          "961812_pepeclap"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_703274_182109_pepeperfect",
+        "name": "182109 pepeperfect",
+        "src": "/emoji-packs/pepe_703274/1eaee439a30c87e9e9966b25.png",
+        "sha256": "1eaee439a30c87e9e9966b25d4abfc3adbaecd568300c649666711398b92e65e",
+        "keywords": [
+          "pepe_703274",
+          "182109_pepeperfect"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_703274_175472_pepelaugh",
+        "name": "175472 pepelaugh",
+        "src": "/emoji-packs/pepe_703274/316b2381bcaf0d989d4fc888.gif",
+        "sha256": "316b2381bcaf0d989d4fc888b01ff8133fc88573baf75b7540ee3dbc9d41e4ba",
+        "keywords": [
+          "pepe_703274",
+          "175472_pepelaugh"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_703274_827729_peperain",
+        "name": "827729 peperain",
+        "src": "/emoji-packs/pepe_703274/8ab61d067150a3da0bec9be3.gif",
+        "sha256": "8ab61d067150a3da0bec9be36336a66f4e29df36e95a66578196a26377febcc9",
+        "keywords": [
+          "pepe_703274",
+          "827729_peperain"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_703274_588971_pepeuwu",
+        "name": "588971 pepeuwu",
+        "src": "/emoji-packs/pepe_703274/860d21ab3553f6082abafec6.gif",
+        "sha256": "860d21ab3553f6082abafec6b838716433547e1a5f9c300d4f321f7eabe50c51",
+        "keywords": [
+          "pepe_703274",
+          "588971_pepeuwu"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_703274_436131_pepetorchfire",
+        "name": "436131 pepetorchfire",
+        "src": "/emoji-packs/pepe_703274/e08587e79b9686aa9ee997e0.gif",
+        "sha256": "e08587e79b9686aa9ee997e0c39b9bc4a3410534d10af4420be91640f3ebbc44",
+        "keywords": [
+          "pepe_703274",
+          "436131_pepetorchfire"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_703274_828203_peperich",
+        "name": "828203 peperich",
+        "src": "/emoji-packs/pepe_703274/3281f375d20c48586308b37d.gif",
+        "sha256": "3281f375d20c48586308b37dff9dd750797eb48aca46a1a9b1fffcc8421b4e83",
+        "keywords": [
+          "pepe_703274",
+          "828203_peperich"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_703274_121023_pepetyping",
+        "name": "121023 pepetyping",
+        "src": "/emoji-packs/pepe_703274/9fd64587c9e197514b850ab2.gif",
+        "sha256": "9fd64587c9e197514b850ab2553c8fec1248cf63be5669a85fdf7f1b680e0c8c",
+        "keywords": [
+          "pepe_703274",
+          "121023_pepetyping"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_703274_733150_kingpepe",
+        "name": "733150 kingpepe",
+        "src": "/emoji-packs/pepe_703274/191bedc2377103d6257d9522.png",
+        "sha256": "191bedc2377103d6257d9522a7c0d3224f9ba19c9689a9fa33a2c6d829301313",
+        "keywords": [
+          "pepe_703274",
+          "733150_kingpepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_703274_798781_nou",
+        "name": "798781 nou",
+        "src": "/emoji-packs/pepe_703274/89c76d1700a5f5d42f5d1175.png",
+        "sha256": "89c76d1700a5f5d42f5d117596917da0756e92cb3c3b923fefb3277f62b737ee",
+        "keywords": [
+          "pepe_703274",
+          "798781_nou"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_703274_618704_pepeokay",
+        "name": "618704 pepeokay",
+        "src": "/emoji-packs/pepe_703274/a872cc6ae4b73bd2c66b83a8.png",
+        "sha256": "a872cc6ae4b73bd2c66b83a8bcecdd70c97dc9b73d8f71f14c75d496d5509cb5",
+        "keywords": [
+          "pepe_703274",
+          "618704_pepeokay"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_703274_298876_pepebanger",
+        "name": "298876 pepebanger",
+        "src": "/emoji-packs/pepe_703274/6308a23b5ff702c58562b300.gif",
+        "sha256": "6308a23b5ff702c58562b30037d0b858b42f2ce491bac5e9e828c95d7cab5561",
+        "keywords": [
+          "pepe_703274",
+          "298876_pepebanger"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_703274_431882_pepeclap",
+        "name": "431882 pepeclap",
+        "src": "/emoji-packs/pepe_703274/bcad413bb55c4bcfa3926dda.gif",
+        "sha256": "bcad413bb55c4bcfa3926ddad2dfb16bf301c5322173eb2993d372080ab0890e",
+        "keywords": [
+          "pepe_703274",
+          "431882_pepeclap"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_703274_120458_pepecross",
+        "name": "120458 pepecross",
+        "src": "/emoji-packs/pepe_703274/7d3e7fae926612c057712300.png",
+        "sha256": "7d3e7fae926612c0577123005ef664530dc08ed52cb8f065bb90ae5f338a343f",
+        "keywords": [
+          "pepe_703274",
+          "120458_pepecross"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_703274_149743_pepeheart",
+        "name": "149743 pepeheart",
+        "src": "/emoji-packs/pepe_703274/f3ad4c5282052b6d1848d266.png",
+        "sha256": "f3ad4c5282052b6d1848d26642c42288cdee3eb17a2f7fe3bb958049ac749a23",
+        "keywords": [
+          "pepe_703274",
+          "149743_pepeheart"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_703274_702336_kingpepe",
+        "name": "702336 kingpepe",
+        "src": "/emoji-packs/pepe_703274/1565b744e522fa299b133808.png",
+        "sha256": "1565b744e522fa299b13380810304775467a643c08d226be8a5620d3d8e2a5a8",
+        "keywords": [
+          "pepe_703274",
+          "702336_kingpepe"
+        ],
+        "animated": false
+      },
+      {
+        "id": "pepe_703274_950522_pepehacker",
+        "name": "950522 pepehacker",
+        "src": "/emoji-packs/pepe_703274/0084d3fc32726cf7e23b962f.gif",
+        "sha256": "0084d3fc32726cf7e23b962fbbebf6d858491019673d5bc6620a61e7740b167c",
+        "keywords": [
+          "pepe_703274",
+          "950522_pepehacker"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_703274_479717_pepeblink",
+        "name": "479717 pepeblink",
+        "src": "/emoji-packs/pepe_703274/67059c54b4cbff0f7b7b9690.gif",
+        "sha256": "67059c54b4cbff0f7b7b96909eba1d9fd8a73c7bd00b2ab0a15df278edb8b471",
+        "keywords": [
+          "pepe_703274",
+          "479717_pepeblink"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_703274_700303_pepepug",
+        "name": "700303 pepepug",
+        "src": "/emoji-packs/pepe_703274/453c520e8ef5533fa6dea269.gif",
+        "sha256": "453c520e8ef5533fa6dea269ce01dcd74f927c431ac509d98c9103fc6534cb3c",
+        "keywords": [
+          "pepe_703274",
+          "700303_pepepug"
+        ],
+        "animated": true
+      },
+      {
+        "id": "pepe_703274_249299_strongpepe",
+        "name": "249299 strongpepe",
+        "src": "/emoji-packs/pepe_703274/378a9571806980df628e41ea.gif",
+        "sha256": "378a9571806980df628e41eac515bee0f990eb7f01b81292e5dc0e059dcf8c00",
+        "keywords": [
+          "pepe_703274",
+          "249299_strongpepe"
+        ],
+        "animated": true
+      }
+    ]
   }
 ]

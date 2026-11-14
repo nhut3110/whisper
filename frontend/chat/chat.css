@@ -287,3 +287,26 @@
 .chat-link-with-image .chat-link-arrow{position:static;display:none}
 @media(prefers-reduced-motion:no-preference){.chat-link-image{animation:chat-preview-image-in 180ms ease-out both}}
 @keyframes chat-preview-image-in{from{opacity:0}to{opacity:1}}
+
+/* Checkpoint uses the official shadcn Marker separator composition. */
+.chat-checkpoint-row{padding:5px 0;min-width:0}
+.chat-checkpoint{gap:8px;font-size:11px;line-height:1.5;color:var(--muted);animation:chat-checkpoint-in .18s ease-out both}
+.chat-checkpoint [data-slot=marker-content]{display:inline-flex;align-items:center;justify-content:center;gap:6px;max-width:min(85%,420px);font-size:inherit}
+.chat-checkpoint [data-slot=marker-icon]{width:13px;height:13px;flex-shrink:0}
+.chat-checkpoint [data-slot=marker-icon] svg{width:13px;height:13px}
+.chat-participant-avatar .chat-presence{width:8px;height:8px;right:-1px;bottom:-1px;box-shadow:0 0 0 2px var(--bg);background:#5b9875}
+.chat-presence[data-presence=away]{background:#ba9446}
+.chat-presence[data-presence=offline],.chat-presence[data-presence=left]{background:var(--bg);border:1.5px solid var(--muted)}
+.chat-presence[data-presence=left]{opacity:.6}
+.chat-member-status{margin-left:auto;font-size:10px;color:var(--muted);text-align:right}
+@keyframes chat-checkpoint-in{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.chat-checkpoint{animation:none}}
+
+.chat-avatar{overflow:visible}
+.chat-checkpoint-target{display:inline;height:auto!important;min-height:0!important;padding:0 1px!important;font-size:inherit!important;line-height:inherit!important;color:inherit;text-underline-offset:2px}
+.chat-checkpoint-private{display:inline-flex;flex-shrink:0}
+.chat-checkpoint .chat-checkpoint-private svg{width:11px;height:11px}
+
+.chat-checkpoint[data-event="downloaded"] [data-slot="marker-content"]>span:not(.sr-only){min-width:0;overflow-wrap:anywhere}
+.chat-checkpoint[data-event="downloaded"] .chat-checkpoint-target{display:inline-block;max-width:min(180px,40vw);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom}
+.chat-field [data-slot=native-select-wrapper]{width:100%}.chat-field [data-slot=native-select]{width:100%;height:38px;border:0;background:var(--hover);box-shadow:none;border-radius:6px;padding:8px 10px}

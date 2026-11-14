@@ -49,10 +49,10 @@ test('hosted music search stops on shared budget rejection and uses signed ident
 
 test('chat gateway only admits known room routes and bounds encrypted file envelopes',async()=>{
  let calls=0;const gateway=gatewayHandler({secret,origin,upstream,fetcher:async(url,options)=>{calls++;assert.match(url,/\/rooms(?:\/|$)/);const client=await readClient(secret,new Request(url,{method:'POST',headers:options.headers}));assert.ok(client);return new Response('{}');}});
- const id='a'.repeat(43);for(const suffix of ['join','sync','send','edit','delete','react','file','leave','destroy'])assert.equal((await invoke(gateway,{path:`/api/rooms/${id}/${suffix}`})).statusCode,200);
+ const id='a'.repeat(43);for(const suffix of ['join','sync','send','edit','delete','react','file','leave','destroy','presence','capture','copy'])assert.equal((await invoke(gateway,{path:`/api/rooms/${id}/${suffix}`})).statusCode,200);
  assert.equal((await invoke(gateway,{path:'/api/rooms'})).statusCode,200);assert.equal((await invoke(gateway,{path:`/gateway?path=rooms/${id}/send`})).statusCode,200);
  for(const path of [`/api/rooms/${id}/admin`,`/api/rooms/short/sync`])assert.equal((await invoke(gateway,{path})).statusCode,404);
- assert.equal((await invoke(gateway,{path:`/api/rooms/${id}/send`,parts:['x'.repeat(380001)]})).statusCode,413);assert.equal(calls,11);
+ assert.equal((await invoke(gateway,{path:`/api/rooms/${id}/send`,parts:['x'.repeat(380001)]})).statusCode,413);assert.equal(calls,14);
 });
 
 test('link preview requires active room access, uses a signed membership check and has its own request budget',async()=>{

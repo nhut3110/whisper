@@ -4,8 +4,9 @@ import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {unzipSync} from 'fflate';
 import sharp from 'sharp';
+import {plainPath} from './emoji-paths.mjs';
 const slug=/^[a-z][a-z0-9_]{0,23}$/;
-export async function importPack({source,id,name,origin,license,attribution,apply=false,root=process.cwd()}){
+async function importPackImpl({source,id,name,origin,license,attribution,apply=false,root=process.cwd()}){
  if(!slug.test(id||'')||!name||name.length>64||!attribution||attribution.length>200||!/^https:\/\//.test(origin||''))throw Error('Provide a lowercase pack id, name, HTTPS source and attribution');
  const rights=await fs.readFile(license,'utf8');if(!rights.trim()||rights.length>20000)throw Error('License/permission record required (max 20 KB)');
  const packsPath=path.join(root,'shared/emoji-packs.json');const packs=JSON.parse(await fs.readFile(packsPath,'utf8'));
@@ -35,16 +36,33 @@ export async function importPack({source,id,name,origin,license,attribution,appl
  const pack={id,name,origin,attribution,license: rights.trim(),emojis:pending.map(p=>p.entry)};
  if(!apply)return {dryRun:true,pack};
  const dir=path.join(root,'public/emoji-packs',id);await fs.mkdir(path.dirname(dir),{recursive:true});
+ try{await fs.lstat(dir);throw Error('Pack asset directory already exists')}catch(e){if(e.code!=='ENOENT')throw e;}
  const staging=dir+'.tmp-'+crypto.randomUUID();await fs.mkdir(staging);
+ const pendingManifest=path.join(root,'shared/.emoji-packs.pending');let installed=false,migration,createdMigration=false,createdManifest=false,committed=false;
  try{
-  for(const p of pending)await fs.writeFile(path.join(staging,path.basename(p.entry.src)),p.bytes,{flag:'wx'});
-  await fs.rename(staging,dir);
-  const timestamp=new Date().toISOString().replace(/[-:T]/g,'').slice(0,14);const migration=path.join(root,'supabase/migrations',`${timestamp}_emoji_pack_${id}.sql`);await fs.mkdir(path.dirname(migration),{recursive:true});
-  await fs.writeFile(migration,`-- Admin-reviewed ${id}. Source and permission record: shared/emoji-packs.json\nINSERT INTO public.whisper_emoji_catalog(id) VALUES\n${pack.emojis.map(e=>`(':${e.id}:')`).join(',\n')}\nON CONFLICT DO NOTHING;\n`,{flag:'wx'});
-  await fs.writeFile(packsPath,JSON.stringify([...packs,pack],null,2)+'\n');
+  // Several names may intentionally reference the same content-addressed image.
+  const assets=new Map(pending.map(p=>[p.entry.src,p.bytes]));
+  for(const [src,bytes] of assets)await fs.writeFile(path.join(staging,path.basename(src)),bytes,{flag:'wx'});
+  await fs.rename(staging,dir);installed=true;
+  await fs.mkdir(path.join(root,'supabase/migrations'),{recursive:true});const usedVersions=new Set((await fs.readdir(path.join(root,'supabase/migrations'))).map(file=>file.split('_')[0]));let instant=Date.now(),timestamp;do{timestamp=new Date(instant).toISOString().replace(/[-:T]/g,'').slice(0,14);instant+=1000}while(usedVersions.has(timestamp));migration=path.join(root,'supabase/migrations',`${timestamp}_emoji_pack_${id}.sql`);await fs.mkdir(path.dirname(migration),{recursive:true});
+  await fs.writeFile(migration,`-- Admin-reviewed ${id}. Source and permission record: shared/emoji-packs.json\nINSERT INTO public.whisper_emoji_catalog(id) VALUES\n${pack.emojis.map(e=>`(':${e.id}:')`).join(',\n')}\nON CONFLICT DO NOTHING;\n`,{flag:'wx'});createdMigration=true;
+  await fs.writeFile(pendingManifest,JSON.stringify([...packs,pack],null,2)+'\n',{flag:'wx'});createdManifest=true;
+  await fs.rename(pendingManifest,packsPath);committed=true;
   return {dryRun:false,pack,migration};
- }finally{await fs.rm(staging,{recursive:true,force:true})}
+ }finally{
+  await fs.rm(staging,{recursive:true,force:true});
+  if(!committed){if(installed)await fs.rm(dir,{recursive:true,force:true});if(createdMigration)await fs.rm(migration,{force:true});if(createdManifest)await fs.rm(pendingManifest,{force:true});}
+ }
 }
+export async function importPack(options){
+ if(!options.apply)return importPackImpl(options);
+ const root=path.resolve(options.root||process.cwd());
+ if(!slug.test(options.id||''))throw Error('Invalid pack id');
+ for(const rel of ['shared','shared/emoji-packs.json','shared/.emoji-packs.lock','shared/.emoji-packs.pending','public/emoji-packs',`public/emoji-packs/${options.id}`,'supabase/migrations'])await plainPath(root,rel);
+ const lock=path.join(root,'shared/.emoji-packs.lock');const handle=await fs.open(lock,'wx');
+ try{return await importPackImpl({...options,root});}finally{await handle.close();await fs.rm(lock,{force:true});}
+}
+
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
  const args=process.argv.slice(2),options={};
  for(let i=0;i<args.length;i++){const key=args[i].replace(/^--/,'');if(!['source','id','name','origin','license','attribution','apply'].includes(key))throw Error('Unknown argument '+args[i]);options[key]=key==='apply'?true:args[++i];}

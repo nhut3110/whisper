@@ -72,7 +72,7 @@ export function handler(config: { origin: string; pepper: string; gatewaySecret?
     try {
       const client=config.gatewaySecret?await readClient(config.gatewaySecret,req):null;
       if(config.gatewaySecret&&!client)return reply(403,{error:'Gateway required'});
-      const identity=client?{owner_hash:client.owner,network_hash:client.network}:{};
+      const identity:Record<string,string>=client?{owner_hash:client.owner,network_hash:client.network}:{};
       if(client&&action!=='chat'){const guard=await config.rpc('guard',identity);if(guard.status!==200){headers['Retry-After']='60';return reply(guard.status,guard.body);}}
       if(action==='chat'){const result=await chatRequest(path,await body(req,380000),config.rpc,identity);if(result.status===429)headers['Retry-After']='60';return reply(result.status,result.body);}
       if(action==='music_guard'){if(!client)return reply(403,{error:'Gateway required'});const r=await config.rpc(action,identity);if(r.status===429)headers['Retry-After']='60';return reply(r.status,r.body);}

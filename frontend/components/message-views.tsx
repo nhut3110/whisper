@@ -1,3 +1,4 @@
+import {QrCode} from 'lucide-react'
 import { CloseIcon } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -12,7 +13,7 @@ export function MessageViews() {
         <Label htmlFor="share-link" data-i18n="messageLink" />
         <div className="copy-row">
           <Input id="share-link" readOnly autoComplete="off" dir="ltr" />
-          <Button type="button" id="copy-link" data-i18n="copy" variant="outline" />
+          <Button type="button" id="copy-link" data-i18n="copy" variant="outline" /><Button id="show-code" type="button" variant="outline" size="icon" data-i18n-aria-label="showCode"><QrCode/></Button>
         </div>
         <div id="pin-result" hidden>
           <Label htmlFor="generated-pin" data-i18n="codeLabel" />

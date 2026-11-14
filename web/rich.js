@@ -1,6 +1,7 @@
 import {hasHTML,hasMarkdown} from '/format.js';
 import DOMPurify from '/purify.js';
 import {marked} from '/marked.js';
+marked.use({extensions:[{name:'whisperSpoiler',level:'inline',start(src){return src.indexOf('||')},tokenizer(src){const m=/^\|\|([^\n]+?)\|\|/.exec(src);if(m)return {type:'whisperSpoiler',raw:m[0],tokens:this.lexer.inlineTokens(m[1])}},renderer(token){return '<span data-spoiler>'+this.parser.parseInline(token.tokens)+'</span>'}}]});
 const tags=['p','div','br','span','strong','b','em','i','u','s','del','ul','ol','li','blockquote','pre','code','h1','h2','h3','h4','h5','h6','hr','table','thead','tbody','tr','th','td','a','details','summary','mark','aside'];
 const colors={gray:['#787774','rgb(120, 119, 116)'],brown:['#9f6b53'],orange:['#d9730d'],yellow:['#cb912f'],green:['#448361'],blue:['#337ea9'],purple:['#9065b0'],pink:['#c14c8a'],red:['#d44c47']};
 const colorToken=value=>{let normalized=value?.toLowerCase();const rgb=normalized?.match(/^rgb\((\d+), (\d+), (\d+)\)$/);if(rgb)normalized='#'+rgb.slice(1).map(n=>Number(n).toString(16).padStart(2,'0')).join('');return Object.keys(colors).find(key=>colors[key].includes(normalized));};
@@ -94,9 +95,10 @@ export function clean(html){
  // Sanitize before normalization. CSS is read only in this detached fragment,
  // mapped to finite semantic tokens, and never inserted into the live document.
  const fragment=DOMPurify.sanitize(html,{
-  ALLOWED_TAGS:[...tags,'font','input','label'],ALLOWED_ATTR:['href','title','style','class','color','type','checked','data-kind','data-checked','data-color','data-highlight','data-notion-highlight','contenteditable','data-content-editable-leaf','data-content-editable-void','aria-expanded'],
-  ADD_URI_SAFE_ATTR:['color','type','data-kind','data-checked','data-color','data-highlight','data-notion-highlight','contenteditable','data-content-editable-leaf','data-content-editable-void','aria-expanded'],ALLOWED_URI_REGEXP:/^https:\/\//i,ALLOW_DATA_ATTR:false,ALLOW_ARIA_ATTR:false,RETURN_DOM_FRAGMENT:true,
+  ALLOWED_TAGS:[...tags,'font','input','label'],ALLOWED_ATTR:['href','title','style','class','color','type','checked','data-kind','data-checked','data-color','data-highlight','data-spoiler','data-spoiler-caret','data-notion-highlight','contenteditable','data-content-editable-leaf','data-content-editable-void','aria-expanded'],
+  ADD_URI_SAFE_ATTR:['color','type','data-kind','data-checked','data-color','data-highlight','data-spoiler','data-spoiler-caret','data-notion-highlight','contenteditable','data-content-editable-leaf','data-content-editable-void','aria-expanded'],ALLOWED_URI_REGEXP:/^https:\/\//i,ALLOW_DATA_ATTR:false,ALLOW_ARIA_ATTR:false,RETURN_DOM_FRAGMENT:true,
  });
+ for(const host of fragment.querySelectorAll('[data-spoiler-caret]')){const walk=document.createTreeWalker(host,NodeFilter.SHOW_TEXT);while(walk.nextNode())walk.currentNode.textContent=walk.currentNode.textContent.replace(/\u200b/g,'');host.replaceWith(...host.childNodes)}
  normalizeNotionDOM(fragment);
  for(const input of fragment.querySelectorAll('input')){
   if(input.getAttribute('type')==='checkbox'){
@@ -132,7 +134,7 @@ export function clean(html){
  return finalize(root);
 }
 function finalize(root){
- root.innerHTML=DOMPurify.sanitize(root.innerHTML,{ALLOWED_TAGS:tags,ALLOWED_ATTR:['href','title','data-kind','data-checked','data-color','data-highlight'],ADD_URI_SAFE_ATTR:['data-kind','data-checked','data-color','data-highlight'],ALLOWED_URI_REGEXP:/^https:\/\//i,ALLOW_DATA_ATTR:false,ALLOW_ARIA_ATTR:false});
+ root.innerHTML=DOMPurify.sanitize(root.innerHTML,{ALLOWED_TAGS:tags,ALLOWED_ATTR:['href','title','data-kind','data-checked','data-color','data-highlight','data-spoiler'],ADD_URI_SAFE_ATTR:['data-kind','data-checked','data-color','data-highlight','data-spoiler'],ALLOWED_URI_REGEXP:/^https:\/\//i,ALLOW_DATA_ATTR:false,ALLOW_ARIA_ATTR:false});
  for(const link of root.querySelectorAll('a')){
   if(!/^https:\/\//i.test(link.getAttribute('href')||'')){link.replaceWith(...link.childNodes);continue;}
   link.target='_blank';link.rel='noopener noreferrer';link.referrerPolicy='no-referrer';

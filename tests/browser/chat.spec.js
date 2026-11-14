@@ -7,7 +7,7 @@ test.beforeAll(()=>{pool=new pg.Pool({connectionString:process.env.TEST_DATABASE
 test.beforeEach(async({page})=>{await page.route('**/api/rooms/*/preview',route=>route.fulfill({json:{}}));await pool.query('TRUNCATE public.whisper_rooms,public.hush_abuse_budgets CASCADE')});
 test.afterAll(()=>pool?.end());
 async function create(page,{mode='total',limit=10,count=4}={}){
- await page.goto('/chat');await page.locator('#chat-name').fill('Host');await page.locator('#chat-count').click();await page.getByRole('option',{name:String(count),exact:true}).click();await page.locator('.chat-more-settings summary').click();await page.locator('#chat-mode').click();await page.getByRole('option',{name:mode==='total'?'Giới hạn tổng':'Giữ tin mới',exact:true}).click();await page.locator('#chat-limit').fill(String(limit));await page.getByRole('button',{name:'Tạo phòng',exact:true}).click();await expect(page.locator('.chat-room')).toBeVisible();await expect(page.locator('.chat-room-bar')).toContainText('Hết hạn');await expect(page.locator('.chat-room-bar')).not.toContainText('· 0 min');
+ await page.goto('/chat');await page.locator('#chat-name').fill('Host');await page.locator('#chat-count').selectOption(String(count));await page.locator('.chat-more-settings summary').click();await page.locator('#chat-mode').selectOption(mode);await page.locator('#chat-limit').fill(String(limit));await page.getByRole('button',{name:'Tạo phòng',exact:true}).click();await expect(page.locator('.chat-room')).toBeVisible();await expect(page.locator('.chat-room-bar')).toContainText(/h|min/);await expect(page.locator('.chat-room-bar')).not.toContainText('· 0 min');
  await expect.poll(async()=>page.evaluate(()=>JSON.parse(sessionStorage.getItem('whisper-chat-session')).joined)).toBe(true);
  const s=await page.evaluate(()=>JSON.parse(sessionStorage.getItem('whisper-chat-session')));return {session:s,url:`http://localhost:8788/?mode=chat#r=${s.id}&a=${s.access}&k=${s.key}`};
 }
@@ -38,6 +38,9 @@ test('small file travels encrypted and downloads intact; unsupported formats rej
  const {url}=await create(page);const second=await guest(browser,url,'Guest');try{
  await page.locator('input[type=file]').setInputFiles({name:'bad.svg',mimeType:'image/svg+xml',buffer:Buffer.from('<svg/>')});await expect(page.getByRole('alert')).toContainText('không được hỗ trợ');
  await page.locator('input[type=file]').setInputFiles({name:'note.txt',mimeType:'text/plain',buffer:Buffer.from('Encrypted attachment demo')});await page.getByRole('button',{name:'Gửi',exact:true}).click();await expect(second.page.locator('.chat-attachment')).toContainText('note.txt');await second.page.getByRole('button',{name:'Tải file đính kèm: note.txt',exact:true}).click();const download=second.page.waitForEvent('download');await second.page.getByRole('dialog').getByRole('button',{name:'Tải file đính kèm'}).click();const file=await download;expect(file.suggestedFilename()).toBe('note.txt');const stream=await file.createReadStream();const chunks=[];for await(const chunk of stream)chunks.push(chunk);expect(Buffer.concat(chunks).toString()).toBe('Encrypted attachment demo');
+ await expect(page.locator('[data-event=downloaded]')).toContainText('Guest đã tải file');await expect(second.page.locator('[data-event=downloaded]')).toContainText('Bạn đã tải file');await expect(page.locator('[data-event=downloaded] .chat-checkpoint-target')).toHaveText('note.txt');
+ for(const width of [1280,390]){await page.setViewportSize({width,height:844});await expect(page.locator('[data-event=downloaded]')).toBeInViewport();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:`coverage/manual/2026-11-13-download/checkpoint-${width}.png`});}
+ const stored=await pool.query('SELECT file FROM whisper_chat_messages WHERE file IS NOT NULL');expect(stored.rows[0].file).toMatch(/^@storage\/[a-f0-9]{64}$/);
  for(let n=2;n<=10;n++)await send(page,'Message '+n);await expect(page.locator('.chat-locked')).toBeVisible();await expect(second.page.locator('.chat-locked')).toBeVisible();await expect(page.locator('.chat-compose')).toHaveCount(0);
  }finally{await second.context.close()}
 });
@@ -110,7 +113,7 @@ test('grouped avatars, hover-only desktop time and tap-to-toggle touch time beha
   await expect(page.locator('.chat-message')).toHaveCount(5);
   const incoming=page.locator('.chat-message:not(.chat-mine)');await expect(incoming).toHaveCount(3);
   await expect(incoming.locator('.chat-avatar:not(.chat-avatar-continuation)')).toHaveCount(1);
-  await expect(incoming.last().getByRole('img',{name:'Guest',exact:true})).toBeVisible();
+  await expect(incoming.last().getByRole('img',{name:/^Guest ·/})).toBeVisible();
   const avatarGap=await incoming.last().evaluate(el=>Math.abs(el.querySelector('.chat-avatar').getBoundingClientRect().bottom-el.querySelector('[data-slot=bubble-content]').getBoundingClientRect().bottom));expect(avatarGap).toBeLessThan(2);
   const columns=await incoming.evaluateAll(rows=>rows.map(el=>el.querySelector('.chat-message-text').getBoundingClientRect().left));
   expect(Math.max(...columns)-Math.min(...columns)).toBeLessThanOrEqual(1);
@@ -134,8 +137,9 @@ test('grouped avatars, hover-only desktop time and tap-to-toggle touch time beha
 test('lazy local emoji picker inserts custom emoji at caret, sends and reacts across two browsers without external emoji requests',async({page,browser})=>{
  const errors=[],violations=[],remote=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(new URL(r.url()).origin!=='http://localhost:8788')remote.push(r.url())});
  await page.addInitScript(()=>{window.emojiCSP=[];document.addEventListener('securitypolicyviolation',e=>window.emojiCSP.push(e.violatedDirective+' '+e.blockedURI+' '+e.sourceFile+':'+e.lineNumber))});
+ await page.goto('/chat');expect(await page.evaluate(()=>performance.getEntriesByType('resource').some(r=>/picker-.*\.js/.test(r.name)))).toBe(false);
  const {url}=await create(page);const second=await guest(browser,url,'Guest');try{
- expect(await page.evaluate(()=>performance.getEntriesByType('resource').some(r=>/picker-.*\.js/.test(r.name)))).toBe(false);
+ await expect(page.locator('whisper-emoji-picker')).toHaveCount(0);
  const composer=page.getByRole('textbox',{name:'Nói gì đó nhé…'});await composer.fill('hello world');await composer.press('Home');
  await page.getByRole('button',{name:'Chọn emoji',exact:true}).click();await expect(page.getByRole('searchbox')).toBeVisible();await page.getByRole('searchbox').fill('hello');await expect(page.locator('whisper-emoji-picker').getByRole('button',{name:'hello',exact:true})).toBeVisible();await page.screenshot({path:'/tmp/whisper-emoji-search.png'});await page.locator('whisper-emoji-picker').getByRole('button',{name:'hello',exact:true}).click();await expect(composer.locator('img')).toHaveAttribute('alt',':whisper_hello:');
  await page.getByRole('button',{name:'Gửi',exact:true}).click();await expect(second.page.locator('.chat-message-text img')).toHaveAttribute('alt',':whisper_hello:');await expect(second.page.locator('.chat-message-text')).toHaveText('hello world');
@@ -162,6 +166,22 @@ test('Pepe preview pack is selectable in composer and reactions, loads locally f
  const {url}=await create(page);const second=await guest(browser,url,'Guest');try{
  await page.getByRole('button',{name:'Chọn emoji',exact:true}).click();await page.getByRole('button',{name:'Pepe',exact:true}).click();await expect(page.locator('whisper-emoji-picker').getByRole('button',{name:'happy',exact:true})).toBeVisible();await expect(page.locator('whisper-emoji-picker').getByRole('button',{name:'wine',exact:true})).toBeInViewport();expect((await page.locator('.chat-picker-host').boundingBox()).height).toBeLessThan(200);await page.screenshot({path:'/tmp/whisper-pepe-picker.png'});await page.locator('whisper-emoji-picker').getByRole('button',{name:'happy',exact:true}).click();await expect(page.locator('.chat-emoji-composer img')).toHaveAttribute('alt',':pepe_preview_happy:');await page.getByRole('button',{name:'Gửi',exact:true}).click();await expect(second.page.locator('.chat-message-text img')).toHaveAttribute('alt',':pepe_preview_happy:');expect(await second.page.locator('.chat-message-text img').evaluate(img=>img.complete&&img.naturalWidth>0)).toBe(true);
  const row=second.page.locator('.chat-message').first();await row.locator('[data-slot=bubble-content]').hover();await row.getByRole('button',{name:'Thả cảm xúc',exact:true}).click();await second.page.getByRole('button',{name:'Thêm cảm xúc',exact:true}).click();await second.page.getByRole('searchbox').fill('wine');await second.page.locator('whisper-emoji-picker').getByRole('button',{name:'wine',exact:true}).click();await expect(page.locator('.chat-reactions img')).toHaveAttribute('alt',':pepe_preview_wine:');await page.screenshot({path:'/tmp/whisper-pepe-chat.png'});
+ }finally{await second.context.close()}
+});
+
+test('imported Pepe packs scroll without squeezing tabs and send new catalog emoji',async({page,browser})=>{
+ const {url}=await create(page);const second=await guest(browser,url,'Guest');try{
+ for(const width of [1280,390]){
+  await page.setViewportSize({width,height:844});await page.getByRole('button',{name:'Chọn emoji',exact:true}).click();
+  const pack=page.getByRole('button',{name:'El Pepe',exact:true});await pack.scrollIntoViewIfNeeded();await pack.click();
+  const nav=await page.locator('whisper-emoji-picker').evaluate(el=>{const nav=el.shadowRoot.querySelector('#nav');return {scroll:nav.scrollWidth,client:nav.clientWidth,min:Math.min(...[...nav.querySelectorAll('button')].map(b=>b.getBoundingClientRect().width))}});
+  expect(nav.scroll).toBeGreaterThan(nav.client);expect(nav.min).toBeGreaterThanOrEqual(24);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  await expect(page.locator('whisper-emoji-picker').getByRole('button',{name:'149743 pepeheart',exact:true})).toBeVisible();
+  await page.screenshot({path:`coverage/manual/2026-11-13-pepe/picker-${width}.png`});await page.keyboard.press('Escape');
+ }
+ await page.getByRole('button',{name:'Chọn emoji',exact:true}).click();await page.getByRole('searchbox').fill('pepe_703274');await page.locator('whisper-emoji-picker').getByRole('button',{name:'149743 pepeheart',exact:true}).click();await page.getByRole('button',{name:'Gửi',exact:true}).click();
+ await expect(second.page.locator('.chat-message-text img')).toHaveAttribute('alt',':pepe_703274_149743_pepeheart:');expect(await second.page.locator('.chat-message-text img').evaluate(img=>img.complete&&img.naturalWidth>0)).toBe(true);
+ const row=second.page.locator('.chat-message').first();await row.locator('[data-slot=bubble-content]').hover();await row.getByRole('button',{name:'Thả cảm xúc',exact:true}).click();await second.page.getByRole('button',{name:'Thêm cảm xúc',exact:true}).click();await second.page.getByRole('searchbox').fill('pepe_703274');await second.page.locator('whisper-emoji-picker').getByRole('button',{name:'149743 pepeheart',exact:true}).click();await expect(page.locator('.chat-reactions img')).toHaveAttribute('alt',':pepe_703274_149743_pepeheart:');
  }finally{await second.context.close()}
 });
 
@@ -331,4 +351,96 @@ test('failed optimistic send preserves both the original and the next draft',asy
   await expect(page.getByRole('alert')).toBeVisible();await expect(page.locator('.chat-message')).toHaveCount(0);
   await expect(page.getByRole('textbox',{name:'Nói gì đó nhé…'})).toHaveText('Unsent original\nNext draft');
  }finally{release()}
+});
+
+test('checkpoints persist, focus badges update, capture hints do not claim a screenshot, and leave keeps avatar identity',async({page,browser})=>{
+ const {url,session}=await create(page);const second=await guest(browser,url,'Visitor');
+ try{
+  await expect(page.locator('[data-event=joined]')).toHaveCount(2);
+  await send(second.page,'Presence hello');
+  const avatar=page.locator('.chat-message .chat-participant-avatar').last();
+  await expect(avatar).toHaveAttribute('aria-label',/Visitor/);
+  await second.page.evaluate(()=>window.dispatchEvent(new Event('blur')));
+  // Real focus belongs to the window; use its DOM API to drive both visibility branches deterministically.
+  await second.page.evaluate(()=>{Object.defineProperty(document,'hasFocus',{configurable:true,value:()=>false});window.dispatchEvent(new Event('blur'))});
+  await expect(avatar.locator('[data-presence=away]')).toHaveCount(1,{timeout:12000});
+  expect(await avatar.locator('[data-slot=avatar-badge]').evaluate(el=>getComputedStyle(el).backgroundColor)).toBe('rgb(186, 148, 70)');
+  expect(await avatar.locator('..').evaluate(el=>getComputedStyle(el).overflow)).toBe('visible');
+  await second.page.evaluate(()=>{Object.defineProperty(document,'hasFocus',{configurable:true,value:()=>true});window.dispatchEvent(new Event('focus'))});
+  await expect(avatar.locator('[data-presence=online]')).toHaveCount(1,{timeout:12000});
+  await second.page.evaluate(()=>window.dispatchEvent(new KeyboardEvent('keydown',{key:'PrintScreen',code:'PrintScreen',bubbles:true})));
+  await expect(page.locator('[data-event=capture_shortcut]')).toContainText('chưa xác nhận ảnh chụp',{timeout:12000});
+  await second.page.evaluate(()=>window.dispatchEvent(new KeyboardEvent('keydown',{key:'PrintScreen',code:'PrintScreen',bubbles:true})));
+  await expect.poll(async()=>(await pool.query("SELECT count(*) FROM whisper_room_events WHERE room=$1 AND kind='capture_shortcut'",[session.id])).rows[0].count).toBe('1');
+  await second.page.getByRole('button',{name:'Thành viên',exact:true}).click();await second.page.getByRole('button',{name:'Rời phòng',exact:true}).click();await second.page.getByRole('dialog').getByRole('button',{name:'Rời phòng',exact:true}).click();
+  await expect(page.locator('[data-event=left]')).toContainText('Visitor',{timeout:12000});await expect(avatar.locator('[data-presence=left]')).toHaveCount(1);
+  expect(await avatar.locator('[data-slot=avatar-badge]').evaluate(el=>parseFloat(getComputedStyle(el).borderTopWidth))).toBeGreaterThan(0);
+  await page.screenshot({path:'test-results/chat-checkpoints-desktop.png'});
+  await page.locator('#theme-toggle').click();await expect.poll(()=>page.locator('.chat-app').evaluate(el=>getComputedStyle(el).backgroundColor)).toBe('rgb(21, 21, 21)');await page.screenshot({path:'test-results/chat-checkpoints-dark.png'});
+  await page.reload();await expect(page.locator('[data-event=joined]')).toHaveCount(2);await expect(page.locator('[data-event=left]')).toHaveCount(1);await expect(page.locator('.chat-message .chat-participant-avatar')).toHaveAttribute('aria-label',/Visitor.*Đã rời phòng/);
+  await page.setViewportSize({width:390,height:700});expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:'test-results/chat-checkpoints-mobile.png'});
+ }finally{await second.context.close()}
+});
+
+test('copy via action, native shortcut and custom menu produces host-only notices; drafts and failed clipboard writes do not',async({page,browser,context})=>{
+ await context.grantPermissions(['clipboard-read','clipboard-write']);const {url,session}=await create(page);const second=await guest(browser,url,'Visitor');const third=await guest(browser,url,'Observer');
+ try{
+  await second.context.grantPermissions(['clipboard-read','clipboard-write']);await send(page,'First private message');await send(page,'Second private message');await send(page,'Third private message');
+  await expect(second.page.locator('.chat-message-text')).toHaveCount(3);
+  const row=second.page.locator('.chat-message').first();await row.locator('[data-slot=bubble-content]').hover();await row.getByRole('button',{name:'Thao tác tin nhắn',exact:true}).click();await second.page.getByRole('menuitem',{name:'Copy nội dung',exact:true}).click();
+  await expect(page.locator('[data-event=copied]')).toContainText('Visitor đã copy tin nhắn #1',{timeout:12000});
+  const select=async index=>second.page.locator('.chat-message-text').nth(index).evaluate(el=>{const range=document.createRange();range.selectNodeContents(el);const selection=getSelection();selection.removeAllRanges();selection.addRange(range)});
+  await select(1);await second.page.keyboard.press(process.platform==='darwin'?'Meta+c':'Control+c');await expect(page.locator('[data-event=copied]')).toHaveCount(2,{timeout:12000});await expect(page.locator('[data-event=copied]').last()).toContainText('#2');
+  await select(2);await second.page.locator('.chat-message-text').nth(2).click({button:'right'});await expect(second.page.locator('#edit-menu')).toBeVisible();await second.page.locator('#edit-menu').getByRole('menuitem',{name:'Sao chép',exact:true}).click();await expect(page.locator('[data-event=copied]')).toHaveCount(3,{timeout:12000});await expect(page.locator('[data-event=copied]').last()).toContainText('#3');
+  for(const other of [second.page,third.page]){await expect(other.locator('[data-event=copied]')).toHaveCount(0);const data=await other.evaluate(async()=>{const s=JSON.parse(sessionStorage.getItem('whisper-chat-session'));return (await fetch(`/api/rooms/${s.id}/sync`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({member:s.member,seen:0,typing:false})})).json()});expect(data.events.some(e=>e.kind==='copied')).toBe(false)}
+  // Copying a composer draft must not be reported as a received-message copy.
+  let copyRequests=0;second.page.on('request',r=>{if(r.url().endsWith('/copy'))copyRequests++});
+  await second.page.getByRole('textbox',{name:'Nói gì đó nhé…'}).fill('Unsent draft');await second.page.locator('.chat-emoji-composer').evaluate(el=>{const range=document.createRange();range.selectNodeContents(el);getSelection().removeAllRanges();getSelection().addRange(range)});await second.page.keyboard.press(process.platform==='darwin'?'Meta+c':'Control+c');await second.page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));expect(copyRequests).toBe(0);
+  // A failed application clipboard write must never claim that copying succeeded.
+  await second.page.evaluate(()=>{getSelection()?.removeAllRanges();Object.defineProperty(navigator.clipboard,'writeText',{configurable:true,value:()=>Promise.reject(new Error('Denied'))})});
+  await row.locator('[data-slot=bubble-content]').hover();await row.getByRole('button',{name:'Thao tác tin nhắn',exact:true}).click();await second.page.getByRole('menuitem',{name:'Copy nội dung',exact:true}).click();await expect(second.page.getByRole('alert')).toBeVisible();
+  const count=(await pool.query("SELECT count(*) FROM whisper_room_events WHERE room=$1 AND kind='copied'",[session.id])).rows[0].count;expect(count).toBe('3');
+ }finally{await second.context.close();await third.context.close()}
+});
+
+test('first emoji open stays functional on a slower CPU and reopening resets search',async({page,context})=>{
+ const cdp=await context.newCDPSession(page);await cdp.send('Emulation.setCPUThrottlingRate',{rate:4});
+ await page.addInitScript(()=>{
+  window.emojiPerf={tasks:[],opens:[]};new PerformanceObserver(list=>{for(const e of list.getEntries())window.emojiPerf.tasks.push({start:e.startTime,duration:e.duration})}).observe({type:'longtask',buffered:true});
+  document.addEventListener('click',e=>{if(e.target.closest('button[aria-label="Chọn emoji"]'))window.emojiPerf.opens.push(performance.now())},true);
+ });
+ await create(page);
+ for(let i=0;i<2;i++){
+  await page.getByRole('button',{name:'Chọn emoji',exact:true}).click();await expect(page.getByRole('searchbox')).toBeVisible();
+  await expect(page.locator('whisper-emoji-picker').locator('button[title]').first()).toBeVisible();
+  await page.evaluate(()=>{window.emojiPerf.ready??=[];window.emojiPerf.ready.push(performance.now())});
+  await page.getByRole('searchbox').fill('hello');await page.locator('whisper-emoji-picker').getByRole('button',{name:'hello',exact:true}).click();await expect(page.getByRole('searchbox')).toHaveCount(0);
+ }
+ await page.getByRole('button',{name:'Chọn emoji',exact:true}).click();await expect(page.getByRole('searchbox')).toHaveValue('');
+ await page.screenshot({path:'coverage/emoji-performance.png'});
+ const report=await page.evaluate(()=>({...window.emojiPerf,resources:performance.getEntriesByType('resource').filter(e=>/picker-.*\.js/.test(e.name)).map(e=>({name:e.name,duration:e.duration}))}));
+ console.log('EMOJI_PERF',JSON.stringify(report));await test.info().attach('emoji-performance',{body:JSON.stringify(report,null,2),contentType:'application/json'});
+ await cdp.detach();
+});
+
+test.describe('touch emoji warmup',()=>{
+ test.use({hasTouch:true,viewport:{width:390,height:844}});
+ test('idle preparation mounts no hidden grid; first tap keeps custom packs and search usable',async({page,context})=>{
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));const cdp=await context.newCDPSession(page);await cdp.send('Emulation.setCPUThrottlingRate',{rate:4});
+  await create(page);
+  await expect.poll(()=>page.evaluate(()=>document.querySelectorAll('link[rel=preload][as=style]').length)).toBeGreaterThanOrEqual(2);
+  await expect(page.locator('whisper-emoji-picker')).toHaveCount(0);
+  await page.evaluate(()=>{
+   window.emojiTap={start:0,ready:0};document.addEventListener('click',e=>{if(e.target.closest('button[aria-label="Chọn emoji"]'))window.emojiTap.start=performance.now()},true);
+   // Shadow mutations do not cross the host boundary; sample readiness on frames.
+   const ready=()=>{if(document.querySelector('whisper-emoji-picker')?.shadowRoot?.querySelector('button[title]')){window.emojiTap.ready=performance.now()}else requestAnimationFrame(ready)};requestAnimationFrame(ready);
+  });
+  await page.getByRole('button',{name:'Chọn emoji',exact:true}).tap();await expect(page.getByRole('searchbox')).toBeVisible();
+  await expect.poll(()=>page.evaluate(()=>window.emojiTap.ready)).toBeGreaterThan(0);
+  expect(await page.locator('whisper-emoji-picker').locator('.row').first().evaluate(el=>getComputedStyle(el).contentVisibility)).toBe('auto');
+  await page.getByRole('button',{name:'Pepe',exact:true}).tap();await expect(page.locator('whisper-emoji-picker').getByRole('button',{name:'wine',exact:true})).toBeInViewport();
+  await page.getByRole('searchbox').fill('hello');await page.locator('whisper-emoji-picker').getByRole('button',{name:'hello',exact:true}).tap();await expect(page.getByRole('searchbox')).toHaveCount(0);await expect(page.locator('.chat-emoji-composer img')).toHaveAttribute('alt',':whisper_hello:');
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);expect(errors).toEqual([]);
+  const report=await page.evaluate(()=>window.emojiTap);console.log('EMOJI_TOUCH_IDLE',JSON.stringify({...report,delay:report.ready-report.start}));await test.info().attach('touch-idle-first-open',{body:JSON.stringify(report),contentType:'application/json'});await cdp.detach();
+ });
 });

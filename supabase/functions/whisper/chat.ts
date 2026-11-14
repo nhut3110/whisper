@@ -5,7 +5,7 @@ const box=(v:unknown,max:number)=>typeof v==='string'&&v.length>=22&&v.length<=m
 const integer=(v:unknown,min:number,max:number)=>Number.isInteger(v)&&Number(v)>=min&&Number(v)<=max;
 const hash=async(v:string)=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(v))),n=>n.toString(16).padStart(2,'0')).join('');
 export async function chatRequest(path:string,v:Record<string,unknown>,rpc:RPC,identity:Record<string,string>){
- const action=path==='/rooms'?'create':path.match(/^\/rooms\/[A-Za-z0-9_-]{43}\/(join|sync|send|edit|delete|react|file|leave|destroy)$/)?.[1];
+ const action=path==='/rooms'?'create':path.match(/^\/rooms\/[A-Za-z0-9_-]{43}\/(join|sync|send|edit|delete|react|file|leave|destroy|presence|capture|copy)$/)?.[1];
  const bad={status:400,body:{error:'Invalid room request',code:'invalid'}};
  if(!action||!token(v.member))return bad;
  const id=action==='create'?v.id:path.split('/')[2];if(!token(id))return bad;
@@ -17,6 +17,9 @@ export async function chatRequest(path:string,v:Record<string,unknown>,rpc:RPC,i
  if(action==='create'){
   if(!integer(v.ttl,300,172800)||!integer(v.max_members,2,12)||!integer(v.max_messages,10,1000)||!['total','rolling'].includes(String(v.mode))||!integer(v.keep,1,200))return bad;
   Object.assign(payload,{ttl:v.ttl,max_members:v.max_members,max_messages:v.max_messages,mode:v.mode,keep:v.keep});
+ }
+ if(['sync','presence','capture'].includes(action)){
+  if(v.focused!==undefined&&typeof v.focused!=='boolean')return bad;payload.focused=v.focused??true;
  }
  if(action==='sync'){
   if(!integer(v.seen,0,1000000)||typeof v.typing!=='boolean')return bad;
@@ -31,6 +34,7 @@ export async function chatRequest(path:string,v:Record<string,unknown>,rpc:RPC,i
    Object.assign(payload,{nonce:v.nonce,reply:v.reply??null,file:v.file??null,file_iv:v.file_iv??null});
   }
  }
+ if(action==='copy'){if(v.seq!=null&&!integer(v.seq,1,1000000))return bad;payload.seq=v.seq??null;}
  if(['edit','delete','react','file'].includes(action)){
   if(!integer(v.seq,1,1000000))return bad;payload.seq=v.seq;
  }

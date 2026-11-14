@@ -1,0 +1,1 @@
+export function createDust(rects:Array<{x:number;y:number;width:number;height:number}>,random?:()=>number,limit?:number):{points:Array<{x:number;y:number;vx:number;vy:number;r:number}>;draw(ctx:CanvasRenderingContext2D,delta?:number):void};

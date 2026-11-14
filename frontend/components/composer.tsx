@@ -1,3 +1,4 @@
+import {EyeOff} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
@@ -22,6 +23,7 @@ export function Composer() {
               <Button type="button" data-command="italic" data-i18n-aria-label="italic" data-i18n-title="italic" variant="ghost"><i>I</i></Button>
               <Button type="button" data-command="underline" data-i18n-aria-label="underline" data-i18n-title="underline" variant="ghost"><u>U</u></Button>
               <Button type="button" data-command="strikeThrough" data-i18n-aria-label="strike" data-i18n-title="strike" variant="ghost"><s>S</s></Button>
+              <Button type="button" data-inline="spoiler" aria-label="Spoiler" title="Spoiler" variant="ghost"><EyeOff/></Button>
               <Button type="button" data-inline="code" data-i18n-aria-label="inlineCode" data-i18n-title="inlineCode" variant="ghost"><span className="code-symbol">&lt;/&gt;</span></Button>
               <span className="toolbar-rule" />
               <Button type="button" data-inline="link" data-i18n-aria-label="editLink" data-i18n-title="editLink" variant="ghost"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m8 12 4-4m-5 6H6a4 4 0 0 1-3-7l3-3a4 4 0 0 1 6 1m-4 10a4 4 0 0 0 6 1l3-3a4 4 0 0 0-3-7h-1" /></svg></Button>

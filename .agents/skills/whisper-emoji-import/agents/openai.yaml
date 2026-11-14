@@ -1,0 +1,4 @@
+interface:
+  display_name: "Whisper emoji packs"
+  short_description: "Import full emoji packs with scoped local tools"
+  default_prompt: "Use $whisper-emoji-import to add this complete emoji pack to Whisper locally."

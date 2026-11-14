@@ -1,0 +1,27 @@
+-- Admin-reviewed pepe_281595. Source and permission record: shared/emoji-packs.json
+INSERT INTO public.whisper_emoji_catalog(id) VALUES
+(':pepe_281595_588971_pepeuwu:'),
+(':pepe_281595_950522_pepehacker:'),
+(':pepe_281595_618704_pepeokay:'),
+(':pepe_281595_702336_kingpepe:'),
+(':pepe_281595_830563_pepe:'),
+(':pepe_281595_175472_pepelaugh:'),
+(':pepe_281595_182109_pepeperfect:'),
+(':pepe_281595_733150_kingpepe:'),
+(':pepe_281595_249299_strongpepe:'),
+(':pepe_281595_436131_pepetorchfire:'),
+(':pepe_281595_149743_pepeheart:'),
+(':pepe_281595_120458_pepecross:'),
+(':pepe_281595_383141_pepesmile:'),
+(':pepe_281595_236705_pepedumb:'),
+(':pepe_281595_431882_pepeclap:'),
+(':pepe_281595_877975_praypepe:'),
+(':pepe_281595_543336_pepescream:'),
+(':pepe_281595_798781_nou:'),
+(':pepe_281595_121023_pepetyping:'),
+(':pepe_281595_828203_peperich:'),
+(':pepe_281595_304977_pepehang:'),
+(':pepe_281595_583748_pepeooo:'),
+(':pepe_281595_690612_pepelmao:'),
+(':pepe_281595_827729_peperain:')
+ON CONFLICT DO NOTHING;

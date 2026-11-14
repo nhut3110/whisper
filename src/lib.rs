@@ -389,11 +389,11 @@ async fn security(State(app): State<App>, req: Request, next: Next) -> Response 
         ("x-frame-options", "DENY"),
         (
             "permissions-policy",
-            "camera=(), microphone=(self), geolocation=()",
+            "camera=(self), microphone=(self), geolocation=()",
         ),
         (
             "content-security-policy",
-            "default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self'; media-src blob:; font-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; object-src 'none'",
+            "default-src 'none'; script-src 'self'; worker-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self'; media-src blob:; font-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; object-src 'none'",
         ),
     ] {
         h.insert(k, HeaderValue::from_static(v));
@@ -576,6 +576,33 @@ pub fn router(app: App) -> Router {
         .route("/m/{id}", get(index))
         .route("/revoke/{id}", get(index))
         .route("/app.js", get(js))
+        .route(
+            "/spoiler.js",
+            get(|| async {
+                (
+                    [("content-type", "text/javascript; charset=utf-8")],
+                    include_str!("../web/spoiler.js"),
+                )
+            }),
+        )
+        .route(
+            "/spoiler-particles.js",
+            get(|| async {
+                (
+                    [("content-type", "text/javascript; charset=utf-8")],
+                    include_str!("../web/spoiler-particles.js"),
+                )
+            }),
+        )
+        .route(
+            "/spoiler-dust.js",
+            get(|| async {
+                (
+                    [("content-type", "text/javascript; charset=utf-8")],
+                    include_str!("../web/spoiler-dust.js"),
+                )
+            }),
+        )
         .route(
             "/interactions.js",
             get(|| async {

@@ -137,7 +137,7 @@
 .block-picker button{display:flex;align-items:center;gap:10px;width:100%;min-height:39px;text-align:start;padding:5px 8px;border:0;border-radius:6px;background:none;font-size:13px;box-shadow:none}
 .block-picker button[aria-selected=true],.block-picker button:hover{background:var(--hover)}
 .block-symbol{display:grid;place-items:center;width:28px;height:28px;border:1px solid var(--border);border-radius:5px;font:15px/1 ui-serif,Georgia,serif;color:var(--muted);flex-shrink:0}
-#rich-editor{line-height:1.75;overflow-wrap:anywhere}
+#rich-editor{line-height:1.8;overflow-wrap:anywhere}
 #rich-editor :is(h1,h2,h3){line-height:1.3;letter-spacing:-.025em;margin:1em 0 .35em;font-weight:600}
 #rich-editor h1{font-size:1.9em}#rich-editor h2{font-size:1.5em}#rich-editor h3{font-size:1.2em}
 #rich-editor p,#rich-editor div{margin:.35em 0}
@@ -205,7 +205,7 @@ body:has(#compose[hidden]) #block-gutter,body:has(#text-editor[hidden]) #block-g
 :is(#rich-editor,.message-content) li[data-checked=true]{color:var(--muted);text-decoration:line-through}
 #block-drop-line{position:fixed;z-index:45;height:2px;background:#5895d9;pointer-events:none;border-radius:2px}
 .block-dragging{user-select:none;cursor:grabbing}.block-dragging #move-block{cursor:grabbing}.moving-block{opacity:.35}
-@media(max-width:600px){#text-editor{margin-inline-start:20px}#block-gutter{gap:0}#block-gutter button,#insert-block{width:20px;padding:2px}#rich-toolbar{scroll-padding-inline:6px}}
+@media(max-width:600px){#text-editor{margin-inline-start:20px}#block-gutter{gap:0}#block-gutter button,#insert-block{width:18px;padding:2px}#rich-toolbar{scroll-padding-inline:6px}}
 @media(prefers-reduced-motion:reduce){#block-gutter{transition:none}}
 /* Compact, keyboard-accessible block and table controls. */
 .writing-actions{width:232px;padding:5px;max-height:calc(100dvh - 90px);overflow:auto}
@@ -246,3 +246,34 @@ body:has(#compose[hidden]) #table-caret-tools,body:has(#text-editor[hidden]) #ta
 .integrated-chat #chat-panel{flex:1;min-height:0;display:flex;flex-direction:column}
 .integrated-chat #chat-panel>.chat-app,.integrated-chat #chat-panel .chat-app{height:100%;min-height:0;flex:1}
 @media(max-width:380px){.header-actions{gap:3px}.mode-switch .icon-button{width:32px;padding:7px}.site-header{gap:8px;padding-inline:12px}}
+
+
+@media(max-width:380px){.site-header .brand{flex-shrink:0}#root>.site-header .header-actions .icon-button{width:28px;min-width:28px;max-width:28px;padding:5px}#root>.site-header .language-control{width:28px;min-width:28px}#root>.site-header .header-actions{gap:1px}#root>.site-header{padding-inline:12px;gap:6px}}
+
+/* One shared particle painter for receiver spoilers and live editor decorations. */
+.whisper-spoiler{display:inline;vertical-align:baseline;min-height:0;height:auto;width:auto;max-width:none;padding:0;margin:0;border:0;border-radius:2px;background:none;color:inherit;font:inherit;line-height:inherit;white-space:inherit;cursor:pointer;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.whisper-spoiler:hover{background:none}
+.spoiler-piece{display:inline-block;vertical-align:-.2em;max-width:100%;height:1.2em;pointer-events:none}
+.spoiler-particle-layer{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:3;contain:strict}
+.whisper-spoiler:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
+.spoiler-revealed{position:relative;animation:spoiler-reveal .15s linear both}
+.spoiler-burst{display:none}
+#rich-editor [data-spoiler]{cursor:text;border:0;background:none}
+#rich-editor [data-spoiler]:not(.spoiler-editing),#rich-editor [data-spoiler]:not(.spoiler-editing) *{color:transparent!important;text-decoration-color:transparent!important;background:transparent!important}
+#rich-editor [data-spoiler].spoiler-editing{border-radius:3px;background:var(--hover);text-decoration:underline dotted var(--muted);text-underline-offset:4px}
+@keyframes spoiler-reveal{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.spoiler-revealed{animation:none}}
+.block-choice-shortcut{margin-inline-start:auto;padding-inline-start:8px;color:var(--muted);font:10px/1.2 ui-sans-serif,system-ui;white-space:nowrap;flex-shrink:0}
+/* Paper motion: the focus/top layer stays mounted throughout the exit. */
+[data-paper-dialog][data-paper-state=open],[data-slot=dialog-content][data-paper-state=open]{animation:paper-dialog-in .55s cubic-bezier(.16,1,.3,1) both;transform-origin:50% 35%}
+[data-paper-dialog][data-paper-state=closed],[data-slot=dialog-content][data-paper-state=closed]{animation:paper-dialog-out .65s cubic-bezier(.22,1,.36,1) both;pointer-events:none;transform-origin:50% 35%}
+[data-paper-dialog][data-paper-state=open]::backdrop,[data-slot=dialog-overlay][data-paper-state=open]{animation:paper-backdrop-in .55s ease-out both}
+[data-paper-dialog][data-paper-state=closed]::backdrop,[data-slot=dialog-overlay][data-paper-state=closed]{animation:paper-backdrop-out .65s ease-out both}
+@keyframes paper-dialog-in{from{transform:translate3d(0,-95vh,0) rotate(var(--paper-entry,8deg));opacity:0}to{transform:translate3d(0,0,0) rotate(0);opacity:1}}
+@keyframes paper-dialog-out{from{transform:var(--paper-start,translate3d(0,0,0) rotate(0));opacity:var(--paper-start-opacity,1)}to{transform:translate3d(var(--paper-drift,46px),160vh,0) rotate(var(--paper-exit,18deg));opacity:0}}
+@keyframes paper-backdrop-in{from{opacity:0}to{opacity:1}}
+@keyframes paper-backdrop-out{from{opacity:1}to{opacity:0}}
+@media(prefers-reduced-motion:reduce){[data-paper-dialog],[data-paper-dialog]::backdrop,[data-slot=dialog-content],[data-slot=dialog-overlay]{animation:none!important;transform:none!important}}
+
+[data-paper-reentry][data-paper-state=open]{animation-name:paper-dialog-reenter}
+@keyframes paper-dialog-reenter{from{transform:var(--paper-start);opacity:var(--paper-start-opacity,0)}to{transform:translate3d(0,0,0) rotate(0);opacity:1}}

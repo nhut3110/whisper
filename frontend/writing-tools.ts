@@ -1,3 +1,4 @@
+import {leaveSpoiler} from './spoiler-editor'
 import {editingActions} from './block-editing'
 type Options={plain:HTMLTextAreaElement;rich:HTMLElement;editor:HTMLElement;toolbar:HTMLElement;t:(key:string)=>string;enableRich:(start?:number,end?:number)=>Promise<boolean>;openTypes:()=>void}
 const palette:Record<string,string>={default:'',gray:'#787774',brown:'#9f6b53',orange:'#d9730d',yellow:'#cb912f',green:'#448361',blue:'#337ea9',purple:'#9065b0',pink:'#c14c8a',red:'#d44c47'}
@@ -15,12 +16,12 @@ export function blockTools({plain,rich,editor,toolbar,t,enableRich,openTypes}:Op
   mirror.style.width=rect.width+'px';mirror.style.whiteSpace='pre-wrap';mirror.style.left=rect.left+'px';mirror.style.top=(rect.top-plain.scrollTop)+'px'
   mirror.textContent=plain.value.slice(0,offset);const span=document.createElement('span');span.textContent=plain.value.slice(offset,offset+1)||'\u200b';mirror.append(span);mirrorRect=span.getBoundingClientRect();return mirrorRect
  }
- function rootBlock(node:Node|null){const n=node instanceof HTMLElement?node:node?.parentElement;const li=n?.closest<HTMLElement>('li');if(li&&rich.contains(li))return li;let element=node instanceof HTMLElement?node:node?.parentElement;while(element&&element.parentElement!==rich)element=element.parentElement;return element&&element!==rich?element:null}
+ function rootBlock(node:Node|null){const n=node instanceof HTMLElement?node:node?.parentElement;const li=n?.closest<HTMLElement>('li');if(li&&rich.contains(li))return li;let element=node instanceof HTMLElement?node:node?.parentElement;while(element&&element.parentElement!==rich)element=element.parentElement;return element&&element!==rich&&/^(P|DIV|H[1-6]|UL|OL|PRE|BLOCKQUOTE|TABLE|DETAILS|ASIDE)$/.test(element.tagName)?element:null}
  function setGutter(rect:DOMRect){
   const mobile=matchMedia('(pointer:coarse)').matches||innerWidth<=600
   const x=(plain.hidden?(block||rich):plain).getBoundingClientRect().left
-  const height=Number.parseFloat(getComputedStyle(block||plain).lineHeight)||28
-  gutter.style.left=Math.max(4,x-(mobile?40:58))+'px';gutter.style.top=(rect.top+Math.min(rect.height||height,height)/2-13)+'px';gutter.dataset.visible=''
+  const height=Number.parseFloat(getComputedStyle(block||(plain.hidden?rich:plain)).lineHeight)||28
+  gutter.style.left=Math.max(mobile?2:4,x-(mobile?44:58))+'px';gutter.style.top=(rect.top+Math.min(rect.height||height,height)/2-13)+'px';gutter.dataset.visible=''
  }
  function updateGutter(source:HTMLElement,rect:DOMRect){
   if(hovering)return
@@ -30,7 +31,7 @@ export function blockTools({plain,rich,editor,toolbar,t,enableRich,openTypes}:Op
  editor.addEventListener('pointermove',event=>{
   if(event.pointerType==='touch'||mouseFrame)return
   const target=event.target as Node
-  mouseFrame=requestAnimationFrame(()=>{mouseFrame=0;if(!plain.hidden)return;const next=rootBlock(target);if(next){block=next;hovering=true;setGutter(next.getBoundingClientRect())}})
+  mouseFrame=requestAnimationFrame(()=>{mouseFrame=0;if(!plain.hidden)return;const next=rootBlock(target);if(next){block=next;hovering=true;setGutter(next.getBoundingClientRect())}else if(rich.contains(target)){block=null;const range=document.createRange();range.selectNodeContents(rich);const rect=[...range.getClientRects()].find(r=>r.height);if(rect){hovering=true;setGutter(rect)}}})
  })
  editor.addEventListener('pointerleave',()=>{hovering=false})
  rich.addEventListener('input',()=>{hovering=false})
@@ -63,6 +64,16 @@ export function blockTools({plain,rich,editor,toolbar,t,enableRich,openTypes}:Op
   button.addEventListener('pointerdown',e=>{e.preventDefault();capture()})
   button.addEventListener('click',async()=>{
    const action=button.dataset.inline
+   if(action==='spoiler'&&await restore()){
+    const selection=getSelection();if(!selection?.rangeCount)return;
+    const r=selection.getRangeAt(0),node=r.commonAncestorContainer,existing=(node instanceof Element?node:node.parentElement)?.closest('[data-spoiler]');
+    if(selection.isCollapsed){if(existing&&rich.contains(existing))leaveSpoiler(existing);return;}
+    if(existing&&rich.contains(existing)){r.selectNode(existing);selection.removeAllRanges();selection.addRange(r);document.execCommand('insertHTML',false,existing.innerHTML)}
+    else{const el=document.createElement('span');el.dataset.spoiler='';el.append(r.cloneContents());document.execCommand('insertHTML',false,el.outerHTML);
+     const anchor=selection.anchorNode,mark=(anchor instanceof Element?anchor:anchor?.parentElement)?.closest('[data-spoiler]');if(mark)leaveSpoiler(mark)
+    }
+    rich.dispatchEvent(new Event('input',{bubbles:true}));return;
+   }
    if(action==='link'){showPanel(linkPanel);const input=document.getElementById('editor-link') as HTMLInputElement;const node=selected?.startContainer;const anchor=(node instanceof Element?node:node?.parentElement)?.closest('a');input.value=anchor?.getAttribute('href')||'';document.getElementById('editor-link-error')!.hidden=true;input.focus();return}
    if(action==='color'){showPanel(colorPanel);return}
    if(action==='code'&&await restore()){

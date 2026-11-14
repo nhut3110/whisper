@@ -1,3 +1,4 @@
+import {ScanLine} from 'lucide-react'
 import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select'
 import { SiteHeader } from '@/components/site-header'
 import { Button } from '@/components/ui/button'
@@ -36,6 +37,7 @@ export function Header() {
               <NativeSelectOption value="auto" data-i18n="system" />
             </NativeSelect>
           </div>
+          <Button id="scan-code" className="icon-button" type="button" variant="ghost" data-i18n-aria-label="scanCode" data-i18n-title="scanCode"><ScanLine/></Button>
           <nav id="compose-actions">
             <div className="mode-switch" role="group" data-i18n-aria-label="message">
               <Button id="text-mode" className="icon-button" type="button" data-i18n-aria-label="text" data-i18n-title="text" aria-pressed="true" variant="ghost">

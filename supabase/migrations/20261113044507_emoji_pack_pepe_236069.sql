@@ -1,0 +1,27 @@
+-- Admin-reviewed pepe_236069. Source and permission record: shared/emoji-packs.json
+INSERT INTO public.whisper_emoji_catalog(id) VALUES
+(':pepe_236069_718017_pepestaring:'),
+(':pepe_236069_149743_pepeheart:'),
+(':pepe_236069_792638_hehehe:'),
+(':pepe_236069_121286_crying:'),
+(':pepe_236069_588971_pepeuwu:'),
+(':pepe_236069_961812_pepeclap:'),
+(':pepe_236069_431882_pepeclap:'),
+(':pepe_236069_471478_pepenervous:'),
+(':pepe_236069_399137_mlady:'),
+(':pepe_236069_974580_pepeok:'),
+(':pepe_236069_552046_pepe:'),
+(':pepe_236069_98212_tears:'),
+(':pepe_236069_800258_komooo:'),
+(':pepe_236069_352886_crazy_happy:'),
+(':pepe_236069_828203_peperich:'),
+(':pepe_236069_635522_pepechair:'),
+(':pepe_236069_928902_oooo:'),
+(':pepe_236069_955764_raiva:'),
+(':pepe_236069_182109_pepeperfect:'),
+(':pepe_236069_207091_pepewow:'),
+(':pepe_236069_298876_pepebanger:'),
+(':pepe_236069_901688_eu:'),
+(':pepe_236069_795083_pepehappy:'),
+(':pepe_236069_334476_gamer:')
+ON CONFLICT DO NOTHING;

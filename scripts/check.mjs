@@ -72,6 +72,8 @@ try{
  await run('browser-edge','npx',['playwright','test','--grep','create → explicit|PIN prompt|five wrong|timed links|two recipient|mobile compose|optional rich|real MediaRecorder|anonymous create quota'],edge);
  // Playwright owns a fresh bridge for EACH suite: no stale assets/rate budgets.
  await run('browser-chat','npx',['playwright','test','-c','playwright.chat.config.js'],{CHAT_TESTS:'1'});
+ await run('browser-sharing-edge','npx',['playwright','test','-c','playwright.sharing.config.js'],edge);
+ await run('browser-first-paint-edge','npx',['playwright','test','-c','playwright.first-paint.config.js'],{EDGE_TEST_BASE:'http://localhost:8788',WHISPER_FIRST_PAINT_SERVER:'1'});
  await run('browser-music-edge','npx',['playwright','test','tests/browser/music-sharing.spec.js'],edge);
  console.log(`\nPASS: all ${results.length} checks. Report: ${path.relative(process.cwd(),dir)}`);
 }catch(error){console.error(error.message);process.exitCode=1}

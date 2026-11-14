@@ -11,7 +11,7 @@ export function gatewayHandler({secret,origin,upstream,fetcher=fetch,production=
   res.setHeader('Cache-Control','no-store');res.setHeader('Content-Type','application/json; charset=utf-8');
   const reply=(status,error)=>{res.statusCode=status;res.end(JSON.stringify({error}));};
   const url=new URL(req.url,origin),path=url.pathname==='/gateway'?'/api/'+(url.searchParams.get('path')||''):url.pathname;
-  if(!/^\/api\/(challenges|messages(?:\/[A-Za-z0-9_-]{43}\/(?:metadata|open|revoke))?|rooms(?:\/[A-Za-z0-9_-]{43}\/(?:join|sync|send|edit|delete|react|file|leave|destroy|preview))?)$/.test(path))return reply(404,'Not found');
+  if(!/^\/api\/(challenges|messages(?:\/[A-Za-z0-9_-]{43}\/(?:metadata|open|revoke))?|rooms(?:\/[A-Za-z0-9_-]{43}\/(?:join|sync|send|edit|delete|react|file|leave|destroy|presence|capture|copy|preview))?)$/.test(path))return reply(404,'Not found');
   if(req.method!=='POST')return reply(405,'POST only');
   if(req.headers.origin!==origin)return reply(403,'Origin not allowed');
   if(req.headers['content-type']?.split(';')[0].trim().toLowerCase()!=='application/json')return reply(400,'JSON required');

@@ -724,3 +724,11 @@ nav{flex-shrink:0}
 
 .category button[aria-selected=false] .background{opacity:0}
 .category button .background{border-radius:8px}
+
+/* Emoji Mart overscans many native glyphs; skip layout/paint outside the scrollport. */
+.row { content-visibility: auto; contain-intrinsic-size: auto 34px; }
+
+/* Keep pack tabs usable when the owner installs many custom collections. */
+#nav { overflow-x: auto; overflow-y: hidden; }
+#nav > .flex { width: max-content; min-width: 100%; }
+#nav button { flex: 1 0 24px; min-width: 24px; }

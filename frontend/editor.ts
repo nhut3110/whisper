@@ -1,5 +1,7 @@
 // Optional, DOM-owned writing tools. No React reconciliation per keystroke.
+import {blockShortcutKeys,shortcutLabel,shortcutTarget,installShortcutHints} from './editor-shortcuts'
 import { blockTools } from './writing-tools'
+import {installSpoilerEditor} from './spoiler-editor'
 type Command = {key:string;icon:string;label:string;command:string;value?:string;search:string;html?:string;description?:string}
 const commands:Command[] = [
  {key:'text',icon:'T',label:'blockText',command:'formatBlock',value:'p',search:'text paragraph văn bản'},
@@ -23,7 +25,9 @@ export async function install(){
  const {t}=await new Promise<{t:(key:string)=>string}>(resolve=>document.dispatchEvent(new CustomEvent('whisper:editor-translate',{detail:resolve})))
  const plain=document.getElementById('message') as HTMLTextAreaElement
  const rich=document.getElementById('rich-editor')!
+ installSpoilerEditor(rich)
  const toolbar=document.getElementById('rich-toolbar')!
+ installShortcutHints(toolbar)
  const editor=document.getElementById('text-editor')!
  const popup=document.createElement('div');popup.id='block-picker';popup.className='block-picker';popup.hidden=true;popup.setAttribute('role','listbox');popup.setAttribute('aria-label',t('blockMenu'));document.body.append(popup)
  editor.dataset.enhanced=''
@@ -38,7 +42,7 @@ export async function install(){
   element.style.top=Math.max(top+12,Math.min(preferred,top+vh-height-12))+'px'
  }
  function caretRect(){
-  const sel=getSelection();if(source===rich&&sel?.rangeCount){const rect=sel.getRangeAt(0).getBoundingClientRect();if(rect.height)return rect}
+  const sel=getSelection();if(source===rich&&sel?.rangeCount){const rect=sel.getRangeAt(0).getBoundingClientRect();if(rect.height)return rect;const range=document.createRange();range.selectNodeContents(rich);const first=[...range.getClientRects()].find(r=>r.height);return first||rich.getBoundingClientRect()}
   return tools.plainRect(plain.selectionStart)
  }
  function render(query:string){
@@ -48,7 +52,7 @@ export async function install(){
   for(const [i,item] of entries.entries()){
    const button=document.createElement('button');button.type='button';button.id='block-choice-'+item.key;button.setAttribute('role','option');button.setAttribute('aria-selected',String(i===index));button.tabIndex=-1
    const icon=document.createElement('span');icon.className='block-symbol';icon.textContent=item.icon
-   const label=document.createElement('span');label.className='block-choice-label';const name=document.createElement('span');name.textContent=t(item.label);const hint=document.createElement('small');hint.textContent=t(item.label+'Hint');label.append(name,hint);button.append(icon,label);button.addEventListener('pointerdown',e=>e.preventDefault());button.addEventListener('click',()=>void choose(item));popup.append(button)
+   const label=document.createElement('span');label.className='block-choice-label';const name=document.createElement('span');name.textContent=t(item.label);const hint=document.createElement('small');hint.textContent=t(item.label+'Hint');label.append(name,hint);button.append(icon,label);button.title=t(item.label);const digit=blockShortcutKeys.indexOf(item.key);if(digit>=0){const shortcut=document.createElement('kbd');shortcut.className='block-choice-shortcut';shortcut.textContent=shortcutLabel(String(digit),{alt:true});button.title+=' · '+shortcut.textContent;button.append(shortcut);button.setAttribute('aria-keyshortcuts',`${/Mac|iPhone|iPad/.test(navigator.platform)?'Meta':'Control'}+Alt+${digit}`)}button.addEventListener('pointerdown',e=>e.preventDefault());button.addEventListener('click',()=>void choose(item));popup.append(button)
   }
   document.dispatchEvent(new Event('whisper:editor-prepare'))
   popup.hidden=false;source.setAttribute('aria-controls',popup.id);source.setAttribute('aria-expanded','true');source.setAttribute('aria-activedescendant','block-choice-'+entries[index].key);place(popup,caretRect())
@@ -114,8 +118,8 @@ export async function install(){
   surface.addEventListener('keydown',event=>{
    if(event.isComposing||composing)return
    if(event.defaultPrevented)return
-   if((event.metaKey||event.ctrlKey)&&!event.altKey){const key=event.key.toLowerCase();const selector=key==='k'?'[data-inline=link]':key==='e'?'[data-inline=code]':event.shiftKey&&key==='s'?'[data-command=strikeThrough]':null;if(selector){event.preventDefault();tools.capture();const button=toolbar.querySelector<HTMLButtonElement>(selector)!;button.dispatchEvent(new PointerEvent('pointerdown',{bubbles:true,cancelable:true}));button.click();return}}
-   if((event.metaKey||event.ctrlKey)&&event.altKey&&/^Digit[0-9]$/.test(event.code)){const key=['text','h1','h2','h3','task','bullet','number','toggle','code','quote'][Number(event.code.slice(5))];event.preventDefault();source=surface;convert=true;tools.capture();void choose(commands.find(item=>item.key===key)!);return}
+   const selector=shortcutTarget(event);if(selector){event.preventDefault();tools.capture();const button=toolbar.querySelector<HTMLButtonElement>(selector)!;button.dispatchEvent(new PointerEvent('pointerdown',{bubbles:true,cancelable:true}));button.click();return}
+   if((event.metaKey||event.ctrlKey)&&event.altKey&&/^Digit[0-9]$/.test(event.code)){const key=blockShortcutKeys[Number(event.code.slice(5))];event.preventDefault();source=surface;convert=true;tools.capture();void choose(commands.find(item=>item.key===key)!);return}
    const anchor=getSelection()?.anchorNode,anchorElement=anchor instanceof Element?anchor:anchor?.parentElement
    if(event.key==='Tab'&&popup.hidden&&surface===rich&&anchorElement?.closest('td,th')){event.preventDefault();tools.nextCell(event.shiftKey);return}
    if(!popup.hidden){

@@ -28,7 +28,7 @@ export function editorMenu({copy,notify,inspect,t}){
    closed(){if(token===generation)opened=false;},
    async select(action){
     if(token!==generation)return;dismiss();restore();
-    if(action==='copy')await copy(selection);
+    if(action==='copy'){const copiedRange=range?.cloneRange();if(await copy(selection))emit('copied',{range:copiedRange});}
     if(action==='cut'&&await copy(selection)&&token===generation)replace('');
     if(action==='paste')try{
      const text=await navigator.clipboard.readText();if(token!==generation)return;

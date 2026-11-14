@@ -1,7 +1,6 @@
 import { useLayoutEffect } from 'react'
 import { createRoot, hydrateRoot } from 'react-dom/client'
 import { AppShell } from './app-shell'
-import './styles.css'
 
 // Optional menus are fetched on demand, never on the first-page critical path.
 let menuModule: Promise<typeof import('./components/context-menu-surface')> | undefined
@@ -19,6 +18,12 @@ let editorModule: Promise<typeof import('./editor')> | undefined
 const loadEditor=()=>{editorModule??=import('./editor');return editorModule.then(module=>module.install()).catch(()=>{editorModule=undefined})}
 document.addEventListener('click',event=>{if(event.target instanceof Element&&event.target.closest('#insert-block'))void loadEditor().then(()=>document.dispatchEvent(new Event('whisper:insert-block')))})
 document.addEventListener('focusin',event=>{if(event.target instanceof Element&&event.target.matches('#message,#rich-editor'))loadEditor()})
+
+// Optical renderer and camera decoder are outside the initial page bundle.
+let opticalModule:Promise<typeof import('./optical/panel')>|undefined
+const optical=(options:Parameters<typeof import('./optical/panel').openOptical>[0])=>{opticalModule??=import('./optical/panel');void opticalModule.then(module=>module.openOptical(options)).catch(()=>{opticalModule=undefined})}
+document.addEventListener('whisper:optical',event=>optical((event as CustomEvent<Parameters<typeof import('./optical/panel').openOptical>[0]>).detail))
+document.addEventListener('click',event=>{if(!(event.target instanceof Element))return;if(event.target.closest('#scan-code'))optical({mode:'scan'});if(event.target.closest('#show-code')){const url=(document.getElementById('share-link') as HTMLInputElement)?.value;if(url)optical({mode:'share',url})}})
 
 let started = false
 function Application() {
@@ -46,13 +51,18 @@ let chatRoot:ReturnType<typeof createRoot>|undefined
 let chatPanel:HTMLDivElement|undefined
 let chatModule:Promise<typeof import('./chat/app')>|undefined
 let chatActive=false
+const loadChat=()=>chatModule??=import('./chat/app').catch(error=>{chatModule=undefined;throw error})
+// Fetch/parse outside the first click. Never mount a hidden room or start polling.
+const warmChat=()=>{if(!document.hidden)void loadChat().catch(()=>{})}
+for(const event of ['pointerover','focusin','touchstart'])document.addEventListener(event,event=>{if((event.target as Element)?.closest?.('#room-mode'))warmChat()},{passive:true})
+const idleChat=setTimeout(()=>{if('requestIdleCallback' in window)window.requestIdleCallback(warmChat);else warmChat()},1200)
+window.addEventListener('pagehide',()=>clearTimeout(idleChat),{once:true})
 document.addEventListener('whisper:chat-mode',event=>{
  chatActive=(event as CustomEvent<boolean>).detail
  if(chatPanel)chatPanel.hidden=!chatActive
  if(!chatActive&&!chatRoot)return
  document.getElementById('room-mode')?.setAttribute('aria-busy',String(chatActive&&!chatRoot))
- chatModule??=import('./chat/app')
- void chatModule.then(({default:Chat})=>{
+ void loadChat().then(({default:Chat})=>{
   if(!chatPanel){chatPanel=document.createElement('div');chatPanel.id='chat-panel';container.append(chatPanel);chatRoot=createRoot(chatPanel)}
   chatPanel.hidden=!chatActive
   chatRoot!.render(<Chat active={chatActive}/>)

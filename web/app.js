@@ -1,3 +1,4 @@
+import {protectSpoilers,safeCopy} from '/spoiler.js';
 import {t,locale,duration,initLanguage,chatter} from '/i18n.js';
 import {watcher,wakeSlider,slideConfirm} from '/interactions.js';
 import {editorMenu} from '/editor-menu.js';
@@ -65,7 +66,7 @@ function forget(){readingMusic=false;musicRef=null;musicSend({action:'clear'});s
 function ended(note){endedReason=note;forget();show('ended');$('ended-note').textContent=t(note);}
 function draft(){
  if(!option('rich-mode'))return $('message').value;
- if(!$('rich-editor').innerText.trim())throw new Error('textLimit');
+ if(!$('rich-editor').innerText.replace(/\u200b/g,'').trim())throw new Error('textLimit');
  return prefix+JSON.stringify({html:rich.clean($('rich-editor').innerHTML)});
 }
 function count(){if(!$('settings').open){status('');return;}let text='';try{text=draft();}catch{}const bytes=new TextEncoder().encode(text).length;const voice=mode==='voice';$('count').textContent=voice?t('audioLimit'):`${new Intl.NumberFormat(locale,{maximumFractionDigits:1}).format(bytes/1024)} / 256 KiB`;$('size-meter').hidden=voice;$('size-meter').value=bytes;status('');}
@@ -101,7 +102,7 @@ $('rich-mode').addEventListener('whisper:option-change',async()=>{
  const on=option('rich-mode');busy($('rich-mode'),true);
  try{
   if(on){const tools=await richTools();$('rich-editor').innerHTML=tools.fromText($('message').value);}
-  else $('message').value=$('rich-editor').innerText;
+  else $('message').value=$('rich-editor').innerText.replace(/\u200b/g,'');
   $('message').hidden=on;$('message').required=!on;$('rich-editor').hidden=!on;$('rich-toolbar').hidden=!on;
   $('message-label').htmlFor=on?'rich-editor':'message';
   (on?$('rich-editor'):$('message')).focus();count();
@@ -117,7 +118,7 @@ async function enableWriting(start,end){
   if(currentView!=='compose'||mode!=='text'||source.hidden)return false;
   if(source.value.slice(start,end)!==text.slice(start,end))return false;
   text=source.value;
-  rich=tools;setOption('rich-mode',true);$('rich-editor').innerHTML=tools.fromText(text);source.hidden=true;$('rich-editor').hidden=false;$('message-label').htmlFor='rich-editor';$('rich-editor').focus();
+  rich=tools;setOption('rich-mode',true);$('rich-editor').innerHTML=tools.fromText(text);source.hidden=true;$('rich-editor').hidden=false;$('message-label').htmlFor='rich-editor';$('rich-editor').focus({preventScroll:true});
   const nodes=[],walker=document.createTreeWalker($('rich-editor'),NodeFilter.SHOW_TEXT|NodeFilter.SHOW_ELEMENT);let node,total=0;
   while(node=walker.nextNode()){if(node.nodeType===Node.TEXT_NODE||node.nodeName==='BR'){const length=node.nodeName==='BR'?1:node.textContent.length;nodes.push({node,start:total,length});total+=length;}}
   const point=offset=>{for(const entry of nodes){if(offset<=entry.start+entry.length){if(entry.node.nodeName==='BR')return [entry.node.parentNode,[...entry.node.parentNode.childNodes].indexOf(entry.node)+(offset>entry.start?1:0)];return [entry.node,Math.max(0,offset-entry.start)];}}return [$('rich-editor'),$('rich-editor').childNodes.length];};
@@ -156,7 +157,7 @@ $('message').addEventListener('paste',async e=>{
   $('rich-editor').focus();const selection=getSelection(),range=document.createRange();range.selectNodeContents($('rich-editor'));range.collapse(false);selection.removeAllRanges();selection.addRange(range);count();
  }catch{status('richFailed');}
 });
-$('copy-draft').addEventListener('click',()=>{if(option('rich-mode'))copy($('rich-editor').innerText,rich.clean($('rich-editor').innerHTML));else copy($('message').value);});
+$('copy-draft').addEventListener('click',()=>{if(option('rich-mode'))copy($('rich-editor').innerText.replace(/\u200b/g,''),rich.clean($('rich-editor').innerHTML));else copy($('message').value);});
 function expirySeconds(){
  const ttl=$('ttl').value==='custom'?Number($('ttl-minutes').value)*60:Number($('ttl').value);
  if(!Number.isInteger(ttl)||ttl<60||ttl>604800){throw new Error('expiryError');}return ttl;
@@ -185,7 +186,7 @@ function addBlockCopy(block,text,html){
  const button=document.createElement('button');button.type='button';button.className='block-copy';button.setAttribute('aria-label',t('copyPart'));button.title=t('copyPart');
  // Static local icon only. No user-controlled HTML enters this path.
  button.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M15 5V3H3v13h2"/></svg>';
- button.addEventListener('click',()=>copy(text,html));block.classList.add('message-block');block.append(button);
+ button.addEventListener('click',()=>{const value=safeCopy(block);copy(value.text,html===null?null:value.html)});block.classList.add('message-block');block.append(button);
 }
 async function renderMessage(text){
  const root=$('plaintext');root.replaceChildren();const isRich=text.startsWith(prefix),auto=!isRich&&formatted(text);root.classList.toggle('plain',!isRich&&!auto);
@@ -193,7 +194,7 @@ async function renderMessage(text){
   const tools=await richTools();
   if(isRich){const value=JSON.parse(text.slice(prefix.length));if(typeof value.html!=='string')throw new Error('Invalid rich text');readHTML=tools.clean(value.html);}
   else readHTML=tools.automatic(text);
-  root.innerHTML=readHTML;
+  const detached=document.createElement('div');detached.innerHTML=readHTML;protectSpoilers(detached);root.replaceChildren(...detached.childNodes);
   readText=root.innerText;
   const parts=[];let inline=null;
   // Group bare text and inline formatting too: contenteditable does not always emit paragraphs.
@@ -209,7 +210,7 @@ async function renderMessage(text){
  }else{
   readText=text;readHTML=null;
   const chunks=text.split(/(\n[ \t]*\n)/);
-  for(const chunk of chunks){if(/^\n[ \t]*\n$/.test(chunk)){root.append(document.createTextNode(chunk));continue;}const block=document.createElement('div');block.textContent=chunk;addBlockCopy(block,chunk,null);root.append(block);}
+  for(const chunk of chunks){if(/^\n[ \t]*\n$/.test(chunk)){root.append(document.createTextNode(chunk));continue;}const block=document.createElement('div');block.textContent=chunk;protectSpoilers(block);addBlockCopy(block,chunk,null);root.append(block);}
  }
 }
 $('open-form').addEventListener('submit',async e=>{
@@ -221,7 +222,7 @@ $('open-form').addEventListener('submit',async e=>{
  }catch(err){if(err.status===410)ended(err.message);else{if(err.status===401){$('pin-code').dataset.phase='no';$('pin').setAttribute('aria-invalid','true');}$('open-error').textContent=t(err.status?err.message:'openNetwork');}}
  finally{busy($('open'),false);}
 });
-$('copy-all').addEventListener('click',()=>copy(readText,readHTML));
+$('copy-all').addEventListener('click',()=>{const value=safeCopy($('plaintext'));copy(value.text,readHTML===null?null:value.html)});
 $('copy-selection').addEventListener('pointerdown',e=>e.preventDefault());
 $('copy-selection').addEventListener('click',()=>copy(selectedText));
 document.addEventListener('selectionchange',()=>{

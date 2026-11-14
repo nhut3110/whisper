@@ -347,6 +347,9 @@ async fn security_headers_and_assets() {
     for path in [
         "/",
         "/app.js",
+        "/spoiler.js",
+        "/spoiler-particles.js",
+        "/spoiler-dust.js",
         "/interactions.js",
         "/audio.js",
         "/i18n.js",

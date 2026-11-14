@@ -23,9 +23,9 @@ await writeFile(`${functionDir}/public-config.json`,JSON.stringify({api:upstream
 await writeFile(`${functionDir}/.vc-config.json`,JSON.stringify({runtime:'nodejs22.x',handler:'index.mjs',launcherType:'Nodejs',shouldAddHelpers:true}));
 const headers={
  'Cache-Control':'no-store, max-age=0','Pragma':'no-cache','Referrer-Policy':'no-referrer',
- 'X-Content-Type-Options':'nosniff','X-Frame-Options':'DENY','Permissions-Policy':'camera=(), microphone=(self), geolocation=()',
+ 'X-Content-Type-Options':'nosniff','X-Frame-Options':'DENY','Permissions-Policy':'camera=(self), microphone=(self), geolocation=()',
  'Strict-Transport-Security':'max-age=31536000',
- 'Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' blob:; media-src blob:; frame-src 'self'; font-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; object-src 'none'",
+ 'Content-Security-Policy':"default-src 'none'; script-src 'self'; worker-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' blob:; media-src blob:; frame-src 'self'; font-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; object-src 'none'",
 };
 const gatewayDir=`${out}/functions/gateway.func`;
 await mkdir(gatewayDir,{recursive:true});
@@ -42,7 +42,7 @@ if(musicBeta){
  await build({entryPoints:['server/music.mjs'],outfile:`${fn}/music.mjs`,platform:'node',format:'esm',bundle:true});
  await writeFile(`${fn}/index.mjs`, `import {musicHandler} from './music.mjs';\nexport default musicHandler({secret:process.env.WHISPER_GATEWAY_SECRET,origin:'https://whisper-nhut3110.vercel.app',upstream:'${upstream}'});\n`);
  await writeFile(`${fn}/.vc-config.json`,JSON.stringify({runtime:'nodejs22.x',handler:'index.mjs',launcherType:'Nodejs',shouldAddHelpers:true}));
- const betaHeaders={...headers,'X-Frame-Options':'SAMEORIGIN','Content-Security-Policy':"default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src https://*.dzcdn.net; media-src https://*.dzcdn.net; base-uri 'none'; form-action 'self'; frame-ancestors 'self'; object-src 'none'"};
+ const betaHeaders={...headers,'X-Frame-Options':'SAMEORIGIN','Content-Security-Policy':"default-src 'none'; script-src 'self'; worker-src 'self'; style-src 'self'; connect-src 'self'; img-src https://*.dzcdn.net; media-src https://*.dzcdn.net; base-uri 'none'; form-action 'self'; frame-ancestors 'self'; object-src 'none'"};
  betaRoutes.push({src:'/music-beta',status:307,headers:{Location:'/music-beta/'}},{src:'/music-beta/(.*)',headers:betaHeaders,continue:true},{src:'/music-beta/search',dest:'/music-search'},{src:'/music-beta/',dest:'/music-beta/index.html'});
  for(const home of [`${out}/static/index.html`,`${functionDir}/index.html`])await writeFile(home,(await readFile(home,'utf8')).replace('</head>','<meta name="whisper-music-beta" content="1"></head>'));
 }
